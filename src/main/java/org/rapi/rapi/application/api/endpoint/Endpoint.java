@@ -1,22 +1,18 @@
 package org.rapi.rapi.application.api.endpoint;
 
 import lombok.Getter;
-import org.rapi.rapi.application.api.structure.schema.Schema;
 import org.rapi.rapi.sharedkernel.Entity;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.NonNullApi;
 
 @Getter
 public abstract class Endpoint implements Entity<EndpointId> {
-    private EndpointId id;
-    private String title;
-    private String description;
-    private Schema request;
-    
-    protected Endpoint(EndpointId id, String title, String description, Schema request) {
+
+    protected EndpointId id;
+    protected String title;
+    protected String description;
+
+    protected Endpoint(EndpointId id, String title, String description) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.request = request;
     }
 }

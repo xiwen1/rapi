@@ -1,7 +1,6 @@
 package org.rapi.rapi.sharedkernel;
 
-import java.util.UUID;
+public interface Entity<T> {
 
-public interface Entity<TId> {
-    TId getId();
+    T getId();
 }

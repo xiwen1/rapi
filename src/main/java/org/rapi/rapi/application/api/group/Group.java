@@ -5,7 +5,8 @@ import org.rapi.rapi.sharedkernel.Entity;
 
 @Getter
 public abstract class Group implements Entity<GroupId> {
-    private GroupId id;
+
+    private final GroupId id;
 
     protected Group(GroupId id) {
         this.id = id;
