@@ -1,9 +1,10 @@
 package org.rapi.rapi.application.api.endpoint;
 
 import lombok.Getter;
-import org.rapi.rapi.application.api.endpoint.route.Route;
 import org.rapi.rapi.application.api.structure.schema.Schema;
 import org.rapi.rapi.sharedkernel.Entity;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.NonNullApi;
 
 @Getter
 public abstract class Endpoint implements Entity<EndpointId> {
@@ -11,7 +12,7 @@ public abstract class Endpoint implements Entity<EndpointId> {
     private String title;
     private String description;
     private Schema request;
-
+    
     protected Endpoint(EndpointId id, String title, String description, Schema request) {
         this.id = id;
         this.title = title;
