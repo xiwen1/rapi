@@ -71,6 +71,7 @@ public class JwtGroup extends Group {
         return Tuple.of(jwtGroup, loginEndpoint, refreshEndpoint);
     }
 
+    @Override
     public List<EndpointId> getGeneratedEndpoints() {
         return protectedEndpointsMap.values().toList().append(loginEndpointId)
             .append(refreshEndpointId);

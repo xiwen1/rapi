@@ -179,6 +179,13 @@ public class CrudGroup extends Group {
         );
     }
 
+    @Override
+    public List<EndpointId> getGeneratedEndpoints() {
+        return List.of(createEndpointId, listEndpointId, updateEndpointId, deleteEndpointId)
+            .filter(Option::isDefined)
+            .map(Option::get);
+    }
+
     /**
      * Creates a RESTful endpoint for creating a new entity of the given structure.
      *
