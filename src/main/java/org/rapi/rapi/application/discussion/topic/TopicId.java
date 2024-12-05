@@ -1,4 +1,4 @@
-package org.rapi.rapi.application.discussion.discussion;
+package org.rapi.rapi.application.discussion.topic;
 
 import java.util.UUID;
 

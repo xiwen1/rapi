@@ -1,7 +1,8 @@
-package org.rapi.rapi.application.discussion.discussion;
+package org.rapi.rapi.application.discussion.topic;
 
 import io.vavr.control.Option;
 import lombok.Getter;
+import org.rapi.rapi.application.discussion.discussion.ConversationId;
 import org.rapi.rapi.sharedkernel.Entity;
 
 @Getter
@@ -31,9 +32,7 @@ public class Topic implements Entity<TopicId> {
         this.conversationId = Option.some(conversationId);
     }
 
-    public ConversationId unassignConversation() {
-        var ret = this.conversationId.get();
+    public void resetConversation() {
         this.conversationId = Option.none();
-        return ret;
     }
 }

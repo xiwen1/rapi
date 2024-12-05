@@ -1,8 +1,10 @@
 package org.rapi.rapi.application.discussion.discussion;
 
 import io.vavr.collection.List;
+import lombok.Getter;
 import org.rapi.rapi.sharedkernel.Entity;
 
+@Getter
 public class Discussion implements Entity<DiscussionId> {
     private DiscussionId id;
     private List<ConversationId> conversationIds;
@@ -28,8 +30,12 @@ public class Discussion implements Entity<DiscussionId> {
         return new Discussion(DiscussionId.create(), List.empty());
     }
 
-    public ConversationId assignConversation(ConversationId conversationId) {
+    public void addConversation(ConversationId conversationId) {
+        if (this.conversationIds.contains(conversationId)) {
+            throw new IllegalArgumentException("Conversation already exists");
+        }
         this.conversationIds = this.conversationIds.append(conversationId);
-        return conversationId;
     }
+
+
 }
