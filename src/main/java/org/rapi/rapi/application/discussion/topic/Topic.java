@@ -3,31 +3,32 @@ package org.rapi.rapi.application.discussion.topic;
 import io.vavr.control.Option;
 import lombok.Getter;
 import org.rapi.rapi.application.discussion.discussion.ConversationId;
+import org.rapi.rapi.application.discussion.discussion.DiscussionId;
 import org.rapi.rapi.sharedkernel.Entity;
 
 @Getter
 public class Topic implements Entity<TopicId> {
     private TopicId id;
-    private Option<ConversationId> conversationId;
+    private Option<DiscussionId> discussionId;
 
-    private Topic(TopicId id, Option<ConversationId> conversationId) {
+    private Topic(TopicId id, Option<DiscussionId> discussionId) {
         this.id = id;
-        this.conversationId = conversationId;
+        this.discussionId = discussionId;
     }
 
-    public static Topic create(TopicId id, Option<ConversationId> conversationId) {
-        return new Topic(id, conversationId);
+    public static Topic create(TopicId id, Option<DiscussionId> discussionId) {
+        return new Topic(id, discussionId);
     }
 
-    public static Topic create(Option<ConversationId> conversationId) {
-        return new Topic(TopicId.create(), conversationId);
+    public static Topic create(Option<DiscussionId> discussionId) {
+        return new Topic(TopicId.create(), discussionId);
     }
 
-    public void assignConversation(ConversationId conversationId) {
-        this.conversationId = Option.some(conversationId);
+    public void assignConversation(DiscussionId discussionId) {
+        this.discussionId = Option.some(discussionId);
     }
 
     public void resetConversation() {
-        this.conversationId = Option.none();
+        this.discussionId = Option.none();
     }
 }
