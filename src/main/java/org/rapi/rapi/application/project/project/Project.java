@@ -2,6 +2,7 @@ package org.rapi.rapi.application.project.project;
 
 import io.vavr.collection.List;
 import lombok.Getter;
+import lombok.Setter;
 import org.rapi.rapi.application.project.crew.CrewId;
 import org.rapi.rapi.application.project.project.participant.Admin;
 import org.rapi.rapi.application.project.project.participant.Member;
@@ -10,16 +11,12 @@ import org.rapi.rapi.sharedkernel.Entity;
 
 @Getter
 public class Project implements Entity<ProjectId> {
-    private ProjectId id;
+    private final ProjectId id;
+    @Setter
     private String title;
-    private Admin owner;
+    private final Admin owner;
     private List<Participant> participants;
     private List<CrewId> invitationList;
-
-    @Override
-    public ProjectId getId() {
-        return id;
-    }
 
     private Project(ProjectId id, String title, Admin owner, List<Participant> participants, List<CrewId> invitationList) {
         this.id = id;

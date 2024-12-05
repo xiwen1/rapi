@@ -2,19 +2,17 @@ package org.rapi.rapi.application.discussion.discussion;
 
 import io.vavr.collection.List;
 import lombok.Getter;
+import lombok.Setter;
 import org.rapi.rapi.sharedkernel.Entity;
 
 @Getter
 public class Conversation implements Entity<ConversationId> {
     private ConversationId id;
+    @Setter
     private String title;
     private List<CommentId> commentIds;
+    @Setter
     private boolean isClosed;
-
-    @Override
-    public ConversationId getId() {
-        return id;
-    }
 
     private Conversation(ConversationId id, String title, List<CommentId> commentIds, boolean isClosed) {
         this.id = id;

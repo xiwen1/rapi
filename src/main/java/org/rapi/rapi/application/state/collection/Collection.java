@@ -19,11 +19,6 @@ public class Collection implements Entity<CollectionId> {
     private List<StateId> stateIds;
     private StateId defaultState;
 
-    @Override
-    public CollectionId getId() {
-        return id;
-    }
-
     private Collection(CollectionId id, List<SubjectId> subjectIds, List<StateId> stateIds, StateId defaultState) {
         this.id = id;
         this.subjectIds = subjectIds;

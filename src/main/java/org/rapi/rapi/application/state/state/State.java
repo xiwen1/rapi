@@ -1,6 +1,7 @@
 package org.rapi.rapi.application.state.state;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.rapi.rapi.application.state.collection.Collection;
 import org.rapi.rapi.sharedkernel.Entity;
 
@@ -8,11 +9,6 @@ import org.rapi.rapi.sharedkernel.Entity;
 public class State implements Entity<StateId> {
     private StateId id;
     private String name;
-
-    @Override
-    public StateId getId() {
-        return id;
-    }
 
     private State(StateId id, String name) {
         this.id = id;

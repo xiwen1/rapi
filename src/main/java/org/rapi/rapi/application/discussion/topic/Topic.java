@@ -10,11 +10,6 @@ public class Topic implements Entity<TopicId> {
     private TopicId id;
     private Option<ConversationId> conversationId;
 
-    @Override
-    public TopicId getId() {
-        return id;
-    }
-
     private Topic(TopicId id, Option<ConversationId> conversationId) {
         this.id = id;
         this.conversationId = conversationId;

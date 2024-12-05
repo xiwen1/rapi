@@ -1,15 +1,16 @@
 package org.rapi.rapi.application.auth.user;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.rapi.rapi.sharedkernel.Entity;
 
+@Getter
 public class User implements Entity<UserId> {
     private UserId id;
+    @Setter
     private String username;
-
-    @Override
-    public UserId getId() {
-        return id;
-    }
+    @Setter
+    private String password;
 
     private User(UserId id, String username) {
         this.id = id;

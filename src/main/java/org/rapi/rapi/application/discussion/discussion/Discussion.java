@@ -9,11 +9,6 @@ public class Discussion implements Entity<DiscussionId> {
     private DiscussionId id;
     private List<ConversationId> conversationIds;
 
-    @Override
-    public DiscussionId getId() {
-        return id;
-    }
-
     private Discussion(DiscussionId id, List<ConversationId> conversationIds) {
         this.id = id;
         this.conversationIds = conversationIds;
