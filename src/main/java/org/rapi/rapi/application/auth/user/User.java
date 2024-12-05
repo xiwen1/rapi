@@ -4,20 +4,23 @@ import org.rapi.rapi.sharedkernel.Entity;
 
 public class User implements Entity<UserId> {
     private UserId id;
+    private String username;
+
     @Override
     public UserId getId() {
         return id;
     }
 
-    private User(UserId id) {
+    private User(UserId id, String username) {
         this.id = id;
+        this.username = username;
     }
 
-    public static User create(UserId id) {
-        return new User(id);
+    public static User create(UserId id, String username) {
+        return new User(id, username);
     }
 
-    public static User create() {
-        return new User(UserId.create());
+    public static User create(String username) {
+        return new User(UserId.create(), username);
     }
 }

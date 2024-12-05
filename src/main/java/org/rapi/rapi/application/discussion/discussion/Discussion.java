@@ -8,6 +8,7 @@ import org.rapi.rapi.sharedkernel.Entity;
 public class Discussion implements Entity<DiscussionId> {
     private DiscussionId id;
     private List<ConversationId> conversationIds;
+
     @Override
     public DiscussionId getId() {
         return id;

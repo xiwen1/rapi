@@ -6,6 +6,7 @@ import org.rapi.rapi.sharedkernel.Entity;
 @Getter
 public class Author implements Entity<AuthorId> {
     private AuthorId id;
+
     @Override
     public AuthorId getId() {
         return id;
