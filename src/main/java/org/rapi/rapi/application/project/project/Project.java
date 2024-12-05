@@ -34,7 +34,7 @@ public class Project implements Entity<ProjectId> {
     }
 
     public static Project create(String title, Admin owner) {
-        return new Project(ProjectId.create(), title, owner, List.empty(), List.empty());
+        return new Project(ProjectId.create(), title, owner, List.of(owner), List.empty());
     }
 
     public void inviteCrew(CrewId crewId) {
@@ -44,7 +44,7 @@ public class Project implements Entity<ProjectId> {
         this.invitationList = this.invitationList.append(crewId);
     }
 
-    public void addParticipant(Participant participant) {
+    public void addParticipantViaInvitation(Participant participant) {
         if (this.invitationList.contains(participant.getId())) {
             this.invitationList = this.invitationList.remove(participant.getId());
         } else {
@@ -64,10 +64,17 @@ public class Project implements Entity<ProjectId> {
     }
 
     public void demoteAdmin(Admin admin) {
-        if (!this.participants.contains(admin)) {
-            throw new IllegalArgumentException("Participant not in project");
+        if (!this.participants.contains(admin) || this.owner.equals(admin)) {
+            throw new IllegalArgumentException("Participant not in project or is owner");
         }
         this.participants = this.participants.remove(admin).append(new Member(admin.getId()));
+    }
+
+    public void removeMember(Member member) {
+        if (!this.participants.contains(member)) {
+            throw new IllegalArgumentException("Participant not in project");
+        }
+        this.participants = this.participants.remove(member);
     }
 
 }
