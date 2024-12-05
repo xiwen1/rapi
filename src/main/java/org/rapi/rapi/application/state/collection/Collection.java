@@ -2,16 +2,23 @@ package org.rapi.rapi.application.state.collection;
 
 import io.vavr.collection.List;
 import lombok.Getter;
+import org.rapi.rapi.application.state.state.State;
 import org.rapi.rapi.application.state.state.StateId;
 import org.rapi.rapi.application.state.subject.SubjectId;
 import org.rapi.rapi.sharedkernel.Entity;
 
 @Getter
 public class Collection implements Entity<CollectionId> {
+    public static final List<State> DEFAULT_STATES = List.of(
+            State.create("New"),
+            State.create("In Progress"),
+            State.create("Done")
+    );
     private CollectionId id;
     private List<SubjectId> subjectIds;
     private List<StateId> stateIds;
     private StateId defaultState;
+
     @Override
     public CollectionId getId() {
         return id;
@@ -29,7 +36,8 @@ public class Collection implements Entity<CollectionId> {
     }
 
     public static Collection create() {
-        return new Collection(CollectionId.create(), List.empty(), List.empty(), null);
+        var defaultStateIds = DEFAULT_STATES.map(State::getId);
+        return new Collection(CollectionId.create(), List.empty(), defaultStateIds, defaultStateIds.get(0));
     }
 
     public void addSubject(SubjectId subjectId) {
