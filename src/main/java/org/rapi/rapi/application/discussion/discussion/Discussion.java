@@ -7,6 +7,7 @@ import org.rapi.rapi.sharedkernel.Entity;
 
 @Getter
 public class Discussion implements Entity<DiscussionId> {
+
     private final DiscussionId id;
     private List<Conversation> conversations;
 
@@ -27,16 +28,26 @@ public class Discussion implements Entity<DiscussionId> {
         return new Discussion(DiscussionId.create(), List.empty());
     }
 
-    public void addConversation(Conversation conversation) {
-        if (this.conversations.contains(conversation)) {
-            throw new IllegalArgumentException("Conversation already exists");
-        }
+    public void addConversation(String conversationTitle) {
+        var conversation = Conversation.create(conversationTitle);
         this.conversations = this.conversations.append(conversation);
     }
 
     public void makeComment(ConversationId conversationId, String content, AuthorId authorId) {
         var conversation = this.conversations.find(c -> c.getId().equals(conversationId))
-                .getOrElseThrow(() -> new IllegalArgumentException("Conversation not found"));
-        conversation.addComment(Comment.create(content, authorId));
+            .getOrElseThrow(() -> new IllegalArgumentException("Conversation not found"));
+        conversation.postComment(Comment.create(content, authorId));
+    }
+
+    public void closeConversation(ConversationId conversationId) {
+        var conversation = this.conversations.find(c -> c.getId().equals(conversationId))
+            .getOrElseThrow(() -> new IllegalArgumentException("Conversation not found"));
+        conversation.close();
+    }
+
+    public void reopenConversation(ConversationId conversationId) {
+        var conversation = this.conversations.find(c -> c.getId().equals(conversationId))
+            .getOrElseThrow(() -> new IllegalArgumentException("Conversation not found"));
+        conversation.reopen();
     }
 }

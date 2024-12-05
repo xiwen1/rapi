@@ -5,6 +5,7 @@ import org.rapi.rapi.sharedkernel.Entity;
 
 @Getter
 public class Crew implements Entity<CrewId> {
+
     private final CrewId id;
     private String email;
 

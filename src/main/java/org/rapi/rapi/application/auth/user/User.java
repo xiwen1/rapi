@@ -5,6 +5,7 @@ import org.rapi.rapi.sharedkernel.Entity;
 
 @Getter
 public class User implements Entity<UserId> {
+
     private final UserId id;
     private String username;
     private String password;

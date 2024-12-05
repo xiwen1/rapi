@@ -6,19 +6,22 @@ import org.rapi.rapi.sharedkernel.Entity;
 
 @Getter
 public class Conversation implements Entity<ConversationId> {
+
     private final ConversationId id;
-    private String title;
+    private final String title;
     private List<Comment> comments;
     private boolean isClosed;
 
-    private Conversation(ConversationId id, String title, List<Comment> comments, boolean isClosed) {
+    private Conversation(ConversationId id, String title, List<Comment> comments,
+        boolean isClosed) {
         this.id = id;
         this.title = title;
         this.comments = comments;
         this.isClosed = isClosed;
     }
 
-    public static Conversation create(ConversationId id, String title, List<Comment> commentIds, boolean isClosed) {
+    public static Conversation create(ConversationId id, String title, List<Comment> commentIds,
+        boolean isClosed) {
         return new Conversation(id, title, commentIds, isClosed);
     }
 
@@ -26,7 +29,7 @@ public class Conversation implements Entity<ConversationId> {
         return new Conversation(ConversationId.create(), title, List.empty(), false);
     }
 
-    public void addComment(Comment comment) {
+    public void postComment(Comment comment) {
         if (this.isClosed) {
             throw new IllegalStateException("Conversation is closed");
         }
@@ -36,14 +39,14 @@ public class Conversation implements Entity<ConversationId> {
         this.comments = this.comments.append(comment);
     }
 
-    public void closeConversation() {
+    public void close() {
         if (this.isClosed) {
             throw new IllegalStateException("Conversation is already closed");
         }
         this.isClosed = true;
     }
 
-    public void openConversation() {
+    public void reopen() {
         if (!this.isClosed) {
             throw new IllegalStateException("Conversation is already open");
         }

@@ -9,30 +9,34 @@ import org.rapi.rapi.sharedkernel.Entity;
 
 @Getter
 public class Collection implements Entity<CollectionId> {
+
     public static final List<State> DEFAULT_STATES = List.of(
-            State.create("New"),
-            State.create("In Progress"),
-            State.create("Done")
+        State.create("New"),
+        State.create("In Progress"),
+        State.create("Done")
     );
     private final CollectionId id;
     private List<SubjectId> subjectIds;
     private List<StateId> stateIds;
     private StateId defaultState;
 
-    private Collection(CollectionId id, List<SubjectId> subjectIds, List<StateId> stateIds, StateId defaultState) {
+    private Collection(CollectionId id, List<SubjectId> subjectIds, List<StateId> stateIds,
+        StateId defaultState) {
         this.id = id;
         this.subjectIds = subjectIds;
         this.stateIds = stateIds;
         this.defaultState = defaultState;
     }
 
-    public static Collection create(CollectionId id, List<SubjectId> subjectIds, List<StateId> stateIds, StateId defaultState) {
+    public static Collection create(CollectionId id, List<SubjectId> subjectIds,
+        List<StateId> stateIds, StateId defaultState) {
         return new Collection(id, subjectIds, stateIds, defaultState);
     }
 
     public static Collection create() {
         var defaultStateIds = DEFAULT_STATES.map(State::getId);
-        return new Collection(CollectionId.create(), List.empty(), defaultStateIds, defaultStateIds.get(0));
+        return new Collection(CollectionId.create(), List.empty(), defaultStateIds,
+            defaultStateIds.get(0));
     }
 
     public void addSubject(SubjectId subjectId) {

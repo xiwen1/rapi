@@ -6,6 +6,7 @@ import org.rapi.rapi.sharedkernel.Entity;
 
 @Getter
 public class Comment implements Entity<CommentId> {
+
     private final CommentId id;
     private final String content;
     private final AuthorId authorId;
@@ -22,10 +23,5 @@ public class Comment implements Entity<CommentId> {
 
     public static Comment create(String content, AuthorId authorId) {
         return new Comment(CommentId.create(), content, authorId);
-    }
-
-    @Override
-    public CommentId getId() {
-        return id;
     }
 }
