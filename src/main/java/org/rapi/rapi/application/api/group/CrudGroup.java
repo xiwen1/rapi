@@ -243,7 +243,7 @@ public class CrudGroup extends Group {
             "Delete " + structure.getName(),
             HttpMethod.DELETE,
             Route.create(ConstantFragment.create(snakeCase(structure.getName())),
-                ID_ROUTE_FRAGMENT), List.of(
+                ID_ROUTE_FRAGMENT) , List.of(
                 Response.create(HttpStatusCode.valueOf(204), "Success", ID_SCHEMA),
                 Response.create(HttpStatusCode.valueOf(400), "Failed", ObjectSchema.create())));
     }
