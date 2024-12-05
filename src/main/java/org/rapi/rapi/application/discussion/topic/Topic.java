@@ -2,7 +2,6 @@ package org.rapi.rapi.application.discussion.topic;
 
 import io.vavr.control.Option;
 import lombok.Getter;
-import org.rapi.rapi.application.discussion.discussion.ConversationId;
 import org.rapi.rapi.application.discussion.discussion.DiscussionId;
 import org.rapi.rapi.sharedkernel.Entity;
 

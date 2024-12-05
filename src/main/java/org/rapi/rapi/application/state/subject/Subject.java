@@ -6,5 +6,4 @@ import org.rapi.rapi.sharedkernel.Entity;
 @Getter
 public class Subject implements Entity<SubjectId> {
     private SubjectId id;
-
 }

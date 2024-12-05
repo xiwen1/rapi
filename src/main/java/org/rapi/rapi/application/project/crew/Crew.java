@@ -1,13 +1,11 @@
 package org.rapi.rapi.application.project.crew;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.rapi.rapi.sharedkernel.Entity;
 
 @Getter
 public class Crew implements Entity<CrewId> {
-    private CrewId id;
-    @Setter
+    private final CrewId id;
     private String email;
 
     private Crew(CrewId id, String email) {

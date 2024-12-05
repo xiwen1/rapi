@@ -14,7 +14,7 @@ public class Collection implements Entity<CollectionId> {
             State.create("In Progress"),
             State.create("Done")
     );
-    private CollectionId id;
+    private final CollectionId id;
     private List<SubjectId> subjectIds;
     private List<StateId> stateIds;
     private StateId defaultState;
