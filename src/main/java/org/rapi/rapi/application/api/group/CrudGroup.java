@@ -2,6 +2,7 @@ package org.rapi.rapi.application.api.group;
 
 import io.vavr.collection.List;
 import io.vavr.control.Option;
+import java.util.Arrays;
 import lombok.Getter;
 import org.rapi.rapi.application.api.endpoint.EndpointId;
 import org.rapi.rapi.application.api.endpoint.Response;
@@ -18,15 +19,13 @@ import org.rapi.rapi.application.api.structure.schema.Schema;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
 
-import java.util.Arrays;
-
 @Getter
 public class CrudGroup extends Group {
 
     private static final Schema ID_SCHEMA = NumberSchema.create();
     private static final String ID_NAME = "id";
     private static final SchemaFragment ID_ROUTE_FRAGMENT = SchemaFragment.create(ID_NAME,
-            ID_SCHEMA);
+        ID_SCHEMA);
     private Option<StructureId> source;
     private Option<EndpointId> createEndpointId;
     private Option<EndpointId> listEndpointId;
@@ -34,8 +33,8 @@ public class CrudGroup extends Group {
     private Option<EndpointId> deleteEndpointId;
 
     private CrudGroup(GroupId id, Option<StructureId> source, Option<EndpointId> createEndpointId,
-                      Option<EndpointId> listEndpointId, Option<EndpointId> updateEndpointId,
-                      Option<EndpointId> deleteEndpointId) {
+        Option<EndpointId> listEndpointId, Option<EndpointId> updateEndpointId,
+        Option<EndpointId> deleteEndpointId) {
         super(id);
         this.source = source;
         this.createEndpointId = createEndpointId;
@@ -53,8 +52,8 @@ public class CrudGroup extends Group {
      */
     public static CrudGroup create() {
         return new CrudGroup(GroupId.create(), Option.none(), Option.none(), Option.none(),
-                Option.none(),
-                Option.none());
+            Option.none(),
+            Option.none());
     }
 
     /**
@@ -66,16 +65,16 @@ public class CrudGroup extends Group {
      */
     public CrudEndpoints set(Structure structure) {
         if (source.isDefined() || createEndpointId.isDefined() || listEndpointId.isDefined() ||
-                updateEndpointId.isDefined() || deleteEndpointId.isDefined()) {
+            updateEndpointId.isDefined() || deleteEndpointId.isDefined()) {
             throw new IllegalStateException(
-                    "Cannot set source and endpoints when they are already set");
+                "Cannot set source and endpoints when they are already set");
         }
 
         CrudEndpoints crudEndpoints = new CrudEndpoints(
-                createCreateEndpoint(structure),
-                createListEndpoint(structure),
-                createUpdateEndpoint(structure),
-                createDeleteEndpoint(structure)
+            createCreateEndpoint(structure),
+            createListEndpoint(structure),
+            createUpdateEndpoint(structure),
+            createDeleteEndpoint(structure)
         );
 
         source = Option.some(structure.getId());
@@ -95,17 +94,17 @@ public class CrudGroup extends Group {
      */
     public CrudEndpointIds reset() {
         if (source.isEmpty() || createEndpointId.isEmpty() || listEndpointId.isEmpty()
-                || updateEndpointId.isEmpty() ||
-                deleteEndpointId.isEmpty()) {
+            || updateEndpointId.isEmpty() ||
+            deleteEndpointId.isEmpty()) {
             throw new IllegalStateException(
-                    "Cannot reset source and endpoints when they are not set");
+                "Cannot reset source and endpoints when they are not set");
         }
 
         CrudEndpointIds crudEndpointIds = new CrudEndpointIds(
-                createEndpointId.get(),
-                listEndpointId.get(),
-                updateEndpointId.get(),
-                deleteEndpointId.get()
+            createEndpointId.get(),
+            listEndpointId.get(),
+            updateEndpointId.get(),
+            deleteEndpointId.get()
         );
 
         source = Option.none();
@@ -128,25 +127,25 @@ public class CrudGroup extends Group {
     public CrudEndpoints regenerate(Structure structure) {
         if (source.isEmpty() || !source.get().equals(structure.getId())) {
             throw new IllegalStateException(
-                    "Cannot regenerate endpoints when the source is not set or the source id is different from the structure id");
+                "Cannot regenerate endpoints when the source is not set or the source id is different from the structure id");
         }
 
         if (createEndpointId.isEmpty() || listEndpointId.isEmpty() || updateEndpointId.isEmpty() ||
-                deleteEndpointId.isEmpty()) {
+            deleteEndpointId.isEmpty()) {
             throw new IllegalStateException("Cannot regenerate endpoints when they are not set");
         }
 
         RestfulEndpoint newCreateEndpoint = RestfulEndpoint.create(createEndpointId.get(),
-                createCreateEndpoint(structure));
+            createCreateEndpoint(structure));
         RestfulEndpoint newListEndpoint = RestfulEndpoint.create(listEndpointId.get(),
-                createListEndpoint(structure));
+            createListEndpoint(structure));
         RestfulEndpoint newUpdateEndpoint = RestfulEndpoint.create(updateEndpointId.get(),
-                createUpdateEndpoint(structure));
+            createUpdateEndpoint(structure));
         RestfulEndpoint newDeleteEndpoint = RestfulEndpoint.create(deleteEndpointId.get(),
-                createDeleteEndpoint(structure));
+            createDeleteEndpoint(structure));
 
         return new CrudEndpoints(newCreateEndpoint, newListEndpoint, newUpdateEndpoint,
-                newDeleteEndpoint);
+            newDeleteEndpoint);
     }
 
     /**
@@ -158,33 +157,33 @@ public class CrudGroup extends Group {
      */
     public CrudEndpoints dissolve(CrudEndpoints original) {
         if (source.isEmpty() || createEndpointId.isEmpty() || listEndpointId.isEmpty()
-                || updateEndpointId.isEmpty() ||
-                deleteEndpointId.isEmpty()) {
+            || updateEndpointId.isEmpty() ||
+            deleteEndpointId.isEmpty()) {
             throw new IllegalStateException("Cannot dissolve group when they are not set");
         }
 
         if (!original.create.getId().equals(createEndpointId.get()) || !original.list.getId()
-                .equals(listEndpointId.get()) ||
-                !original.update.getId()
-                        .equals(updateEndpointId.get()) || !original.delete.getId()
-                .equals(deleteEndpointId.get())) {
+            .equals(listEndpointId.get()) ||
+            !original.update.getId()
+                .equals(updateEndpointId.get()) || !original.delete.getId()
+            .equals(deleteEndpointId.get())) {
             throw new IllegalStateException(
-                    "Cannot dissolve group when the original endpoints ids are different from the group endpoints ids");
+                "Cannot dissolve group when the original endpoints ids are different from the group endpoints ids");
         }
 
         return new CrudEndpoints(
-                original.create,
-                original.list,
-                original.update,
-                original.delete
+            original.create,
+            original.list,
+            original.update,
+            original.delete
         );
     }
 
     @Override
     public List<EndpointId> getGeneratedEndpoints() {
         return List.of(createEndpointId, listEndpointId, updateEndpointId, deleteEndpointId)
-                .filter(Option::isDefined)
-                .map(Option::get);
+            .filter(Option::isDefined)
+            .map(Option::get);
     }
 
     /**
@@ -195,11 +194,11 @@ public class CrudGroup extends Group {
      */
     private RestfulEndpoint createCreateEndpoint(Structure structure) {
         return RestfulEndpoint.create("Create " + structure.getName(),
-                "Create " + structure.getName(),
-                structure.getSchema(), HttpMethod.POST,
-                Route.create(ConstantFragment.create(snakeCase(structure.getName()))), List.of(
-                        Response.create(HttpStatusCode.valueOf(201), "Success", ID_SCHEMA),
-                        Response.create(HttpStatusCode.valueOf(400), "Failed", ObjectSchema.create())));
+            "Create " + structure.getName(),
+            structure.getSchema(), HttpMethod.POST,
+            Route.create(ConstantFragment.create(snakeCase(structure.getName()))), List.of(
+                Response.create(HttpStatusCode.valueOf(201), "Success", ID_SCHEMA),
+                Response.create(HttpStatusCode.valueOf(400), "Failed", ObjectSchema.create())));
     }
 
     /**
@@ -210,11 +209,11 @@ public class CrudGroup extends Group {
      */
     private RestfulEndpoint createListEndpoint(Structure structure) {
         return RestfulEndpoint.create("List " + structure.getName(), "List " + structure.getName(),
-                HttpMethod.GET,
-                Route.create(ConstantFragment.create(snakeCase(structure.getName()))), List.of(
-                        Response.create(HttpStatusCode.valueOf(200), "Success",
-                                ListSchema.create(structure.getSchema())),
-                        Response.create(HttpStatusCode.valueOf(400), "Failed", ObjectSchema.create())));
+            HttpMethod.GET,
+            Route.create(ConstantFragment.create(snakeCase(structure.getName()))), List.of(
+                Response.create(HttpStatusCode.valueOf(200), "Success",
+                    ListSchema.create(structure.getSchema())),
+                Response.create(HttpStatusCode.valueOf(400), "Failed", ObjectSchema.create())));
     }
 
     /**
@@ -225,12 +224,12 @@ public class CrudGroup extends Group {
      */
     private RestfulEndpoint createUpdateEndpoint(Structure structure) {
         return RestfulEndpoint.create("Update " + structure.getName(),
-                "Update " + structure.getName(),
-                structure.getSchema(), HttpMethod.PUT,
-                Route.create(ConstantFragment.create(snakeCase(structure.getName())),
-                        ID_ROUTE_FRAGMENT), List.of(
-                        Response.create(HttpStatusCode.valueOf(200), "Success", ID_SCHEMA),
-                        Response.create(HttpStatusCode.valueOf(400), "Failed", ObjectSchema.create())));
+            "Update " + structure.getName(),
+            structure.getSchema(), HttpMethod.PUT,
+            Route.create(ConstantFragment.create(snakeCase(structure.getName())),
+                ID_ROUTE_FRAGMENT), List.of(
+                Response.create(HttpStatusCode.valueOf(200), "Success", ID_SCHEMA),
+                Response.create(HttpStatusCode.valueOf(400), "Failed", ObjectSchema.create())));
     }
 
     /**
@@ -241,18 +240,18 @@ public class CrudGroup extends Group {
      */
     private RestfulEndpoint createDeleteEndpoint(Structure structure) {
         return RestfulEndpoint.create("Delete " + structure.getName(),
-                "Delete " + structure.getName(),
-                HttpMethod.DELETE,
-                Route.create(ConstantFragment.create(snakeCase(structure.getName())),
-                        ID_ROUTE_FRAGMENT), List.of(
-                        Response.create(HttpStatusCode.valueOf(204), "Success", ID_SCHEMA),
-                        Response.create(HttpStatusCode.valueOf(400), "Failed", ObjectSchema.create())));
+            "Delete " + structure.getName(),
+            HttpMethod.DELETE,
+            Route.create(ConstantFragment.create(snakeCase(structure.getName())),
+                ID_ROUTE_FRAGMENT), List.of(
+                Response.create(HttpStatusCode.valueOf(204), "Success", ID_SCHEMA),
+                Response.create(HttpStatusCode.valueOf(400), "Failed", ObjectSchema.create())));
     }
 
     private String snakeCase(String name) {
         return List.ofAll(Arrays.stream(name.split("\\s+")))
-                .map(String::toLowerCase)
-                .fold("", (acc, s) -> acc + "_" + s);
+            .map(String::toLowerCase)
+            .fold("", (acc, s) -> acc + "_" + s);
 
     }
 

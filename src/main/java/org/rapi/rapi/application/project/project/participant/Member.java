@@ -1,9 +1,14 @@
 package org.rapi.rapi.application.project.project.participant;
 
+import lombok.Getter;
 import org.rapi.rapi.application.project.crew.CrewId;
 
-public class Member extends Participant {
-    public Member(CrewId id) {
-        super(id);
+@Getter
+public class Member implements Participant {
+
+    private final CrewId crew;
+
+    public Member(CrewId crew) {
+        this.crew = crew;
     }
 }

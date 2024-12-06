@@ -2,13 +2,13 @@ package org.rapi.rapi.application.discussion.topic;
 
 import io.vavr.control.Option;
 import lombok.Getter;
-import org.rapi.rapi.application.discussion.discussion.ConversationId;
 import org.rapi.rapi.application.discussion.discussion.DiscussionId;
 import org.rapi.rapi.sharedkernel.Entity;
 
 @Getter
 public class Topic implements Entity<TopicId> {
-    private TopicId id;
+
+    private final TopicId id;
     private Option<DiscussionId> discussionId;
 
     private Topic(TopicId id, Option<DiscussionId> discussionId) {
@@ -24,11 +24,11 @@ public class Topic implements Entity<TopicId> {
         return new Topic(TopicId.create(), discussionId);
     }
 
-    public void assignConversation(DiscussionId discussionId) {
+    public void assignDiscussion(DiscussionId discussionId) {
         this.discussionId = Option.some(discussionId);
     }
 
-    public void resetConversation() {
+    public void unassignDiscussion() {
         this.discussionId = Option.none();
     }
 }

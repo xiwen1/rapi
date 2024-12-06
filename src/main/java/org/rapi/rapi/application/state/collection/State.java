@@ -1,13 +1,12 @@
-package org.rapi.rapi.application.state.state;
+package org.rapi.rapi.application.state.collection;
 
 import lombok.Getter;
-import lombok.Setter;
-import org.rapi.rapi.application.state.collection.Collection;
 import org.rapi.rapi.sharedkernel.Entity;
 
 @Getter
 public class State implements Entity<StateId> {
-    private StateId id;
+
+    private final StateId id;
     private String name;
 
     private State(StateId id, String name) {
@@ -23,10 +22,8 @@ public class State implements Entity<StateId> {
         return new State(StateId.create(), name);
     }
 
-    public void setName(String name) {
-        if (Collection.DEFAULT_STATES.contains(this)) {
-            throw new IllegalArgumentException("System default states cannot be updated");
-        }
+    public void rename(String name) {
         this.name = name;
     }
+
 }

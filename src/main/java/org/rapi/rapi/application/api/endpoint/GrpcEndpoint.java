@@ -13,8 +13,8 @@ public class GrpcEndpoint extends Endpoint {
     private final Schema result;
 
     private GrpcEndpoint(EndpointId id, String title, String description,
-                         String service,
-                         boolean isParamStream, boolean isResultStream, Schema param, Schema result) {
+        String service,
+        boolean isParamStream, boolean isResultStream, Schema param, Schema result) {
         super(id, title, description);
         this.service = service;
         this.isParamStream = isParamStream;
@@ -25,18 +25,18 @@ public class GrpcEndpoint extends Endpoint {
 
     public static GrpcEndpoint create(EndpointId id, String title, String description,
 
-                                      String service,
-                                      boolean isParamStream, boolean isResultStream, Schema param, Schema result) {
+        String service,
+        boolean isParamStream, boolean isResultStream, Schema param, Schema result) {
         return new GrpcEndpoint(id, title, description, service, isParamStream,
-                isResultStream,
-                param, result);
+            isResultStream,
+            param, result);
     }
 
     public static GrpcEndpoint create(String title, String description,
-                                      String service,
-                                      boolean isParamStream, boolean isResultStream, Schema param, Schema result) {
+        String service,
+        boolean isParamStream, boolean isResultStream, Schema param, Schema result) {
         return new GrpcEndpoint(EndpointId.create(), title, description, service,
-                isParamStream,
-                isResultStream, param, result);
+            isParamStream,
+            isResultStream, param, result);
     }
 }
