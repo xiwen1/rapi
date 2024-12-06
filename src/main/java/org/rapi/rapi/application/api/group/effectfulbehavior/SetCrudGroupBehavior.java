@@ -1,7 +1,10 @@
 package org.rapi.rapi.application.api.group.effectfulbehavior;
 
+import io.vavr.Tuple;
+import io.vavr.Tuple2;
 import org.rapi.rapi.application.api.endpoint.effectfulbehavior.EndpointPersistence;
 import org.rapi.rapi.application.api.group.CrudGroup;
+import org.rapi.rapi.application.api.group.CrudGroup.CrudEndpoints;
 import org.rapi.rapi.application.api.group.GroupId;
 import org.rapi.rapi.application.api.structure.StructureId;
 import org.rapi.rapi.application.api.structure.effectfulbehavior.StructurePersistence;
@@ -20,12 +23,12 @@ public class SetCrudGroupBehavior {
         this.structurePersistence = structurePersistence;
     }
 
-    public CrudGroup.CrudEndpoints setCrudGroup(GroupId groupId, StructureId structureId) {
+    public Tuple2<CrudGroup, CrudEndpoints> setCrudGroup(GroupId groupId, StructureId structureId) {
         var group = (CrudGroup) groupPersistence.findById(groupId);
         var endpoints = group.set(structurePersistence.findById(structureId));
         endpoints.listEndpoints().forEach(endpointPersistence::saveRestful);
         groupPersistence.saveCrud(group);
-        return endpoints;
+        return Tuple.of(group, endpoints);
     }
 
 }
