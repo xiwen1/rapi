@@ -33,7 +33,7 @@ public class Collection implements Entity<CollectionId> {
     }
 
     public SubjectId createSubject() {
-        var subject = Subject.create();
+        var subject = Subject.create(defaultState);
         this.subjects = this.subjects.append(subject);
         return subject.getId();
     }
@@ -47,6 +47,13 @@ public class Collection implements Entity<CollectionId> {
         return state.getId();
     }
 
+    public void renameState(StateId stateId, String name) {
+        if (!getStateIds().contains(stateId)) {
+            throw new IllegalArgumentException("State does not exist");
+        }
+        this.states.find(s -> s.getId().equals(stateId)).get().rename(name);
+    }
+
     public void removeSubject(SubjectId subjectId) {
         if (!getSubjectIds().contains(subjectId)) {
             throw new IllegalArgumentException("Subject does not exist");
@@ -56,7 +63,7 @@ public class Collection implements Entity<CollectionId> {
     }
 
     private List<SubjectId> getSubjectIds() {
-        return this.subjects.map(subject -> subject.getId());
+        return this.subjects.map(Subject::getId);
     }
 
     public void removeState(StateId stateId) {
@@ -67,11 +74,16 @@ public class Collection implements Entity<CollectionId> {
             throw new IllegalArgumentException("Cannot remove default state");
         }
         var state = this.states.find(s -> s.getId().equals(stateId)).get();
+        this.subjects.forEach(s -> {
+            if (s.getCurrentState().equals(stateId)) {
+                s.reassignState(defaultState);
+            }
+        });
         this.states = this.states.remove(state);
     }
 
     private List<StateId> getStateIds() {
-        return this.states.map(state -> state.getId());
+        return this.states.map(State::getId);
     }
 
     public void changeDefaultState(StateId id) {
@@ -81,6 +93,11 @@ public class Collection implements Entity<CollectionId> {
         if (this.defaultState.equals(id)) {
             throw new IllegalArgumentException("State is already default");
         }
+        this.subjects.forEach(s -> {
+            if (s.getCurrentState().equals(this.defaultState)) {
+                s.reassignState(id);
+            }
+        });
         this.defaultState = id;
     }
 

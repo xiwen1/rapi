@@ -22,14 +22,8 @@ public class State implements Entity<StateId> {
         return new State(StateId.create(), name);
     }
 
-    private void rename(String name) {
+    public void rename(String name) {
         this.name = name;
     }
 
-    public void setName(String name) {
-        if (Collection.DEFAULT_STATES.contains(this)) {
-            throw new IllegalArgumentException("System default states cannot be updated");
-        }
-        this.name = name;
-    }
 }
