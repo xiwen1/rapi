@@ -19,14 +19,14 @@ public class Subject implements Entity<SubjectId> {
         return new Subject(id, currentState);
     }
 
+    public static Subject create(StateId currentState) {
+        return new Subject(SubjectId.create(), currentState);
+    }
+
     public void reassignState(StateId newState) {
         if (newState.equals(this.currentState)) {
             throw new IllegalArgumentException("Cannot reassign the same state");
         }
         this.currentState = newState;
-    }
-
-    public static Subject create(StateId currentState) {
-        return new Subject(SubjectId.create(), currentState);
     }
 }
