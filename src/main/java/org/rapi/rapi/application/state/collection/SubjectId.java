@@ -1,4 +1,4 @@
-package org.rapi.rapi.application.state.subject;
+package org.rapi.rapi.application.state.collection;
 
 import java.util.UUID;
 

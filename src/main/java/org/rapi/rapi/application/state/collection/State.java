@@ -1,7 +1,6 @@
-package org.rapi.rapi.application.state.state;
+package org.rapi.rapi.application.state.collection;
 
 import lombok.Getter;
-import org.rapi.rapi.application.state.collection.Collection;
 import org.rapi.rapi.sharedkernel.Entity;
 
 @Getter

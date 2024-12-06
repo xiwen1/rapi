@@ -16,7 +16,7 @@ public class Inventory implements Entity<InventoryId> {
     private List<EndpointId> endpoints;
 
     private Inventory(InventoryId id, List<StructureId> structures, List<GroupId> groups,
-                      List<EndpointId> endpoints) {
+        List<EndpointId> endpoints) {
         this.id = id;
         this.structures = structures;
         this.groups = groups;
@@ -24,12 +24,12 @@ public class Inventory implements Entity<InventoryId> {
     }
 
     public static Inventory create(InventoryId id, List<StructureId> structures,
-                                   List<GroupId> groups, List<EndpointId> endpoints) {
+        List<GroupId> groups, List<EndpointId> endpoints) {
         return new Inventory(id, structures, groups, endpoints);
     }
 
     public static Inventory create(List<StructureId> structures, List<GroupId> groups,
-                                   List<EndpointId> endpoints) {
+        List<EndpointId> endpoints) {
         return new Inventory(InventoryId.create(), structures, groups, endpoints);
     }
 

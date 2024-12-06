@@ -2,10 +2,6 @@ package org.rapi.rapi.application.state.collection;
 
 import io.vavr.collection.List;
 import lombok.Getter;
-import org.rapi.rapi.application.state.state.State;
-import org.rapi.rapi.application.state.state.StateId;
-import org.rapi.rapi.application.state.subject.Subject;
-import org.rapi.rapi.application.state.subject.SubjectId;
 import org.rapi.rapi.sharedkernel.Entity;
 
 @Getter

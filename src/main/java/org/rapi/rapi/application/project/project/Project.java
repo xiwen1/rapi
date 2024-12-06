@@ -18,7 +18,7 @@ public class Project implements Entity<ProjectId> {
     private List<CrewId> invitedCrews;
 
     private Project(ProjectId id, String title, Admin owner, List<Participant> participants,
-                    List<CrewId> invitedCrews) {
+        List<CrewId> invitedCrews) {
         this.id = id;
         this.title = title;
         this.owner = owner;
@@ -28,7 +28,7 @@ public class Project implements Entity<ProjectId> {
 
 
     public static Project create(ProjectId id, String title, Admin owner,
-                                 List<Participant> participants, List<CrewId> invitationList) {
+        List<Participant> participants, List<CrewId> invitationList) {
         return new Project(id, title, owner, participants, invitationList);
     }
 
@@ -38,7 +38,7 @@ public class Project implements Entity<ProjectId> {
 
     public void inviteCrew(CrewId crewId) {
         if (this.invitedCrews.contains(crewId) || this.participants.map(Participant::getCrew)
-                .contains(crewId)) {
+            .contains(crewId)) {
             throw new IllegalArgumentException("Crew already invited or already a participant");
         }
         this.invitedCrews = this.invitedCrews.append(crewId);
