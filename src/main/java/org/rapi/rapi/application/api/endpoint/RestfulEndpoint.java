@@ -19,9 +19,9 @@ public class RestfulEndpoint extends Endpoint {
     private final Option<ObjectSchema> query;
 
     private RestfulEndpoint(EndpointId id, String title, String description, Option<Schema> request,
-        HttpMethod method,
-        Route route, List<Response> responses, Option<ObjectSchema> header,
-        Option<ObjectSchema> query) {
+                            HttpMethod method,
+                            Route route, List<Response> responses, Option<ObjectSchema> header,
+                            Option<ObjectSchema> query) {
         super(id, title, description);
         this.method = method;
         this.route = route;
@@ -32,36 +32,36 @@ public class RestfulEndpoint extends Endpoint {
     }
 
     public static RestfulEndpoint create(EndpointId id, String title, String description,
-        Option<Schema> request, Option<ObjectSchema> header, Option<ObjectSchema> query,
-        HttpMethod method, Route route, List<Response> responses) {
+                                         Option<Schema> request, Option<ObjectSchema> header, Option<ObjectSchema> query,
+                                         HttpMethod method, Route route, List<Response> responses) {
         return new RestfulEndpoint(id, title, description, request, method, route, responses,
-            header, query);
+                header, query);
     }
 
     public static RestfulEndpoint create(String title, String description, Option<Schema> request,
-        HttpMethod method,
-        Route route, List<Response> responses) {
+                                         HttpMethod method,
+                                         Route route, List<Response> responses) {
         return new RestfulEndpoint(EndpointId.create(), title, description, request, method, route,
-            responses, Option.none(), Option.none());
+                responses, Option.none(), Option.none());
     }
 
     public static RestfulEndpoint create(String title, String description, HttpMethod method,
-        Route route, List<Response> responses) {
+                                         Route route, List<Response> responses) {
         return new RestfulEndpoint(EndpointId.create(), title, description, Option.none(), method,
-            route, responses, Option.none(), Option.none());
+                route, responses, Option.none(), Option.none());
     }
 
     public static RestfulEndpoint create(String title, String description, Schema request,
-        HttpMethod method,
-        Route route, List<Response> responses) {
+                                         HttpMethod method,
+                                         Route route, List<Response> responses) {
         return new RestfulEndpoint(EndpointId.create(), title, description, Option.some(request),
-            method,
-            route, responses, Option.none(), Option.none());
+                method,
+                route, responses, Option.none(), Option.none());
     }
 
     public static RestfulEndpoint create(EndpointId id, RestfulEndpoint copy) {
         return new RestfulEndpoint(id, copy.getTitle(), copy.getDescription(), copy.getRequest(),
-            copy.getMethod(),
-            copy.getRoute(), copy.getResponses(), copy.getHeader(), copy.getQuery());
+                copy.getMethod(),
+                copy.getRoute(), copy.getResponses(), copy.getHeader(), copy.getQuery());
     }
 }

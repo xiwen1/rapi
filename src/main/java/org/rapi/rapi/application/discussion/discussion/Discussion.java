@@ -35,19 +35,19 @@ public class Discussion implements Entity<DiscussionId> {
 
     public void makeComment(ConversationId conversationId, String content, AuthorId authorId) {
         var conversation = this.conversations.find(c -> c.getId().equals(conversationId))
-            .getOrElseThrow(() -> new IllegalArgumentException("Conversation not found"));
+                .getOrElseThrow(() -> new IllegalArgumentException("Conversation not found"));
         conversation.postComment(Comment.create(content, authorId));
     }
 
     public void closeConversation(ConversationId conversationId) {
         var conversation = this.conversations.find(c -> c.getId().equals(conversationId))
-            .getOrElseThrow(() -> new IllegalArgumentException("Conversation not found"));
+                .getOrElseThrow(() -> new IllegalArgumentException("Conversation not found"));
         conversation.close();
     }
 
     public void reopenConversation(ConversationId conversationId) {
         var conversation = this.conversations.find(c -> c.getId().equals(conversationId))
-            .getOrElseThrow(() -> new IllegalArgumentException("Conversation not found"));
+                .getOrElseThrow(() -> new IllegalArgumentException("Conversation not found"));
         conversation.reopen();
     }
 }

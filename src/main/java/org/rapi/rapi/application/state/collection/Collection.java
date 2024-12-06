@@ -4,74 +4,82 @@ import io.vavr.collection.List;
 import lombok.Getter;
 import org.rapi.rapi.application.state.state.State;
 import org.rapi.rapi.application.state.state.StateId;
+import org.rapi.rapi.application.state.subject.Subject;
 import org.rapi.rapi.application.state.subject.SubjectId;
 import org.rapi.rapi.sharedkernel.Entity;
 
 @Getter
 public class Collection implements Entity<CollectionId> {
 
-    public static final List<State> DEFAULT_STATES = List.of(
-        State.create("New"),
-        State.create("In Progress"),
-        State.create("Done")
-    );
+    public static final List<State> DEFAULT_STATES = List.of(State.create("New"),
+        State.create("In Progress"), State.create("Done"));
     private final CollectionId id;
-    private List<SubjectId> subjectIds;
-    private List<StateId> stateIds;
+    private List<Subject> subjects;
+    private List<State> states;
     private StateId defaultState;
 
-    private Collection(CollectionId id, List<SubjectId> subjectIds, List<StateId> stateIds,
+    private Collection(CollectionId id, List<Subject> subjects, List<State> states,
         StateId defaultState) {
         this.id = id;
-        this.subjectIds = subjectIds;
-        this.stateIds = stateIds;
+        this.subjects = subjects;
+        this.states = states;
         this.defaultState = defaultState;
     }
 
-    public static Collection create(CollectionId id, List<SubjectId> subjectIds,
-        List<StateId> stateIds, StateId defaultState) {
+    public static Collection create(CollectionId id, List<Subject> subjectIds, List<State> stateIds,
+        StateId defaultState) {
         return new Collection(id, subjectIds, stateIds, defaultState);
     }
 
     public static Collection create() {
-        var defaultStateIds = DEFAULT_STATES.map(State::getId);
-        return new Collection(CollectionId.create(), List.empty(), defaultStateIds,
-            defaultStateIds.get(0));
+        return new Collection(CollectionId.create(), List.empty(), DEFAULT_STATES,
+            DEFAULT_STATES.get(0).getId());
     }
 
-    public void addSubject(SubjectId subjectId) {
-        if (this.subjectIds.contains(subjectId)) {
-            throw new IllegalArgumentException("Subject already exists");
-        }
-        this.subjectIds = this.subjectIds.append(subjectId);
+    public SubjectId createSubject() {
+        var subject = Subject.create();
+        this.subjects = this.subjects.append(subject);
+        return subject.getId();
     }
 
-    public void addState(StateId stateId) {
-        if (this.stateIds.contains(stateId)) {
-            throw new IllegalArgumentException("State already exists");
+    public StateId createState(String name) {
+        if (this.states.find(s -> s.getName().equals(name)).isDefined()) {
+            throw new IllegalArgumentException("State with name already exists");
         }
-        this.stateIds = this.stateIds.append(stateId);
+        var state = State.create(name);
+        this.states = this.states.append(state);
+        return state.getId();
     }
 
     public void removeSubject(SubjectId subjectId) {
-        if (!this.subjectIds.contains(subjectId)) {
+        if (!getSubjectIds().contains(subjectId)) {
             throw new IllegalArgumentException("Subject does not exist");
         }
-        this.subjectIds = this.subjectIds.remove(subjectId);
+        var subject = this.subjects.find(s -> s.getId().equals(subjectId)).get();
+        this.subjects = this.subjects.remove(subject);
+    }
+
+    private List<SubjectId> getSubjectIds() {
+        return this.subjects.map(subject -> subject.getId());
     }
 
     public void removeState(StateId stateId) {
-        if (!this.stateIds.contains(stateId)) {
+        if (!getStateIds().contains(stateId)) {
             throw new IllegalArgumentException("State does not exist");
         }
         if (this.defaultState.equals(stateId)) {
             throw new IllegalArgumentException("Cannot remove default state");
         }
-        this.stateIds = this.stateIds.remove(stateId);
+        var state = this.states.find(s -> s.getId().equals(stateId)).get();
+        this.states = this.states.remove(state);
+    }
+
+    private List<StateId> getStateIds() {
+        return this.states.map(state -> state.getId());
     }
 
     public void changeDefaultState(StateId id) {
-        if (!this.stateIds.contains(id)) {
+        if (!getStateIds().contains(id)) {
             throw new IllegalArgumentException("State does not exist");
         }
         if (this.defaultState.equals(id)) {

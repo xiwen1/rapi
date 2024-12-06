@@ -13,7 +13,7 @@ public class Conversation implements Entity<ConversationId> {
     private boolean isClosed;
 
     private Conversation(ConversationId id, String title, List<Comment> comments,
-        boolean isClosed) {
+                         boolean isClosed) {
         this.id = id;
         this.title = title;
         this.comments = comments;
@@ -21,7 +21,7 @@ public class Conversation implements Entity<ConversationId> {
     }
 
     public static Conversation create(ConversationId id, String title, List<Comment> commentIds,
-        boolean isClosed) {
+                                      boolean isClosed) {
         return new Conversation(id, title, commentIds, isClosed);
     }
 
