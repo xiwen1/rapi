@@ -31,7 +31,7 @@ public class RestfulEndpoint extends Endpoint {
         this.query = query;
     }
 
-    public static RestfulEndpoint create(EndpointId id, String title, String description,
+    public static RestfulEndpoint fromRaw(EndpointId id, String title, String description,
         Option<Schema> request, Option<ObjectSchema> header, Option<ObjectSchema> query,
         HttpMethod method, Route route, List<Response> responses) {
         return new RestfulEndpoint(id, title, description, request, method, route, responses,
@@ -45,19 +45,6 @@ public class RestfulEndpoint extends Endpoint {
             responses, Option.none(), Option.none());
     }
 
-    public static RestfulEndpoint create(String title, String description, HttpMethod method,
-        Route route, List<Response> responses) {
-        return new RestfulEndpoint(EndpointId.create(), title, description, Option.none(), method,
-            route, responses, Option.none(), Option.none());
-    }
-
-    public static RestfulEndpoint create(String title, String description, Schema request,
-        HttpMethod method,
-        Route route, List<Response> responses) {
-        return new RestfulEndpoint(EndpointId.create(), title, description, Option.some(request),
-            method,
-            route, responses, Option.none(), Option.none());
-    }
 
     public static RestfulEndpoint create(EndpointId id, RestfulEndpoint copy) {
         return new RestfulEndpoint(id, copy.getTitle(), copy.getDescription(), copy.getRequest(),

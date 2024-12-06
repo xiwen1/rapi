@@ -18,11 +18,8 @@ public class Structure implements Entity<StructureId> {
         this.name = name;
     }
 
-    public static Structure create(Schema schema, String name) {
-        return new Structure(StructureId.create(), schema, name);
-    }
 
-    public static Structure create(StructureId id, Schema schema, String name) {
+    public static Structure fromRaw(StructureId id, Schema schema, String name) {
         return new Structure(id, schema, name);
     }
 

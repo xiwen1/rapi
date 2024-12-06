@@ -195,7 +195,7 @@ public class CrudGroup extends Group {
     private RestfulEndpoint createCreateEndpoint(Structure structure) {
         return RestfulEndpoint.create("Create " + structure.getName(),
             "Create " + structure.getName(),
-            structure.getSchema(), HttpMethod.POST,
+            Option.some(structure.getSchema()), HttpMethod.POST,
             Route.create(ConstantFragment.create(snakeCase(structure.getName()))), List.of(
                 Response.create(HttpStatusCode.valueOf(201), "Success", ID_SCHEMA),
                 Response.create(HttpStatusCode.valueOf(400), "Failed", ObjectSchema.create())));
@@ -209,6 +209,7 @@ public class CrudGroup extends Group {
      */
     private RestfulEndpoint createListEndpoint(Structure structure) {
         return RestfulEndpoint.create("List " + structure.getName(), "List " + structure.getName(),
+            Option.none(),
             HttpMethod.GET,
             Route.create(ConstantFragment.create(snakeCase(structure.getName()))), List.of(
                 Response.create(HttpStatusCode.valueOf(200), "Success",
@@ -225,7 +226,7 @@ public class CrudGroup extends Group {
     private RestfulEndpoint createUpdateEndpoint(Structure structure) {
         return RestfulEndpoint.create("Update " + structure.getName(),
             "Update " + structure.getName(),
-            structure.getSchema(), HttpMethod.PUT,
+            Option.some(structure.getSchema()), HttpMethod.PUT,
             Route.create(ConstantFragment.create(snakeCase(structure.getName())),
                 ID_ROUTE_FRAGMENT), List.of(
                 Response.create(HttpStatusCode.valueOf(200), "Success", ID_SCHEMA),
@@ -240,7 +241,7 @@ public class CrudGroup extends Group {
      */
     private RestfulEndpoint createDeleteEndpoint(Structure structure) {
         return RestfulEndpoint.create("Delete " + structure.getName(),
-            "Delete " + structure.getName(),
+            "Delete " + structure.getName(), Option.none(),
             HttpMethod.DELETE,
             Route.create(ConstantFragment.create(snakeCase(structure.getName())),
                 ID_ROUTE_FRAGMENT), List.of(
@@ -259,10 +260,23 @@ public class CrudGroup extends Group {
                                 RestfulEndpoint update,
                                 RestfulEndpoint delete) {
 
+        public static CrudEndpoints fromList(List<RestfulEndpoint> endpoints) {
+            return new CrudEndpoints(endpoints.get(0), endpoints.get(1), endpoints.get(2),
+                endpoints.get(3));
+        }
+
+        public List<RestfulEndpoint> listEndpoints() {
+            return List.of(create, list, update, delete);
+        }
+
     }
 
     public record CrudEndpointIds(EndpointId create, EndpointId list, EndpointId update,
                                   EndpointId delete) {
+
+        public List<EndpointId> listEndpointIds() {
+            return List.of(create, list, update, delete);
+        }
 
     }
 }

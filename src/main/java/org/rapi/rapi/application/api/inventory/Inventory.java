@@ -23,14 +23,9 @@ public class Inventory implements Entity<InventoryId> {
         this.endpoints = endpoints;
     }
 
-    public static Inventory create(InventoryId id, List<StructureId> structures,
+    public static Inventory fromRaw(InventoryId id, List<StructureId> structures,
         List<GroupId> groups, List<EndpointId> endpoints) {
         return new Inventory(id, structures, groups, endpoints);
-    }
-
-    public static Inventory create(List<StructureId> structures, List<GroupId> groups,
-        List<EndpointId> endpoints) {
-        return new Inventory(InventoryId.create(), structures, groups, endpoints);
     }
 
     public static Inventory create() {
