@@ -24,7 +24,7 @@ public class RegenerateCrudGroupBehavior {
 
     public Tuple2<CrudGroup, CrudEndpoints> regenerateCrudGroupBehavior(GroupId groupId,
         StructureId structureId) {
-        var group = (CrudGroup) groupPersistence.findById(groupId);
+        var group = groupPersistence.findCrudById(groupId);
         var endpoints = group.regenerate(structurePersistence.findById(structureId));
         endpoints.listEndpoints().forEach(endpointPersistence::saveRestful);
         groupPersistence.saveCrud(group);

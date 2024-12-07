@@ -24,7 +24,7 @@ public class SetCrudGroupBehavior {
     }
 
     public Tuple2<CrudGroup, CrudEndpoints> setCrudGroup(GroupId groupId, StructureId structureId) {
-        var group = (CrudGroup) groupPersistence.findById(groupId);
+        var group = groupPersistence.findCrudById(groupId);
         var endpoints = group.set(structurePersistence.findById(structureId));
         endpoints.listEndpoints().forEach(endpointPersistence::saveRestful);
         groupPersistence.saveCrud(group);

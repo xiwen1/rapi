@@ -20,7 +20,7 @@ public class RemoveRestfulFromJwtGroupBehavior {
 
     public Tuple2<JwtGroup, EndpointId> removeRestfulFromJwtGroup(GroupId groupId,
         EndpointId endpointId) {
-        var group = (JwtGroup) groupPersistence.findById(groupId);
+        var group = groupPersistence.findJwtById(groupId);
         var newEndpointId = group.remove(endpointId);
         groupPersistence.saveJwt(group);
         return Tuple.of(group, newEndpointId);

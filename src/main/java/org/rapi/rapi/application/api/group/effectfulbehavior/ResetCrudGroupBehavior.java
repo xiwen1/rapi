@@ -18,7 +18,7 @@ public class ResetCrudGroupBehavior {
     }
 
     public Tuple2<CrudGroup, CrudGroup.CrudEndpointIds> resetCrudGroup(GroupId id) {
-        var group = (CrudGroup) groupPersistence.findById(id);
+        var group = groupPersistence.findCrudById(id);
         var endpointIds = group.reset();
         endpointIds.listEndpointIds().forEach(endpointPersistence::deleteRestful);
         groupPersistence.saveCrud(group);

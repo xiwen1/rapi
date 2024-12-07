@@ -1,8 +1,6 @@
 package org.rapi.rapi.application.api.group.effectfulbehavior;
 
-import org.rapi.rapi.application.api.endpoint.RestfulEndpoint;
 import org.rapi.rapi.application.api.endpoint.effectfulbehavior.EndpointPersistence;
-import org.rapi.rapi.application.api.group.CrudGroup;
 import org.rapi.rapi.application.api.group.CrudGroup.CrudEndpoints;
 import org.rapi.rapi.application.api.group.GroupId;
 
@@ -18,10 +16,10 @@ public class DissolveCrudGroupBehavior {
     }
 
     public CrudEndpoints dissolveCrudGroupBehavior(GroupId id) {
-        var group = (CrudGroup) groupPersistence.findById(id);
+        var group = groupPersistence.findCrudById(id);
         groupPersistence.delete(id);
         var endpoints = group.getGeneratedEndpoints()
-            .map(endpointId -> (RestfulEndpoint) endpointPersistence.findById(endpointId));
+            .map(endpointPersistence::findRestfulById);
         var dissolvedEndpoints = group.dissolve(CrudEndpoints.fromList(endpoints));
         dissolvedEndpoints.listEndpoints().forEach(endpointPersistence::saveRestful);
         return dissolvedEndpoints;

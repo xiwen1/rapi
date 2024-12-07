@@ -25,7 +25,7 @@ public class CreateJwtGroupBehavior {
         return group;
     }
 
-    public Tuple3<JwtGroup, RestfulEndpoint, RestfulEndpoint> createJwtCroupDefault() {
+    public Tuple3<JwtGroup, RestfulEndpoint, RestfulEndpoint> createJwtGroupDefault() {
         var tuple = JwtGroup.create();
         groupPersistence.saveJwt(tuple._1);
         endpointPersistence.saveRestful(tuple._2);
