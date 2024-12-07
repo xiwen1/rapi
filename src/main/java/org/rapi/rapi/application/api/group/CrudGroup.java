@@ -135,13 +135,13 @@ public class CrudGroup extends Group {
             throw new IllegalStateException("Cannot regenerate endpoints when they are not set");
         }
 
-        RestfulEndpoint newCreateEndpoint = RestfulEndpoint.create(createEndpointId.get(),
+        RestfulEndpoint newCreateEndpoint = RestfulEndpoint.fromCopy(createEndpointId.get(),
             createCreateEndpoint(structure));
-        RestfulEndpoint newListEndpoint = RestfulEndpoint.create(listEndpointId.get(),
+        RestfulEndpoint newListEndpoint = RestfulEndpoint.fromCopy(listEndpointId.get(),
             createListEndpoint(structure));
-        RestfulEndpoint newUpdateEndpoint = RestfulEndpoint.create(updateEndpointId.get(),
+        RestfulEndpoint newUpdateEndpoint = RestfulEndpoint.fromCopy(updateEndpointId.get(),
             createUpdateEndpoint(structure));
-        RestfulEndpoint newDeleteEndpoint = RestfulEndpoint.create(deleteEndpointId.get(),
+        RestfulEndpoint newDeleteEndpoint = RestfulEndpoint.fromCopy(deleteEndpointId.get(),
             createDeleteEndpoint(structure));
 
         return new CrudEndpoints(newCreateEndpoint, newListEndpoint, newUpdateEndpoint,

@@ -13,7 +13,7 @@ public class CreateRestfulEndpointFromEntityBehavior {
 
     public RestfulEndpoint createRestfulEndpointFromEntity(EndpointId endpointId,
         RestfulEndpoint endpoint) {
-        var newEndpoint = RestfulEndpoint.create(endpointId, endpoint);
+        var newEndpoint = RestfulEndpoint.fromCopy(endpointId, endpoint);
         endpointPersistence.saveRestful(newEndpoint);
         return newEndpoint;
     }

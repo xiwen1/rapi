@@ -46,7 +46,7 @@ public class RestfulEndpoint extends Endpoint {
     }
 
 
-    public static RestfulEndpoint create(EndpointId id, RestfulEndpoint copy) {
+    public static RestfulEndpoint fromCopy(EndpointId id, RestfulEndpoint copy) {
         return new RestfulEndpoint(id, copy.getTitle(), copy.getDescription(), copy.getRequest(),
             copy.getMethod(),
             copy.getRoute(), copy.getResponses(), copy.getHeader(), copy.getQuery());

@@ -68,8 +68,8 @@ public class JwtGroup extends Group {
         var refreshEndpointId = EndpointId.create();
         var jwtGroup = new JwtGroup(GroupId.create(), HashMap.empty(), loginEndpointId,
             refreshEndpointId);
-        var loginEndpoint = RestfulEndpoint.create(loginEndpointId, LOGIN_ENDPOINT);
-        var refreshEndpoint = RestfulEndpoint.create(refreshEndpointId, REFRESH_ENDPOINT);
+        var loginEndpoint = RestfulEndpoint.fromCopy(loginEndpointId, LOGIN_ENDPOINT);
+        var refreshEndpoint = RestfulEndpoint.fromCopy(refreshEndpointId, REFRESH_ENDPOINT);
         return Tuple.of(jwtGroup, loginEndpoint, refreshEndpoint);
     }
 
@@ -125,7 +125,7 @@ public class JwtGroup extends Group {
             var sourceEndpoint = sourceEndpoints.find(
                     endpoint -> endpoint.getId().equals(sourceEndpointId))
                 .getOrElseThrow(() -> new IllegalArgumentException("Source endpoint not found"));
-            return RestfulEndpoint.create(protectedEndpointId,
+            return RestfulEndpoint.fromCopy(protectedEndpointId,
                 generateProtectedEndpoint(sourceEndpoint));
         });
     }
