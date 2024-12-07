@@ -24,7 +24,6 @@ public class AddRestfulToJwtGroupBehavior {
         var group = groupPersistence.findJwtById(id);
         var restfulEndpoint = endpointPersistence.findRestfulById(endpointId);
         var newEndpoint = group.add(restfulEndpoint);
-        endpointPersistence.saveRestful(newEndpoint);
         groupPersistence.saveJwt(group);
         return Tuple.of(group, newEndpoint);
     }

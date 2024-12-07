@@ -24,7 +24,6 @@ public class RegenerateJwtGroupBehavior {
         var endpoints = endpointIds.map(endpointPersistence::findRestfulById);
         var group = groupPersistence.findJwtById(groupId);
         var newEndpoints = group.regenerate(endpoints);
-        newEndpoints.forEach(endpointPersistence::saveRestful);
         return new Tuple2<>(group, newEndpoints);
     }
 }

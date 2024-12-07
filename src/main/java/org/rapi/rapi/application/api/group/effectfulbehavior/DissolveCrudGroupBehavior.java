@@ -20,9 +20,7 @@ public class DissolveCrudGroupBehavior {
         groupPersistence.delete(id);
         var endpoints = group.getGeneratedEndpoints()
             .map(endpointPersistence::findRestfulById);
-        var dissolvedEndpoints = group.dissolve(CrudEndpoints.fromList(endpoints));
-        dissolvedEndpoints.listEndpoints().forEach(endpointPersistence::saveRestful);
-        return dissolvedEndpoints;
+        return group.dissolve(CrudEndpoints.fromList(endpoints));
     }
 
 }
