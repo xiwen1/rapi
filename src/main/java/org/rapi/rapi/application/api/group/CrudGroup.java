@@ -265,10 +265,6 @@ public class CrudGroup extends Group {
                 endpoints.get(3));
         }
 
-        public List<RestfulEndpoint> listEndpoints() {
-            return List.of(create, list, update, delete);
-        }
-
     }
 
     public record CrudEndpointIds(EndpointId create, EndpointId list, EndpointId update,

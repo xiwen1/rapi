@@ -18,9 +18,15 @@ public class DissolveCrudGroupBehavior {
     public CrudEndpoints dissolveCrudGroupBehavior(GroupId id) {
         var group = groupPersistence.findCrudById(id);
         groupPersistence.delete(id);
-        var endpoints = group.getGeneratedEndpoints()
-            .map(endpointPersistence::findRestfulById);
-        return group.dissolve(CrudEndpoints.fromList(endpoints));
+        var create = endpointPersistence.findRestfulById(group.getCreateEndpointId()
+            .getOrElseThrow(() -> new IllegalStateException("Create endpoint not found")));
+        var list = endpointPersistence.findRestfulById(group.getListEndpointId()
+            .getOrElseThrow(() -> new IllegalStateException("List endpoint not found")));
+        var update = endpointPersistence.findRestfulById(group.getUpdateEndpointId()
+            .getOrElseThrow(() -> new IllegalStateException("Update endpoint not found")));
+        var delete = endpointPersistence.findRestfulById(group.getDeleteEndpointId()
+            .getOrElseThrow(() -> new IllegalStateException("Delete endpoint not found")));
+        return group.dissolve(new CrudEndpoints(create, list, update, delete));
     }
 
 }
