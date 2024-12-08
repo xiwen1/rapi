@@ -17,7 +17,7 @@ public class Comment implements Entity<CommentId> {
         this.authorId = authorId;
     }
 
-    public static Comment create(CommentId id, String content, AuthorId authorId) {
+    public static Comment fromRaw(CommentId id, String content, AuthorId authorId) {
         return new Comment(id, content, authorId);
     }
 

@@ -2,6 +2,7 @@ package org.rapi.rapi.application.discussion.discussion;
 
 import io.vavr.collection.List;
 import lombok.Getter;
+import org.rapi.rapi.application.discussion.author.AuthorId;
 import org.rapi.rapi.sharedkernel.Entity;
 
 @Getter
@@ -11,22 +12,24 @@ public class Conversation implements Entity<ConversationId> {
     private final String title;
     private List<Comment> comments;
     private boolean isClosed;
+    private AuthorId starter;
 
     private Conversation(ConversationId id, String title, List<Comment> comments,
-        boolean isClosed) {
+        boolean isClosed, AuthorId starter) {
         this.id = id;
         this.title = title;
         this.comments = comments;
         this.isClosed = isClosed;
+        this.starter = starter;
     }
 
-    public static Conversation create(ConversationId id, String title, List<Comment> commentIds,
-        boolean isClosed) {
-        return new Conversation(id, title, commentIds, isClosed);
+    public static Conversation fromRaw(ConversationId id, String title, List<Comment> commentIds,
+        boolean isClosed, AuthorId starter) {
+        return new Conversation(id, title, commentIds, isClosed, starter);
     }
 
-    public static Conversation create(String title) {
-        return new Conversation(ConversationId.create(), title, List.empty(), false);
+    public static Conversation create(String title, AuthorId starter) {
+        return new Conversation(ConversationId.create(), title, List.empty(), false, starter);
     }
 
     public void postComment(Comment comment) {
@@ -44,13 +47,15 @@ public class Conversation implements Entity<ConversationId> {
             throw new IllegalStateException("Conversation is already closed");
         }
         this.isClosed = true;
+        this.comments = this.comments.append(Comment.create("Conversation closed.", this.starter));
     }
 
-    public void reopen() {
+    public void reopen(AuthorId author) {
         if (!this.isClosed) {
             throw new IllegalStateException("Conversation is already open");
         }
         this.isClosed = false;
+        this.comments = this.comments.append(Comment.create("Conversation reopened.", author));
     }
 
 }
