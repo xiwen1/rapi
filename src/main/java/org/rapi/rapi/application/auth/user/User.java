@@ -7,12 +7,13 @@ import org.rapi.rapi.sharedkernel.Entity;
 public class User implements Entity<UserId> {
 
     private final UserId id;
+    private final String password;
     private String username;
-    private String password;
 
     private User(UserId id, String username, String password) {
         this.id = id;
         this.username = username;
+        this.password = password;
     }
 
     public static User create(UserId id, String username, String password) {

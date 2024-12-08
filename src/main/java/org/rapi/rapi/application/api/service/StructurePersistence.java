@@ -1,4 +1,4 @@
-package org.rapi.rapi.application.api.structure.effectfulbehavior;
+package org.rapi.rapi.application.api.service;
 
 import org.rapi.rapi.application.api.structure.Structure;
 import org.rapi.rapi.application.api.structure.StructureId;

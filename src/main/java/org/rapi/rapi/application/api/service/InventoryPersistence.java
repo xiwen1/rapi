@@ -1,4 +1,4 @@
-package org.rapi.rapi.application.api.inventory.effectfulbehavior;
+package org.rapi.rapi.application.api.service;
 
 import org.rapi.rapi.application.api.inventory.Inventory;
 import org.rapi.rapi.application.api.inventory.InventoryId;

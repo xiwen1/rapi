@@ -1,23 +1,30 @@
-package org.rapi.rapi.application.api.group.effectfulbehavior;
+package org.rapi.rapi.application.api.service;
 
 import io.vavr.collection.List;
 import org.rapi.rapi.application.api.endpoint.RestfulEndpoint;
-import org.rapi.rapi.application.api.endpoint.effectfulbehavior.EndpointPersistence;
 import org.rapi.rapi.application.api.group.GroupId;
+import org.rapi.rapi.application.api.inventory.InventoryId;
 
-public class DissolveJwtGroupBehavior {
+public class DissolveJwtGroupService {
 
     private final GroupPersistence groupPersistence;
     private final EndpointPersistence endpointPersistence;
 
-    public DissolveJwtGroupBehavior(GroupPersistence groupPersistence,
-        EndpointPersistence endpointPersistence) {
+    private final InventoryPersistence inventoryPersistence;
+
+    public DissolveJwtGroupService(GroupPersistence groupPersistence,
+        EndpointPersistence endpointPersistence, InventoryPersistence inventoryPersistence) {
         this.groupPersistence = groupPersistence;
         this.endpointPersistence = endpointPersistence;
+        this.inventoryPersistence = inventoryPersistence;
     }
 
-    public List<RestfulEndpoint> dissolveJwtGroup(GroupId groupId) {
+    public List<RestfulEndpoint> dissolveJwtGroup(GroupId groupId, InventoryId inventoryId) {
+        // data preparing
         var group = groupPersistence.findJwtById(groupId);
+        var inventory = inventoryPersistence.findById(inventoryId);
+
+        // operation
         var protectedEndpointIds = group.getProtectedEndpointsMap().keySet();
         var loginEndpointId = group.getLoginEndpointId();
         var refreshEndpointId = group.getRefreshEndpointId();
@@ -26,7 +33,11 @@ public class DissolveJwtGroupBehavior {
         var loginEndpoint = endpointPersistence.findRestfulById(loginEndpointId);
         var refreshEndpoint = endpointPersistence.findRestfulById(refreshEndpointId);
         var endpoints = group.dissolve(protectedEndpoints, loginEndpoint, refreshEndpoint);
+        endpoints.toList().forEach(endpoint -> inventory.addRestfulEndpoint(endpoint.getId()));
+
+        // saving
         groupPersistence.delete(group.getId());
+        inventoryPersistence.save(inventory);
         return endpoints;
     }
 }

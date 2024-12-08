@@ -1,4 +1,4 @@
-package org.rapi.rapi.application.api.endpoint.effectfulbehavior;
+package org.rapi.rapi.application.api.service;
 
 import org.rapi.rapi.application.api.endpoint.EndpointId;
 import org.rapi.rapi.application.api.endpoint.GrpcEndpoint;

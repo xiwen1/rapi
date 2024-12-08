@@ -260,9 +260,8 @@ public class CrudGroup extends Group {
                                 RestfulEndpoint update,
                                 RestfulEndpoint delete) {
 
-        public static CrudEndpoints fromList(List<RestfulEndpoint> endpoints) {
-            return new CrudEndpoints(endpoints.get(0), endpoints.get(1), endpoints.get(2),
-                endpoints.get(3));
+        public List<RestfulEndpoint> toList() {
+            return List.of(create, list, update, delete);
         }
 
     }
@@ -270,7 +269,7 @@ public class CrudGroup extends Group {
     public record CrudEndpointIds(EndpointId create, EndpointId list, EndpointId update,
                                   EndpointId delete) {
 
-        public List<EndpointId> listEndpointIds() {
+        public List<EndpointId> toList() {
             return List.of(create, list, update, delete);
         }
 

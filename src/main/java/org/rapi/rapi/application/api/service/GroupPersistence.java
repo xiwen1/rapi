@@ -1,4 +1,4 @@
-package org.rapi.rapi.application.api.group.effectfulbehavior;
+package org.rapi.rapi.application.api.service;
 
 import org.rapi.rapi.application.api.group.CrudGroup;
 import org.rapi.rapi.application.api.group.GroupId;
@@ -15,5 +15,6 @@ public interface GroupPersistence {
     CrudGroup findCrudById(GroupId id);
 
     JwtGroup findJwtById(GroupId id);
+
 
 }

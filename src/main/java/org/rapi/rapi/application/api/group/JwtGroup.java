@@ -96,6 +96,9 @@ public class JwtGroup extends Group {
             refreshEndpointId)) {
             throw new IllegalArgumentException("Login and refresh endpoints cannot be removed");
         }
+        if (!protectedEndpointsMap.keySet().contains(sourceEndpointId)) {
+            throw new IllegalArgumentException("Source endpoint is not part of the group");
+        }
         var protectedEndpointId = protectedEndpointsMap.get(sourceEndpointId)
             .getOrElseThrow(() -> new IllegalArgumentException("Source endpoint not found"));
         protectedEndpointsMap = protectedEndpointsMap.remove(sourceEndpointId);
