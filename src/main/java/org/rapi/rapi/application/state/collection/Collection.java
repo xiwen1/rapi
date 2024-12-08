@@ -32,19 +32,29 @@ public class Collection implements Entity<CollectionId> {
             DEFAULT_STATES.get(0).getId());
     }
 
-    public SubjectId createSubject() {
-        var subject = Subject.create(defaultState);
-        this.subjects = this.subjects.append(subject);
-        return subject.getId();
+    public void setStateForSubject(StateId stateId, SubjectId subjectId) {
+        if (!getStateIds().contains(stateId)) {
+            throw new IllegalArgumentException("State does not exist");
+        }
+        if (!getSubjectIds().contains(subjectId)) {
+            throw new IllegalArgumentException("Subject does not exist");
+        }
+        this.subjects.find(s -> s.getId().equals(subjectId)).get().reassignState(stateId);
     }
 
-    public StateId createState(String name) {
+    public Subject createSubject() {
+        var subject = Subject.create(defaultState);
+        this.subjects = this.subjects.append(subject);
+        return subject;
+    }
+
+    public State createState(String name) {
         if (this.states.find(s -> s.getName().equals(name)).isDefined()) {
             throw new IllegalArgumentException("State with name already exists");
         }
         var state = State.create(name);
         this.states = this.states.append(state);
-        return state.getId();
+        return state;
     }
 
     public void renameState(StateId stateId, String name) {
@@ -80,6 +90,13 @@ public class Collection implements Entity<CollectionId> {
             }
         });
         this.states = this.states.remove(state);
+    }
+
+    public void editState(StateId stateId, String name) {
+        if (!getStateIds().contains(stateId)) {
+            throw new IllegalArgumentException("State does not exist");
+        }
+        this.states.find(s -> s.getId().equals(stateId)).get().rename(name);
     }
 
     private List<StateId> getStateIds() {

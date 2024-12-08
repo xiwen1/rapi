@@ -24,7 +24,7 @@ public class User implements Entity<UserId> {
         return new User(UserId.create(), username, password);
     }
 
-    public void rename(String username) {
+    public void resetPassword(String username) {
         this.username = username;
     }
 

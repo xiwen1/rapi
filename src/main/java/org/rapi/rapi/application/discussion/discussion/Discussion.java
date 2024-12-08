@@ -16,7 +16,7 @@ public class Discussion implements Entity<DiscussionId> {
         this.conversations = conversations;
     }
 
-    public static Discussion create(DiscussionId id, List<Conversation> conversations) {
+    public static Discussion fromRaw(DiscussionId id, List<Conversation> conversations) {
         return new Discussion(id, conversations);
     }
 
@@ -28,26 +28,30 @@ public class Discussion implements Entity<DiscussionId> {
         return new Discussion(DiscussionId.create(), List.empty());
     }
 
-    public void addConversation(String conversationTitle) {
-        var conversation = Conversation.create(conversationTitle);
+    public void startConversation(String conversationTitle, AuthorId starter) {
+        var conversation = Conversation.create(conversationTitle, starter);
         this.conversations = this.conversations.append(conversation);
     }
 
-    public void makeComment(ConversationId conversationId, String content, AuthorId authorId) {
+    public void postComment(ConversationId conversationId, String content, AuthorId authorId) {
         var conversation = this.conversations.find(c -> c.getId().equals(conversationId))
             .getOrElseThrow(() -> new IllegalArgumentException("Conversation not found"));
         conversation.postComment(Comment.create(content, authorId));
     }
 
-    public void closeConversation(ConversationId conversationId) {
+    public void closeConversation(ConversationId conversationId, AuthorId authorId)
+        throws IllegalAccessException {
         var conversation = this.conversations.find(c -> c.getId().equals(conversationId))
             .getOrElseThrow(() -> new IllegalArgumentException("Conversation not found"));
+        if (!conversation.getStarter().equals(authorId)) {
+            throw new IllegalAccessException("Conversation can only be closed by starter");
+        }
         conversation.close();
     }
 
-    public void reopenConversation(ConversationId conversationId) {
+    public void reopenConversation(ConversationId conversationId, AuthorId authorId) {
         var conversation = this.conversations.find(c -> c.getId().equals(conversationId))
             .getOrElseThrow(() -> new IllegalArgumentException("Conversation not found"));
-        conversation.reopen();
+        conversation.reopen(authorId);
     }
 }

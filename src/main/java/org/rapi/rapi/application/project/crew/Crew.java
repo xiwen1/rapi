@@ -11,6 +11,7 @@ public class Crew implements Entity<CrewId> {
 
     private Crew(CrewId id, String email) {
         this.id = id;
+        this.email = email;
     }
 
     public static Crew create(CrewId id, String email) {
@@ -19,5 +20,9 @@ public class Crew implements Entity<CrewId> {
 
     public static Crew create(String email) {
         return new Crew(CrewId.create(), email);
+    }
+
+    public void updateEmail(String email) {
+        this.email = email;
     }
 }

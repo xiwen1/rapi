@@ -78,4 +78,5 @@ public class Project implements Entity<ProjectId> {
         this.participants = this.participants.remove(member);
     }
 
+
 }
