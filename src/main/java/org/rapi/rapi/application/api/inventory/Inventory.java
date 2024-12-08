@@ -12,29 +12,32 @@ public class Inventory implements Entity<InventoryId> {
 
     private final InventoryId id;
     private List<StructureId> structures;
-    private List<GroupId> groups;
-    private List<EndpointId> endpoints;
+    private List<GroupId> jwtGroups;
+    private List<GroupId> crudGroups;
+    private List<EndpointId> restfulEndpoints;
+    private List<EndpointId> grpcEndpoints;
 
-    private Inventory(InventoryId id, List<StructureId> structures, List<GroupId> groups,
-        List<EndpointId> endpoints) {
+    private Inventory(InventoryId id, List<StructureId> structures,
+        List<GroupId> jwtGroups, List<GroupId> crudGroups, List<EndpointId> restfulEndpoints,
+        List<EndpointId> grpcEndpoints) {
         this.id = id;
         this.structures = structures;
-        this.groups = groups;
-        this.endpoints = endpoints;
+        this.jwtGroups = jwtGroups;
+        this.crudGroups = crudGroups;
+        this.restfulEndpoints = restfulEndpoints;
+        this.grpcEndpoints = grpcEndpoints;
     }
 
-    public static Inventory create(InventoryId id, List<StructureId> structures,
-        List<GroupId> groups, List<EndpointId> endpoints) {
-        return new Inventory(id, structures, groups, endpoints);
-    }
-
-    public static Inventory create(List<StructureId> structures, List<GroupId> groups,
-        List<EndpointId> endpoints) {
-        return new Inventory(InventoryId.create(), structures, groups, endpoints);
+    public static Inventory fromRaw(InventoryId id, List<StructureId> structures,
+        List<GroupId> jwtGroups, List<GroupId> crudGroups, List<EndpointId> restfulEndpoints,
+        List<EndpointId> grpcEndpoints) {
+        return new Inventory(id, structures, jwtGroups, crudGroups, restfulEndpoints,
+            grpcEndpoints);
     }
 
     public static Inventory create() {
-        return new Inventory(InventoryId.create(), List.empty(), List.empty(), List.empty());
+        return new Inventory(InventoryId.create(), List.empty(), List.empty(), List.empty(),
+            List.empty(), List.empty());
     }
 
     public void addStructure(StructureId structureId) {
@@ -44,18 +47,32 @@ public class Inventory implements Entity<InventoryId> {
         structures = structures.append(structureId);
     }
 
-    public void addGroup(GroupId groupId) {
-        if (groups.contains(groupId)) {
+    public void addJwtGroup(GroupId groupId) {
+        if (jwtGroups.contains(groupId)) {
             throw new IllegalArgumentException("Group already exists in inventory");
         }
-        groups = groups.append(groupId);
+        jwtGroups = jwtGroups.append(groupId);
     }
 
-    public void addEndpoint(EndpointId endpointId) {
-        if (endpoints.contains(endpointId)) {
+    public void addCrudGroup(GroupId groupId) {
+        if (crudGroups.contains(groupId)) {
+            throw new IllegalArgumentException("Group already exists in inventory");
+        }
+        crudGroups = crudGroups.append(groupId);
+    }
+
+    public void addRestfulEndpoint(EndpointId endpointId) {
+        if (restfulEndpoints.contains(endpointId)) {
             throw new IllegalArgumentException("Endpoint already exists in inventory");
         }
-        endpoints = endpoints.append(endpointId);
+        restfulEndpoints = restfulEndpoints.append(endpointId);
+    }
+
+    public void addGrpcEndpoint(EndpointId endpointId) {
+        if (grpcEndpoints.contains(endpointId)) {
+            throw new IllegalArgumentException("Endpoint already exists in inventory");
+        }
+        grpcEndpoints = grpcEndpoints.append(endpointId);
     }
 
     public void removeStructure(StructureId structureId) {
@@ -65,17 +82,31 @@ public class Inventory implements Entity<InventoryId> {
         structures = structures.remove(structureId);
     }
 
-    public void removeGroup(GroupId groupId) {
-        if (!groups.contains(groupId)) {
+    public void removeJwtGroup(GroupId groupId) {
+        if (!jwtGroups.contains(groupId)) {
             throw new IllegalArgumentException("Group does not exist in inventory");
         }
-        groups = groups.remove(groupId);
+        jwtGroups = jwtGroups.remove(groupId);
     }
 
-    public void removeEndpoint(EndpointId endpointId) {
-        if (!endpoints.contains(endpointId)) {
+    public void removeCrudGroup(GroupId groupId) {
+        if (!crudGroups.contains(groupId)) {
+            throw new IllegalArgumentException("Group does not exist in inventory");
+        }
+        crudGroups = crudGroups.remove(groupId);
+    }
+
+    public void removeRestfulEndpoint(EndpointId endpointId) {
+        if (!restfulEndpoints.contains(endpointId)) {
             throw new IllegalArgumentException("Endpoint does not exist in inventory");
         }
-        endpoints = endpoints.remove(endpointId);
+        restfulEndpoints = restfulEndpoints.remove(endpointId);
+    }
+
+    public void removeGrpcEndpoint(EndpointId endpointId) {
+        if (!grpcEndpoints.contains(endpointId)) {
+            throw new IllegalArgumentException("Endpoint does not exist in inventory");
+        }
+        grpcEndpoints = grpcEndpoints.remove(endpointId);
     }
 }

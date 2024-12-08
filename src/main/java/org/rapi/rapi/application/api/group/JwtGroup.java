@@ -5,6 +5,7 @@ import io.vavr.Tuple3;
 import io.vavr.collection.HashMap;
 import io.vavr.collection.List;
 import io.vavr.collection.Map;
+import io.vavr.control.Option;
 import lombok.Getter;
 import org.rapi.rapi.application.api.endpoint.Endpoint;
 import org.rapi.rapi.application.api.endpoint.EndpointId;
@@ -28,12 +29,13 @@ public class JwtGroup extends Group {
     private static final Schema CREDENTIAL_SCHEMA = ObjectSchema.create()
         .addField("username", StringSchema.create()).addField("password", StringSchema.create());
     private static final RestfulEndpoint LOGIN_ENDPOINT = RestfulEndpoint.create("Login", "login",
-        CREDENTIAL_SCHEMA, HttpMethod.POST,
+        Option.some(CREDENTIAL_SCHEMA), HttpMethod.POST,
         Route.create(ConstantFragment.create("auth"), ConstantFragment.create("login")),
         List.of(Response.create(HttpStatusCode.valueOf(200), "OK", JWT_SCHEMA),
             Response.create(HttpStatusCode.valueOf(401), "Unauthorized", ObjectSchema.create())));
     private static final RestfulEndpoint REFRESH_ENDPOINT = RestfulEndpoint.create("Refresh",
-        "refresh", ObjectSchema.create().addField("refreshToken", StringSchema.create()),
+        "refresh",
+        Option.some(ObjectSchema.create().addField("refreshToken", StringSchema.create())),
         HttpMethod.POST,
         Route.create(ConstantFragment.create("auth"), ConstantFragment.create("refresh")),
         List.of(Response.create(HttpStatusCode.valueOf(200), "OK", JWT_SCHEMA),
@@ -50,7 +52,7 @@ public class JwtGroup extends Group {
         this.refreshEndpointId = refreshEndpointId;
     }
 
-    public static JwtGroup create(GroupId id, Map<EndpointId, EndpointId> generatedEndpointsMap,
+    public static JwtGroup fromRaw(GroupId id, Map<EndpointId, EndpointId> generatedEndpointsMap,
         EndpointId loginEndpointId, EndpointId refreshEndpointId) {
         return new JwtGroup(id, generatedEndpointsMap, loginEndpointId, refreshEndpointId);
     }
@@ -66,8 +68,8 @@ public class JwtGroup extends Group {
         var refreshEndpointId = EndpointId.create();
         var jwtGroup = new JwtGroup(GroupId.create(), HashMap.empty(), loginEndpointId,
             refreshEndpointId);
-        var loginEndpoint = RestfulEndpoint.create(loginEndpointId, LOGIN_ENDPOINT);
-        var refreshEndpoint = RestfulEndpoint.create(refreshEndpointId, REFRESH_ENDPOINT);
+        var loginEndpoint = RestfulEndpoint.fromCopy(loginEndpointId, LOGIN_ENDPOINT);
+        var refreshEndpoint = RestfulEndpoint.fromCopy(refreshEndpointId, REFRESH_ENDPOINT);
         return Tuple.of(jwtGroup, loginEndpoint, refreshEndpoint);
     }
 
@@ -93,6 +95,9 @@ public class JwtGroup extends Group {
         if (sourceEndpointId.equals(loginEndpointId) || sourceEndpointId.equals(
             refreshEndpointId)) {
             throw new IllegalArgumentException("Login and refresh endpoints cannot be removed");
+        }
+        if (!protectedEndpointsMap.keySet().contains(sourceEndpointId)) {
+            throw new IllegalArgumentException("Source endpoint is not part of the group");
         }
         var protectedEndpointId = protectedEndpointsMap.get(sourceEndpointId)
             .getOrElseThrow(() -> new IllegalArgumentException("Source endpoint not found"));
@@ -123,13 +128,13 @@ public class JwtGroup extends Group {
             var sourceEndpoint = sourceEndpoints.find(
                     endpoint -> endpoint.getId().equals(sourceEndpointId))
                 .getOrElseThrow(() -> new IllegalArgumentException("Source endpoint not found"));
-            return RestfulEndpoint.create(protectedEndpointId,
+            return RestfulEndpoint.fromCopy(protectedEndpointId,
                 generateProtectedEndpoint(sourceEndpoint));
         });
     }
 
     private RestfulEndpoint generateProtectedEndpoint(RestfulEndpoint sourceEndpoint) {
-        var protectedEndpoint = RestfulEndpoint.create(EndpointId.create(),
+        var protectedEndpoint = RestfulEndpoint.fromRaw(EndpointId.create(),
             sourceEndpoint.getTitle(), sourceEndpoint.getDescription(), sourceEndpoint.getRequest(),
             sourceEndpoint.getHeader()
                 .map(header -> header.addField("Authorization", StringSchema.create())),

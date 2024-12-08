@@ -23,8 +23,7 @@ public class GrpcEndpoint extends Endpoint {
         this.result = result;
     }
 
-    public static GrpcEndpoint create(EndpointId id, String title, String description,
-
+    public static GrpcEndpoint fromRaw(EndpointId id, String title, String description,
         String service,
         boolean isParamStream, boolean isResultStream, Schema param, Schema result) {
         return new GrpcEndpoint(id, title, description, service, isParamStream,
