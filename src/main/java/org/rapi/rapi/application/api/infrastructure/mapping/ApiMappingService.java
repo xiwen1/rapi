@@ -1,5 +1,6 @@
 ﻿package org.rapi.rapi.application.api.infrastructure.mapping;
 
+import java.util.UUID;
 import org.modelmapper.ModelMapper;
 import org.rapi.rapi.application.api.endpoint.GrpcEndpoint;
 import org.rapi.rapi.application.api.endpoint.RestfulEndpoint;
@@ -70,5 +71,13 @@ public class ApiMappingService {
 
     public Inventory fromInventoryDto(InventoryDto inventoryDto) {
         return apiModelMapper.map(inventoryDto, Inventory.class);
+    }
+
+    public UUID fromStringId(String uuid) {
+        return apiModelMapper.map(uuid, UUID.class);
+    }
+
+    public String toStringId(UUID uuid) {
+        return apiModelMapper.map(uuid, String.class);
     }
 }

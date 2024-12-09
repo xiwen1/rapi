@@ -8,7 +8,4 @@ public record EndpointId(UUID id) {
         return new EndpointId(UUID.randomUUID());
     }
 
-    public static EndpointId fromString(String id) {
-        return new EndpointId(UUID.fromString(id));
-    }
 }
