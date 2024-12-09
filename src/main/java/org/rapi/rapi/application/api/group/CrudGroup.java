@@ -56,6 +56,13 @@ public class CrudGroup extends Group {
             Option.none());
     }
 
+    public static CrudGroup fromRaw(GroupId id, Option<StructureId> source,
+        Option<EndpointId> createEndpointId, Option<EndpointId> listEndpointId,
+        Option<EndpointId> updateEndpointId, Option<EndpointId> deleteEndpointId) {
+        return new CrudGroup(id, source, createEndpointId, listEndpointId, updateEndpointId,
+            deleteEndpointId);
+    }
+
     /**
      * Set the source and create the endpoints
      *

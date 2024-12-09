@@ -36,7 +36,7 @@ public class DissolveCrudGroupCommand {
         var newEndpoints = group.dissolve(new CrudEndpoints(create, list, update, delete));
         newEndpoints.toList().forEach(endpoint -> inventory.addRestfulEndpoint(endpoint.getId()));
         // saving
-        groupPersistence.delete(groupId);
+        groupPersistence.deleteCrud(groupId);
         inventoryPersistence.save(inventory);
         return newEndpoints;
     }

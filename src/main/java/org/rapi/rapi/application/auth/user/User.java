@@ -16,7 +16,7 @@ public class User implements Entity<UserId> {
         this.password = password;
     }
 
-    public static User create(UserId id, String username, String password) {
+    public static User fromRaw(UserId id, String username, String password) {
         return new User(id, username, password);
     }
 

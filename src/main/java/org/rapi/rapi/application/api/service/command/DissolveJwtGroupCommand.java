@@ -39,7 +39,7 @@ public class DissolveJwtGroupCommand {
         endpoints.toList().forEach(endpoint -> inventory.addRestfulEndpoint(endpoint.getId()));
 
         // saving
-        groupPersistence.delete(group.getId());
+        groupPersistence.deleteJwt(group.getId());
         inventoryPersistence.save(inventory);
         return endpoints;
     }

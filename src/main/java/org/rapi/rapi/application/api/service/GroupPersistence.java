@@ -10,7 +10,9 @@ public interface GroupPersistence {
 
     void saveJwt(JwtGroup jwtGroup);
 
-    void delete(GroupId groupId);
+    void deleteCrud(GroupId groupId);
+
+    void deleteJwt(GroupId groupId);
 
     CrudGroup findCrudById(GroupId id);
 

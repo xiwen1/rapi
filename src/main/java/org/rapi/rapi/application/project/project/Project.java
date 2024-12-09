@@ -27,7 +27,7 @@ public class Project implements Entity<ProjectId> {
     }
 
 
-    public static Project create(ProjectId id, String title, Admin owner,
+    public static Project fromRaw(ProjectId id, String title, Admin owner,
         List<Participant> participants, List<CrewId> invitationList) {
         return new Project(id, title, owner, participants, invitationList);
     }
