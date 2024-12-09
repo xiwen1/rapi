@@ -5,6 +5,12 @@ import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.ValidationException;
 import org.modelmapper.config.Configuration.AccessLevel;
+import org.rapi.rapi.application.api.endpoint.route.ConstantFragment;
+import org.rapi.rapi.application.api.endpoint.route.Fragment;
+import org.rapi.rapi.application.api.endpoint.route.SchemaFragment;
+import org.rapi.rapi.application.api.infrastructure.dto.route.ConstantFragmentDto;
+import org.rapi.rapi.application.api.infrastructure.dto.route.FragmentDto;
+import org.rapi.rapi.application.api.infrastructure.dto.route.SchemaFragmentDto;
 import org.rapi.rapi.application.api.infrastructure.dto.schema.ListSchemaDto;
 import org.rapi.rapi.application.api.infrastructure.dto.schema.NumberSchemaDto;
 import org.rapi.rapi.application.api.infrastructure.dto.schema.ObjectSchemaDto;
@@ -113,6 +119,32 @@ public class ApiModelMapperConfig {
         modelMapper.addConverter(integerToHttpStatusConverter);
     }
 
+    private static void addFragmentHierarchyTypeMap(ModelMapper modelMapper) {
+        modelMapper.typeMap(FragmentDto.class, Fragment.class)
+            .include(ConstantFragmentDto.class, ConstantFragment.class)
+            .include(SchemaFragmentDto.class, SchemaFragment.class);
+
+        modelMapper.typeMap(Fragment.class, FragmentDto.class)
+            .include(ConstantFragment.class, ConstantFragmentDto.class)
+            .include(SchemaFragment.class, SchemaFragmentDto.class);
+    }
+
+    private static void addSchemaHierarchyTypeMap(ModelMapper modelMapper) {
+        modelMapper.typeMap(SchemaDto.class, Schema.class)
+            .include(ObjectSchemaDto.class, ObjectSchema.class)
+            .include(StringSchemaDto.class, StringSchema.class)
+            .include(ListSchemaDto.class, ListSchema.class)
+            .include(NumberSchemaDto.class, NumberSchema.class)
+            .include(ListSchemaDto.class, ListSchema.class);
+
+        modelMapper.typeMap(Schema.class, SchemaDto.class)
+            .include(ObjectSchema.class, ObjectSchemaDto.class)
+            .include(StringSchema.class, StringSchemaDto.class)
+            .include(ListSchema.class, ListSchemaDto.class)
+            .include(NumberSchema.class, NumberSchemaDto.class)
+            .include(ListSchema.class, ListSchemaDto.class);
+    }
+
     @Bean
     public ModelMapper apiModelMapper() {
         ModelMapper modelMapper = new ModelMapper();
@@ -121,12 +153,9 @@ public class ApiModelMapperConfig {
             .setFieldMatchingEnabled(true)
             .setFieldAccessLevel(AccessLevel.PRIVATE);
 
-        modelMapper.typeMap(SchemaDto.class, Schema.class)
-            .include(ObjectSchemaDto.class, ObjectSchema.class)
-            .include(StringSchemaDto.class, StringSchema.class)
-            .include(ListSchemaDto.class, ListSchema.class)
-            .include(NumberSchemaDto.class, NumberSchema.class)
-            .include(ListSchemaDto.class, ListSchema.class);
+        addSchemaHierarchyTypeMap(modelMapper);
+
+        addFragmentHierarchyTypeMap(modelMapper);
 
         addListConverter(modelMapper);
         addUuidStringConverter(modelMapper);

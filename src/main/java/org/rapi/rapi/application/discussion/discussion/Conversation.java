@@ -10,9 +10,9 @@ public class Conversation implements Entity<ConversationId> {
 
     private final ConversationId id;
     private final String title;
+    private final AuthorId starter;
     private List<Comment> comments;
     private boolean isClosed;
-    private final AuthorId starter;
 
     private Conversation(ConversationId id, String title, List<Comment> comments,
         boolean isClosed, AuthorId starter) {
