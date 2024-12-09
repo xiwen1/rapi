@@ -4,6 +4,7 @@ import org.rapi.rapi.application.auth.service.UserPersistence;
 import org.rapi.rapi.application.auth.user.UserId;
 
 public class ResetPasswordService {
+
     private final UserPersistence userPersistence;
 
     public ResetPasswordService(UserPersistence userPersistence) {

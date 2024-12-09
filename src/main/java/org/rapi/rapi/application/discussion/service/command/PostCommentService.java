@@ -6,13 +6,15 @@ import org.rapi.rapi.application.discussion.discussion.DiscussionId;
 import org.rapi.rapi.application.discussion.service.DiscussionPersistence;
 
 public class PostCommentService {
+
     private final DiscussionPersistence discussionPersistence;
 
     public PostCommentService(DiscussionPersistence discussionPersistence) {
         this.discussionPersistence = discussionPersistence;
     }
 
-    public void postComment(DiscussionId discussionId, ConversationId conversationId, AuthorId authorId, String content) {
+    public void postComment(DiscussionId discussionId, ConversationId conversationId,
+        AuthorId authorId, String content) {
         // prepare
         var discussion = discussionPersistence.findById(discussionId);
 

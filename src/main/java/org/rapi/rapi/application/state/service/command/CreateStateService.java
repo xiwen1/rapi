@@ -5,6 +5,7 @@ import org.rapi.rapi.application.state.collection.State;
 import org.rapi.rapi.application.state.service.CollectionPersistence;
 
 public class CreateStateService {
+
     private final CollectionPersistence collectionPersistence;
 
     public CreateStateService(CollectionPersistence collectionPersistence) {

@@ -5,6 +5,7 @@ import org.rapi.rapi.application.project.project.participant.Admin;
 import org.rapi.rapi.application.project.service.ProjectPersistence;
 
 public class CreateProjectService {
+
     private final ProjectPersistence projectPersistence;
 
     public CreateProjectService(ProjectPersistence projectPersistence) {

@@ -4,6 +4,7 @@ import org.rapi.rapi.application.auth.service.UserPersistence;
 import org.rapi.rapi.application.auth.user.User;
 
 public class CreateUserService {
+
     private final UserPersistence userPersistence;
 
     public CreateUserService(UserPersistence userPersistence) {

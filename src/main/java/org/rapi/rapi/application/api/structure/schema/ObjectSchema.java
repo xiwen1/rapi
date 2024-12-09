@@ -2,9 +2,7 @@ package org.rapi.rapi.application.api.structure.schema;
 
 import io.vavr.collection.HashMap;
 import io.vavr.collection.Map;
-import org.springframework.data.annotation.TypeAlias;
 
-@TypeAlias("objectSchema")
 public record ObjectSchema(Map<String, Schema> fields) implements Schema {
 
     public static ObjectSchema create() {

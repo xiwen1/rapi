@@ -5,6 +5,7 @@ import org.rapi.rapi.application.discussion.discussion.DiscussionId;
 import org.rapi.rapi.application.discussion.service.DiscussionPersistence;
 
 public class StartConversationService {
+
     private final DiscussionPersistence discussionPersistence;
 
     public StartConversationService(DiscussionPersistence discussionPersistence) {

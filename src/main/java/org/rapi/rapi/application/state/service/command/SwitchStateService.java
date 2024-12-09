@@ -6,6 +6,7 @@ import org.rapi.rapi.application.state.collection.SubjectId;
 import org.rapi.rapi.application.state.service.CollectionPersistence;
 
 public class SwitchStateService {
+
     private final CollectionPersistence collectionPersistence;
 
     public SwitchStateService(CollectionPersistence collectionPersistence) {

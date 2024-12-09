@@ -4,6 +4,7 @@ import org.rapi.rapi.application.project.crew.CrewId;
 import org.rapi.rapi.application.project.service.CrewPersistence;
 
 public class UpdateCrewService {
+
     private final CrewPersistence crewPersistence;
 
     public UpdateCrewService(CrewPersistence crewPersistence) {

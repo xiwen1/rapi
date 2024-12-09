@@ -5,6 +5,7 @@ import org.rapi.rapi.application.state.collection.StateId;
 import org.rapi.rapi.application.state.service.CollectionPersistence;
 
 public class EditStateService {
+
     private final CollectionPersistence collectionPersistence;
 
     public EditStateService(CollectionPersistence collectionPersistence) {

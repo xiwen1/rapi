@@ -5,6 +5,7 @@ import org.rapi.rapi.application.state.collection.Subject;
 import org.rapi.rapi.application.state.service.CollectionPersistence;
 
 public class TrackSubjectService {
+
     private final CollectionPersistence collectionPersistence;
 
     public TrackSubjectService(CollectionPersistence collectionPersistence) {

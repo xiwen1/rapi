@@ -12,7 +12,7 @@ public class Conversation implements Entity<ConversationId> {
     private final String title;
     private List<Comment> comments;
     private boolean isClosed;
-    private AuthorId starter;
+    private final AuthorId starter;
 
     private Conversation(ConversationId id, String title, List<Comment> comments,
         boolean isClosed, AuthorId starter) {

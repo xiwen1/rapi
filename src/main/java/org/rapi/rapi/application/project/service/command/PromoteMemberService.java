@@ -5,6 +5,7 @@ import org.rapi.rapi.application.project.project.participant.Member;
 import org.rapi.rapi.application.project.service.ProjectPersistence;
 
 public class PromoteMemberService {
+
     private final ProjectPersistence projectPersistence;
 
     public PromoteMemberService(ProjectPersistence projectPersistence) {

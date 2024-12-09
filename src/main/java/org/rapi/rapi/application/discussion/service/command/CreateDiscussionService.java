@@ -4,6 +4,7 @@ import org.rapi.rapi.application.discussion.discussion.Discussion;
 import org.rapi.rapi.application.discussion.service.DiscussionPersistence;
 
 public class CreateDiscussionService {
+
     private final DiscussionPersistence discussionPersistence;
 
     public CreateDiscussionService(DiscussionPersistence discussionPersistence) {

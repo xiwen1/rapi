@@ -4,6 +4,7 @@ import org.rapi.rapi.application.discussion.author.Author;
 import org.rapi.rapi.application.discussion.service.AuthorPersistence;
 
 public class CreateAuthorService {
+
     private final AuthorPersistence authorPersistence;
 
     public CreateAuthorService(AuthorPersistence authorPersistence) {
