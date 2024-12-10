@@ -5,9 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ResponseDto {
+public class FragmentDto {
 
-    private int statusCode;
-    private String description;
+    private String type;
+    private String constant;
+    private String name;
     private SchemaDto schema;
 }

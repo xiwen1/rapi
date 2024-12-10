@@ -1,13 +1,12 @@
 package org.rapi.rapi.application.api.infrastructure.dto;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ResponseDto {
+public class RouteDto {
 
-    private int statusCode;
-    private String description;
-    private SchemaDto schema;
+    private List<FragmentDto> fragments;
 }

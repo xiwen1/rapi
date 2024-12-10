@@ -3,15 +3,11 @@ package org.rapi.rapi.application.api.infrastructure.dto;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("inventory")
 @Getter
 @Setter
 public class InventoryDto {
 
-    @Id
     private String id;
     private List<String> structures;
     private List<String> jwtGroups;
