@@ -14,7 +14,7 @@ public class Crew implements Entity<CrewId> {
         this.email = email;
     }
 
-    public static Crew create(CrewId id, String email) {
+    public static Crew fromRaw(CrewId id, String email) {
         return new Crew(id, email);
     }
 

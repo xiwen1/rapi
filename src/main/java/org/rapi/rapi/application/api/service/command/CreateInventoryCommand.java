@@ -2,7 +2,9 @@ package org.rapi.rapi.application.api.service.command;
 
 import org.rapi.rapi.application.api.inventory.Inventory;
 import org.rapi.rapi.application.api.service.InventoryPersistence;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CreateInventoryCommand {
 
     private final InventoryPersistence inventoryPersistence;

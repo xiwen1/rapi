@@ -6,7 +6,9 @@ import org.rapi.rapi.application.api.service.GroupPersistence;
 import org.rapi.rapi.application.api.service.InventoryPersistence;
 import org.rapi.rapi.application.api.service.StructurePersistence;
 import org.rapi.rapi.application.api.structure.StructureId;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DeleteStructureCommand {
 
     private final StructurePersistence structurePersistence;

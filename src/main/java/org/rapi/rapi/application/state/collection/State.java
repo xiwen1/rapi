@@ -14,7 +14,7 @@ public class State implements Entity<StateId> {
         this.name = name;
     }
 
-    public static State create(StateId id, String name) {
+    public static State fromRaw(StateId id, String name) {
         return new State(id, name);
     }
 

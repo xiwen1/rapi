@@ -34,13 +34,16 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.modulith:spring-modulith-starter-core'
     implementation 'org.springframework.modulith:spring-modulith-starter-mongodb'
+    implementation 'org.modelmapper:modelmapper:3.0.0'
     implementation 'io.vavr:vavr:0.10.4'
+    implementation 'org.modelmapper:modelmapper:3.0.0'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.modulith:spring-modulith-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation("org.assertj:assertj-core:3.26.3")
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 

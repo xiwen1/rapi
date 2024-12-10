@@ -7,4 +7,5 @@ public record EndpointId(UUID id) {
     public static EndpointId create() {
         return new EndpointId(UUID.randomUUID());
     }
+
 }

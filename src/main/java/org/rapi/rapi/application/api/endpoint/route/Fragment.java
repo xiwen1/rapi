@@ -1,5 +1,6 @@
 package org.rapi.rapi.application.api.endpoint.route;
 
-public interface Fragment {
+
+public sealed interface Fragment permits ConstantFragment, SchemaFragment {
 
 }

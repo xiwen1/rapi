@@ -4,7 +4,9 @@ import org.rapi.rapi.application.api.group.CrudGroup;
 import org.rapi.rapi.application.api.inventory.InventoryId;
 import org.rapi.rapi.application.api.service.GroupPersistence;
 import org.rapi.rapi.application.api.service.InventoryPersistence;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CreateCrudGroupCommand {
 
     private final GroupPersistence groupPersistence;

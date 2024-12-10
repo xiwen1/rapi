@@ -5,7 +5,9 @@ import org.rapi.rapi.application.api.inventory.InventoryId;
 import org.rapi.rapi.application.api.service.InventoryPersistence;
 import org.rapi.rapi.application.api.service.StructurePersistence;
 import org.rapi.rapi.application.api.structure.Structure;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CreateStructureCommand {
 
     private final StructurePersistence structurePersistence;

@@ -6,7 +6,7 @@ import org.rapi.rapi.sharedkernel.Entity;
 @Getter
 public class Author implements Entity<AuthorId> {
 
-    private AuthorId id;
+    private final AuthorId id;
 
     private Author(AuthorId id) {
         this.id = id;
@@ -14,5 +14,9 @@ public class Author implements Entity<AuthorId> {
 
     public static Author create() {
         return new Author(AuthorId.create());
+    }
+
+    public static Author fromRaw(AuthorId id) {
+        return new Author(id);
     }
 }

@@ -15,7 +15,7 @@ public class Subject implements Entity<SubjectId> {
         this.currentState = currentState;
     }
 
-    public static Subject create(SubjectId id, StateId currentState) {
+    public static Subject fromRaw(SubjectId id, StateId currentState) {
         return new Subject(id, currentState);
     }
 
