@@ -7,7 +7,9 @@ import org.rapi.rapi.application.api.infrastructure.mapping.ApiMappingService;
 import org.rapi.rapi.application.api.infrastructure.repository.CrudGroupRepository;
 import org.rapi.rapi.application.api.infrastructure.repository.JwtGroupRepository;
 import org.rapi.rapi.application.api.service.GroupPersistence;
+import org.springframework.stereotype.Service;
 
+@Service
 public class GroupPersistenceImpl implements GroupPersistence {
 
     private final CrudGroupRepository crudGroupRepository;

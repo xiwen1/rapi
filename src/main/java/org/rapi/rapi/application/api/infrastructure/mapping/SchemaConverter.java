@@ -1,4 +1,4 @@
-﻿package org.rapi.rapi.application.api.infrastructure.mapping;
+package org.rapi.rapi.application.api.infrastructure.mapping;
 
 import org.rapi.rapi.application.api.infrastructure.dto.SchemaDto;
 import org.rapi.rapi.application.api.structure.StructureId;
@@ -13,13 +13,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class SchemaConverter {
 
-    private final SchemaConverter schemaConverter;
     private final VavrMapConverter vavrMapConverter;
     private final UuidConverter uuidConverter;
 
-    public SchemaConverter(SchemaConverter schemaConverter, VavrMapConverter vavrMapConverter,
+    public SchemaConverter(VavrMapConverter vavrMapConverter,
         UuidConverter uuidConverter) {
-        this.schemaConverter = schemaConverter;
         this.vavrMapConverter = vavrMapConverter;
         this.uuidConverter = uuidConverter;
     }
@@ -34,14 +32,14 @@ public class SchemaConverter {
             case ListSchema listSchema -> {
                 var schemaDto = new SchemaDto();
                 schemaDto.setType("list");
-                schemaDto.setListItem(schemaConverter.toSchemaDto(listSchema.item()));
+                schemaDto.setListItem(toSchemaDto(listSchema.item()));
                 return schemaDto;
             }
             case ObjectSchema objectSchema -> {
                 var schemaDto = new SchemaDto();
                 schemaDto.setType("object");
                 schemaDto.setObjectFields(vavrMapConverter.toMap(
-                    objectSchema.fields().mapValues(schemaConverter::toSchemaDto)));
+                    objectSchema.fields().mapValues(this::toSchemaDto)));
                 return schemaDto;
             }
             case RefSchema refSchema -> {
@@ -68,7 +66,7 @@ public class SchemaConverter {
             }
             case "object" -> {
                 return new ObjectSchema(vavrMapConverter.fromMap(schemaDto.getObjectFields())
-                    .mapValues(schemaConverter::fromSchemaDto));
+                    .mapValues(this::fromSchemaDto));
             }
             case "ref" -> {
                 return new RefSchema(

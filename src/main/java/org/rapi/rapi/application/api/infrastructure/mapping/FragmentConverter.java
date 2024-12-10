@@ -1,4 +1,4 @@
-﻿package org.rapi.rapi.application.api.infrastructure.mapping;
+package org.rapi.rapi.application.api.infrastructure.mapping;
 
 import org.rapi.rapi.application.api.endpoint.route.ConstantFragment;
 import org.rapi.rapi.application.api.endpoint.route.Fragment;
@@ -42,7 +42,7 @@ public class FragmentConverter {
                 return new SchemaFragment(fragmentDto.getName(),
                     schemaConverter.fromSchemaDto(fragmentDto.getSchema()));
             }
+            default -> throw new IllegalArgumentException("Invalid fragment type");
         }
-        return null;
     }
 }

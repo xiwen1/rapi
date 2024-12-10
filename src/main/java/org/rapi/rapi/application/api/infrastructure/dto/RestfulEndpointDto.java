@@ -3,9 +3,11 @@ package org.rapi.rapi.application.api.infrastructure.dto;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
+@Document("restful_endpoint")
 public class RestfulEndpointDto {
 
     private String id;

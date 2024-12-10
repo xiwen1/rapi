@@ -50,7 +50,9 @@ public class ProjectMappingService {
     }
 
     public Project fromProjectDto(ProjectDto projectDto) {
+
         var owner = new Admin(new CrewId(UUID.fromString(projectDto.getOwner())));
+
         var participants = projectDto.getParticipants().stream().map(this::fromParticipantDto)
             .toList();
         var invitedCrews = projectDto.getInvitedCrews().stream().map(UUID::fromString)

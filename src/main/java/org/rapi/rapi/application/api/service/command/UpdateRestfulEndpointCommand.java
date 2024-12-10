@@ -6,7 +6,9 @@ import org.rapi.rapi.application.api.inventory.InventoryId;
 import org.rapi.rapi.application.api.service.EndpointPersistence;
 import org.rapi.rapi.application.api.service.GroupPersistence;
 import org.rapi.rapi.application.api.service.InventoryPersistence;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UpdateRestfulEndpointCommand {
 
     private final EndpointPersistence endpointPersistence;

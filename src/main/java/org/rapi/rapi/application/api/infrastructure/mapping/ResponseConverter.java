@@ -1,4 +1,4 @@
-﻿package org.rapi.rapi.application.api.infrastructure.mapping;
+package org.rapi.rapi.application.api.infrastructure.mapping;
 
 import org.rapi.rapi.application.api.endpoint.Response;
 import org.rapi.rapi.application.api.infrastructure.dto.ResponseDto;

@@ -11,7 +11,9 @@ import org.rapi.rapi.application.api.service.EndpointPersistence;
 import org.rapi.rapi.application.api.service.InventoryPersistence;
 import org.rapi.rapi.application.api.structure.schema.Schema;
 import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CreateRestfulEndpointCommand {
 
     private final EndpointPersistence endpointPersistence;

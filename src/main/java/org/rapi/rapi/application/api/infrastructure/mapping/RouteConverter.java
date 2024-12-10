@@ -1,4 +1,4 @@
-﻿package org.rapi.rapi.application.api.infrastructure.mapping;
+package org.rapi.rapi.application.api.infrastructure.mapping;
 
 import org.rapi.rapi.application.api.endpoint.route.Route;
 import org.rapi.rapi.application.api.infrastructure.dto.RouteDto;

@@ -5,7 +5,9 @@ import org.rapi.rapi.application.api.infrastructure.repository.StructureReposito
 import org.rapi.rapi.application.api.service.StructurePersistence;
 import org.rapi.rapi.application.api.structure.Structure;
 import org.rapi.rapi.application.api.structure.StructureId;
+import org.springframework.stereotype.Service;
 
+@Service
 public class StructurePersistenceImpl implements StructurePersistence {
 
     private final StructureRepository structureRepository;

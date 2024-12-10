@@ -7,7 +7,9 @@ import org.rapi.rapi.application.api.service.GroupPersistence;
 import org.rapi.rapi.application.api.service.InventoryPersistence;
 import org.rapi.rapi.application.api.service.StructurePersistence;
 import org.rapi.rapi.application.api.structure.Structure;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UpdateStructureCommand {
 
     private final StructurePersistence structurePersistence;

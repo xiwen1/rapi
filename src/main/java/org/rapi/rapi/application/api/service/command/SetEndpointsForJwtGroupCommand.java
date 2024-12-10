@@ -5,7 +5,9 @@ import org.rapi.rapi.application.api.endpoint.EndpointId;
 import org.rapi.rapi.application.api.group.GroupId;
 import org.rapi.rapi.application.api.service.EndpointPersistence;
 import org.rapi.rapi.application.api.service.GroupPersistence;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SetEndpointsForJwtGroupCommand {
 
     private final EndpointPersistence endpointPersistence;

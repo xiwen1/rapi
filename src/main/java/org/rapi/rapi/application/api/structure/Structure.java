@@ -9,8 +9,8 @@ import org.rapi.rapi.sharedkernel.Entity;
 public class Structure implements Entity<StructureId> {
 
     private final StructureId id;
-    private final Schema schema;
-    private final String name;
+    private Schema schema;
+    private String name;
 
     private Structure(StructureId id, Schema schema, String name) {
         this.id = id;
@@ -18,12 +18,19 @@ public class Structure implements Entity<StructureId> {
         this.name = name;
     }
 
-
     public static Structure fromRaw(StructureId id, Schema schema, String name) {
         return new Structure(id, schema, name);
     }
 
     public static Structure create() {
         return new Structure(StructureId.create(), ObjectSchema.create(), "");
+    }
+
+    public void updateSchema(Schema schema) {
+        this.schema = schema;
+    }
+
+    public void rename(String name) {
+        this.name = name;
     }
 }
