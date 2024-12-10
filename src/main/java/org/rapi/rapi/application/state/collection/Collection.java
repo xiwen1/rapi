@@ -22,7 +22,8 @@ public class Collection implements Entity<CollectionId> {
         this.defaultState = defaultState;
     }
 
-    public static Collection create(CollectionId id, List<Subject> subjectIds, List<State> stateIds,
+    public static Collection fromRaw(CollectionId id, List<Subject> subjectIds,
+        List<State> stateIds,
         StateId defaultState) {
         return new Collection(id, subjectIds, stateIds, defaultState);
     }

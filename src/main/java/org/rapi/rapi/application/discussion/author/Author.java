@@ -15,4 +15,8 @@ public class Author implements Entity<AuthorId> {
     public static Author create() {
         return new Author(AuthorId.create());
     }
+
+    public static Author fromRaw(AuthorId id) {
+        return new Author(id);
+    }
 }
