@@ -1,4 +1,4 @@
-package org.rapi.rapi.application.state.infrastructure;
+package org.rapi.rapi.application.state.infrastructure.mapping;
 
 import io.vavr.collection.List;
 import java.util.UUID;
@@ -8,6 +8,9 @@ import org.rapi.rapi.application.state.collection.State;
 import org.rapi.rapi.application.state.collection.StateId;
 import org.rapi.rapi.application.state.collection.Subject;
 import org.rapi.rapi.application.state.collection.SubjectId;
+import org.rapi.rapi.application.state.infrastructure.dto.CollectionDto;
+import org.rapi.rapi.application.state.infrastructure.dto.StateDto;
+import org.rapi.rapi.application.state.infrastructure.dto.SubjectDto;
 import org.springframework.stereotype.Service;
 
 @Service

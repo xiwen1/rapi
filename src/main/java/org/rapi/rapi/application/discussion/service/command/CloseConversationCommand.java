@@ -4,12 +4,14 @@ import org.rapi.rapi.application.discussion.author.AuthorId;
 import org.rapi.rapi.application.discussion.discussion.ConversationId;
 import org.rapi.rapi.application.discussion.discussion.DiscussionId;
 import org.rapi.rapi.application.discussion.service.DiscussionPersistence;
+import org.springframework.stereotype.Service;
 
-public class CloseConversationService {
+@Service
+public class CloseConversationCommand {
 
     private final DiscussionPersistence discussionPersistence;
 
-    public CloseConversationService(DiscussionPersistence discussionPersistence) {
+    public CloseConversationCommand(DiscussionPersistence discussionPersistence) {
         this.discussionPersistence = discussionPersistence;
     }
 

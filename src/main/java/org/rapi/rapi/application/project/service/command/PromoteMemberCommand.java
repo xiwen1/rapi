@@ -3,12 +3,14 @@ package org.rapi.rapi.application.project.service.command;
 import org.rapi.rapi.application.project.project.ProjectId;
 import org.rapi.rapi.application.project.project.participant.Member;
 import org.rapi.rapi.application.project.service.ProjectPersistence;
+import org.springframework.stereotype.Service;
 
-public class PromoteMemberService {
+@Service
+public class PromoteMemberCommand {
 
     private final ProjectPersistence projectPersistence;
 
-    public PromoteMemberService(ProjectPersistence projectPersistence) {
+    public PromoteMemberCommand(ProjectPersistence projectPersistence) {
         this.projectPersistence = projectPersistence;
     }
 

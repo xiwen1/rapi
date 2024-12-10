@@ -5,7 +5,9 @@ import org.rapi.rapi.application.auth.infrastructure.repository.UserRepository;
 import org.rapi.rapi.application.auth.service.UserPersistence;
 import org.rapi.rapi.application.auth.user.User;
 import org.rapi.rapi.application.auth.user.UserId;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserPersistenceImpl implements UserPersistence {
 
     private final UserRepository userRepository;

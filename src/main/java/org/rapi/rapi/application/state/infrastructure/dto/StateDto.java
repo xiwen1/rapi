@@ -1,4 +1,4 @@
-package org.rapi.rapi.application.state.infrastructure;
+package org.rapi.rapi.application.state.infrastructure.dto;
 
 import lombok.Data;
 

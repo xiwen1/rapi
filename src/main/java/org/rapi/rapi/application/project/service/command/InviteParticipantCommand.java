@@ -3,13 +3,15 @@ package org.rapi.rapi.application.project.service.command;
 import org.rapi.rapi.application.project.project.ProjectId;
 import org.rapi.rapi.application.project.service.CrewPersistence;
 import org.rapi.rapi.application.project.service.ProjectPersistence;
+import org.springframework.stereotype.Service;
 
-public class InviteParticipantService {
+@Service
+public class InviteParticipantCommand {
 
     private final CrewPersistence crewPersistence;
     private final ProjectPersistence projectPersistence;
 
-    public InviteParticipantService(CrewPersistence crewPersistence,
+    public InviteParticipantCommand(CrewPersistence crewPersistence,
         ProjectPersistence projectPersistence) {
         this.crewPersistence = crewPersistence;
         this.projectPersistence = projectPersistence;

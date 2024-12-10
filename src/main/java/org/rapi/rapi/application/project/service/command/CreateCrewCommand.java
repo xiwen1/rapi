@@ -2,12 +2,14 @@ package org.rapi.rapi.application.project.service.command;
 
 import org.rapi.rapi.application.project.crew.Crew;
 import org.rapi.rapi.application.project.service.CrewPersistence;
+import org.springframework.stereotype.Service;
 
-public class CreateCrewService {
+@Service
+public class CreateCrewCommand {
 
     private final CrewPersistence crewPersistence;
 
-    public CreateCrewService(CrewPersistence crewPersistence) {
+    public CreateCrewCommand(CrewPersistence crewPersistence) {
         this.crewPersistence = crewPersistence;
     }
 

@@ -1,27 +1,27 @@
 package org.rapi.rapi.application.discussion.service.command;
 
 import org.rapi.rapi.application.discussion.author.AuthorId;
-import org.rapi.rapi.application.discussion.discussion.ConversationId;
 import org.rapi.rapi.application.discussion.discussion.DiscussionId;
 import org.rapi.rapi.application.discussion.service.DiscussionPersistence;
+import org.springframework.stereotype.Service;
 
-public class ReopenConversationService {
+@Service
+public class StartConversationCommand {
 
     private final DiscussionPersistence discussionPersistence;
 
-    public ReopenConversationService(DiscussionPersistence discussionPersistence) {
+    public StartConversationCommand(DiscussionPersistence discussionPersistence) {
         this.discussionPersistence = discussionPersistence;
     }
 
-    public void reopenConversation(DiscussionId discussionId, ConversationId conversationId,
-        AuthorId authorId) {
+    public void startConversation(DiscussionId discussionId, String title, AuthorId starter) {
         // prepare
         var discussion = discussionPersistence.findById(discussionId);
 
         // operate
-        discussion.reopenConversation(conversationId, authorId);
+        discussion.startConversation(title, starter);
 
-        // persist
+        // save
         discussionPersistence.save(discussion);
     }
 }

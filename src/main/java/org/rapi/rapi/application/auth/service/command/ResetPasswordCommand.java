@@ -2,12 +2,14 @@ package org.rapi.rapi.application.auth.service.command;
 
 import org.rapi.rapi.application.auth.service.UserPersistence;
 import org.rapi.rapi.application.auth.user.UserId;
+import org.springframework.stereotype.Service;
 
-public class ResetPasswordService {
+@Service
+public class ResetPasswordCommand {
 
     private final UserPersistence userPersistence;
 
-    public ResetPasswordService(UserPersistence userPersistence) {
+    public ResetPasswordCommand(UserPersistence userPersistence) {
         this.userPersistence = userPersistence;
     }
 

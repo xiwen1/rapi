@@ -2,12 +2,14 @@ package org.rapi.rapi.application.state.service.command;
 
 import org.rapi.rapi.application.state.collection.Collection;
 import org.rapi.rapi.application.state.service.CollectionPersistence;
+import org.springframework.stereotype.Service;
 
-public class CreateCollectionService {
+@Service
+public class CreateCollectionCommand {
 
     private final CollectionPersistence collectionPersistence;
 
-    public CreateCollectionService(CollectionPersistence collectionPersistence) {
+    public CreateCollectionCommand(CollectionPersistence collectionPersistence) {
         this.collectionPersistence = collectionPersistence;
     }
 

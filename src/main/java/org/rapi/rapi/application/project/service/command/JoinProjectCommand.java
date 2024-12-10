@@ -4,12 +4,14 @@ import org.rapi.rapi.application.project.crew.CrewId;
 import org.rapi.rapi.application.project.project.ProjectId;
 import org.rapi.rapi.application.project.project.participant.Member;
 import org.rapi.rapi.application.project.service.ProjectPersistence;
+import org.springframework.stereotype.Service;
 
-public class JoinProjectService {
+@Service
+public class JoinProjectCommand {
 
     private final ProjectPersistence projectPersistence;
 
-    public JoinProjectService(ProjectPersistence projectPersistence) {
+    public JoinProjectCommand(ProjectPersistence projectPersistence) {
         this.projectPersistence = projectPersistence;
     }
 

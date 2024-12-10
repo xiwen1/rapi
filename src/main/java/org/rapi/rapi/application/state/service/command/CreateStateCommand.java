@@ -1,26 +1,28 @@
 package org.rapi.rapi.application.state.service.command;
 
 import org.rapi.rapi.application.state.collection.CollectionId;
-import org.rapi.rapi.application.state.collection.StateId;
+import org.rapi.rapi.application.state.collection.State;
 import org.rapi.rapi.application.state.service.CollectionPersistence;
+import org.springframework.stereotype.Service;
 
-public class EditStateService {
+@Service
+public class CreateStateCommand {
 
     private final CollectionPersistence collectionPersistence;
 
-    public EditStateService(CollectionPersistence collectionPersistence) {
+    public CreateStateCommand(CollectionPersistence collectionPersistence) {
         this.collectionPersistence = collectionPersistence;
     }
 
-    public void editState(CollectionId collectionId, StateId stateId, String name) {
+    public State createState(CollectionId collectionId, String name) {
         // preparing
         var collection = collectionPersistence.findById(collectionId);
 
         // operation
-        collection.editState(stateId, name);
+        var state = collection.createState(name);
 
         // persistence
         collectionPersistence.save(collection);
-
+        return state;
     }
 }

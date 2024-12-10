@@ -2,12 +2,14 @@ package org.rapi.rapi.application.discussion.service.command;
 
 import org.rapi.rapi.application.discussion.author.Author;
 import org.rapi.rapi.application.discussion.service.AuthorPersistence;
+import org.springframework.stereotype.Service;
 
-public class CreateAuthorService {
+@Service
+public class CreateAuthorCommand {
 
     private final AuthorPersistence authorPersistence;
 
-    public CreateAuthorService(AuthorPersistence authorPersistence) {
+    public CreateAuthorCommand(AuthorPersistence authorPersistence) {
         this.authorPersistence = authorPersistence;
     }
 

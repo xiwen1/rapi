@@ -3,23 +3,26 @@ package org.rapi.rapi.application.state.service.command;
 import org.rapi.rapi.application.state.collection.CollectionId;
 import org.rapi.rapi.application.state.collection.StateId;
 import org.rapi.rapi.application.state.service.CollectionPersistence;
+import org.springframework.stereotype.Service;
 
-public class DeleteStateService {
+@Service
+public class SetDefaultStateCommand {
 
     private final CollectionPersistence collectionPersistence;
 
-    public DeleteStateService(CollectionPersistence collectionPersistence) {
+    public SetDefaultStateCommand(CollectionPersistence collectionPersistence) {
         this.collectionPersistence = collectionPersistence;
     }
 
-    public void deleteState(CollectionId collectionId, StateId stateId) {
+    public void setDefaultState(CollectionId collectionId, StateId stateId) {
         // preparing
         var collection = collectionPersistence.findById(collectionId);
 
         // operation
-        collection.removeState(stateId);
+        collection.changeDefaultState(stateId);
 
         // persistence
         collectionPersistence.save(collection);
     }
+
 }

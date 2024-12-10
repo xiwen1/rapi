@@ -1,24 +1,26 @@
 package org.rapi.rapi.application.project.service.command;
 
-import org.rapi.rapi.application.project.project.Project;
+import org.rapi.rapi.application.project.project.ProjectId;
 import org.rapi.rapi.application.project.project.participant.Admin;
 import org.rapi.rapi.application.project.service.ProjectPersistence;
+import org.springframework.stereotype.Service;
 
-public class CreateProjectService {
+@Service
+public class DemoteAdminCommand {
 
     private final ProjectPersistence projectPersistence;
 
-    public CreateProjectService(ProjectPersistence projectPersistence) {
+    public DemoteAdminCommand(ProjectPersistence projectPersistence) {
         this.projectPersistence = projectPersistence;
     }
 
-    public Project createProject(String name, Admin admin) {
+    public void demoteAdmin(ProjectId projectId, Admin admin) {
         // operation
-        var project = Project.create(name, admin);
+        var project = projectPersistence.findById(projectId);
+        project.demoteAdmin(admin);
 
         // persistence
         projectPersistence.save(project);
 
-        return project;
     }
 }

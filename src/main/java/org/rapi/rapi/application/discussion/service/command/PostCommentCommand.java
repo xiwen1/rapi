@@ -4,12 +4,14 @@ import org.rapi.rapi.application.discussion.author.AuthorId;
 import org.rapi.rapi.application.discussion.discussion.ConversationId;
 import org.rapi.rapi.application.discussion.discussion.DiscussionId;
 import org.rapi.rapi.application.discussion.service.DiscussionPersistence;
+import org.springframework.stereotype.Service;
 
-public class PostCommentService {
+@Service
+public class PostCommentCommand {
 
     private final DiscussionPersistence discussionPersistence;
 
-    public PostCommentService(DiscussionPersistence discussionPersistence) {
+    public PostCommentCommand(DiscussionPersistence discussionPersistence) {
         this.discussionPersistence = discussionPersistence;
     }
 

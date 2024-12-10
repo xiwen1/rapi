@@ -5,7 +5,9 @@ import org.rapi.rapi.application.discussion.author.AuthorId;
 import org.rapi.rapi.application.discussion.infrastructure.mapping.DiscussionMappingService;
 import org.rapi.rapi.application.discussion.infrastructure.repository.AuthorRepository;
 import org.rapi.rapi.application.discussion.service.AuthorPersistence;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AuthorPersistenceImpl implements AuthorPersistence {
 
     private final AuthorRepository authorRepository;

@@ -2,12 +2,14 @@ package org.rapi.rapi.application.auth.service.command;
 
 import org.rapi.rapi.application.auth.service.UserPersistence;
 import org.rapi.rapi.application.auth.user.User;
+import org.springframework.stereotype.Service;
 
-public class CreateUserService {
+@Service
+public class CreateUserCommand {
 
     private final UserPersistence userPersistence;
 
-    public CreateUserService(UserPersistence userPersistence) {
+    public CreateUserCommand(UserPersistence userPersistence) {
         this.userPersistence = userPersistence;
     }
 

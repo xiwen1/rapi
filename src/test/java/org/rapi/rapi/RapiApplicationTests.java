@@ -35,13 +35,13 @@ class RapiApplicationTests {
     private static final ObjectSchema testObjectSchema = ObjectSchema.create()
         .addField("key", StringSchema.create());
 
-    @Test
-    void contextLoads() {
-    }
-
     @BeforeAll
     static void setup() {
         System.setProperty("spring.profiles.active", "test");
+    }
+
+    @Test
+    void contextLoads() {
     }
 
     @Test
@@ -117,7 +117,6 @@ class RapiApplicationTests {
             structure.getId(), inventory.getId());
 
     }
-
 
 
 }

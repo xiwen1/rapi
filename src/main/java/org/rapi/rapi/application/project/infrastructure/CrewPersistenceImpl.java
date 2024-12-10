@@ -5,7 +5,9 @@ import org.rapi.rapi.application.project.crew.CrewId;
 import org.rapi.rapi.application.project.infrastructure.mapping.ProjectMappingService;
 import org.rapi.rapi.application.project.infrastructure.repository.CrewRepository;
 import org.rapi.rapi.application.project.service.CrewPersistence;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CrewPersistenceImpl implements CrewPersistence {
 
     private final CrewRepository crewRepository;
