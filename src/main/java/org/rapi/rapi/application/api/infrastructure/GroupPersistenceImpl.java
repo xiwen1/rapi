@@ -3,8 +3,7 @@ package org.rapi.rapi.application.api.infrastructure;
 import org.rapi.rapi.application.api.group.CrudGroup;
 import org.rapi.rapi.application.api.group.GroupId;
 import org.rapi.rapi.application.api.group.JwtGroup;
-import org.rapi.rapi.application.api.infrastructure.dto.CrudGroupDto;
-import org.rapi.rapi.application.api.infrastructure.dto.JwtGroupDto;
+import org.rapi.rapi.application.api.infrastructure.mapping.ApiMappingService;
 import org.rapi.rapi.application.api.infrastructure.repository.CrudGroupRepository;
 import org.rapi.rapi.application.api.infrastructure.repository.JwtGroupRepository;
 import org.rapi.rapi.application.api.service.GroupPersistence;
@@ -13,21 +12,24 @@ public class GroupPersistenceImpl implements GroupPersistence {
 
     private final CrudGroupRepository crudGroupRepository;
     private final JwtGroupRepository jwtGroupRepository;
+    private final ApiMappingService apiMappingService;
 
     public GroupPersistenceImpl(CrudGroupRepository crudGroupRepository,
-        JwtGroupRepository jwtGroupRepository) {
+        JwtGroupRepository jwtGroupRepository, ApiMappingService apiMappingService) {
         this.crudGroupRepository = crudGroupRepository;
         this.jwtGroupRepository = jwtGroupRepository;
+        this.apiMappingService = apiMappingService;
     }
+
 
     @Override
     public void saveCrud(CrudGroup crudGroup) {
-        crudGroupRepository.save(CrudGroupDto.fromDomain(crudGroup));
+        crudGroupRepository.save(apiMappingService.toCrudGroupDto(crudGroup));
     }
 
     @Override
     public void saveJwt(JwtGroup jwtGroup) {
-        jwtGroupRepository.save(JwtGroupDto.fromDomain(jwtGroup));
+        jwtGroupRepository.save(apiMappingService.toJwtGroupDto(jwtGroup));
     }
 
     @Override
@@ -42,11 +44,13 @@ public class GroupPersistenceImpl implements GroupPersistence {
 
     @Override
     public CrudGroup findCrudById(GroupId id) {
-        return crudGroupRepository.findById(id.id().toString()).orElseThrow().toDomain();
+        return apiMappingService.fromCrudGroupDto(
+            crudGroupRepository.findById(id.id().toString()).orElseThrow());
     }
 
     @Override
     public JwtGroup findJwtById(GroupId id) {
-        return jwtGroupRepository.findById(id.id().toString()).orElseThrow().toDomain();
+        return apiMappingService.fromJwtGroupDto(
+            jwtGroupRepository.findById(id.id().toString()).orElseThrow());
     }
 }

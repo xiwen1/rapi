@@ -1,4 +1,4 @@
-﻿package org.rapi.rapi.application.api.infrastructure.mapping;
+package org.rapi.rapi.application.api.infrastructure.mapping;
 
 import io.vavr.collection.List;
 import org.modelmapper.Converter;
@@ -134,15 +134,14 @@ public class ApiModelMapperConfig {
             .include(ObjectSchemaDto.class, ObjectSchema.class)
             .include(StringSchemaDto.class, StringSchema.class)
             .include(ListSchemaDto.class, ListSchema.class)
-            .include(NumberSchemaDto.class, NumberSchema.class)
-            .include(ListSchemaDto.class, ListSchema.class);
+            .include(NumberSchemaDto.class, NumberSchema.class);
 
         modelMapper.typeMap(Schema.class, SchemaDto.class)
             .include(ObjectSchema.class, ObjectSchemaDto.class)
             .include(StringSchema.class, StringSchemaDto.class)
             .include(ListSchema.class, ListSchemaDto.class)
-            .include(NumberSchema.class, NumberSchemaDto.class)
-            .include(ListSchema.class, ListSchemaDto.class);
+            .include(NumberSchema.class, NumberSchemaDto.class);
+
     }
 
     @Bean

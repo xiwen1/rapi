@@ -1,4 +1,4 @@
-﻿package org.rapi.rapi.application.api.infrastructure.mapping;
+package org.rapi.rapi.application.api.infrastructure.mapping;
 
 import java.util.UUID;
 import org.modelmapper.ModelMapper;
@@ -41,32 +41,32 @@ public class ApiMappingService {
         return apiModelMapper.map(restfulEndpointDto, RestfulEndpoint.class);
     }
 
-    public CrudGroupDto toCrudGroupDto(CrudGroupDto crudGroupDto) {
-        return apiModelMapper.map(crudGroupDto, CrudGroupDto.class);
+    public CrudGroupDto toCrudGroupDto(CrudGroup crudGroup) {
+        return apiModelMapper.map(crudGroup, CrudGroupDto.class);
     }
 
     public CrudGroup fromCrudGroupDto(CrudGroupDto crudGroupDto) {
         return apiModelMapper.map(crudGroupDto, CrudGroup.class);
     }
 
-    public JwtGroupDto toJwtGroupDto(JwtGroupDto jwtGroupDto) {
-        return apiModelMapper.map(jwtGroupDto, JwtGroupDto.class);
+    public JwtGroupDto toJwtGroupDto(JwtGroup jwtGroup) {
+        return apiModelMapper.map(jwtGroup, JwtGroupDto.class);
     }
 
     public JwtGroup fromJwtGroupDto(JwtGroupDto jwtGroupDto) {
         return apiModelMapper.map(jwtGroupDto, JwtGroup.class);
     }
 
-    public StructureDto toStructureDto(StructureDto structureDto) {
-        return apiModelMapper.map(structureDto, StructureDto.class);
+    public StructureDto toStructureDto(Structure structure) {
+        return apiModelMapper.map(structure, StructureDto.class);
     }
 
     public Structure fromStructureDto(StructureDto structureDto) {
         return apiModelMapper.map(structureDto, Structure.class);
     }
 
-    public InventoryDto toInventoryDto(InventoryDto inventoryDto) {
-        return apiModelMapper.map(inventoryDto, InventoryDto.class);
+    public InventoryDto toInventoryDto(Inventory inventory) {
+        return apiModelMapper.map(inventory, InventoryDto.class);
     }
 
     public Inventory fromInventoryDto(InventoryDto inventoryDto) {
