@@ -13,4 +13,6 @@ public interface UserPersistence {
 
     void delete(UserId userId);
 
+    void register(User user);
+
 }

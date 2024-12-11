@@ -5,11 +5,11 @@ import org.rapi.rapi.application.auth.user.User;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CreateUserCommand {
+public class RegisterUserCommand {
 
     private final UserPersistence userPersistence;
 
-    public CreateUserCommand(UserPersistence userPersistence) {
+    public RegisterUserCommand(UserPersistence userPersistence) {
         this.userPersistence = userPersistence;
     }
 
@@ -18,7 +18,7 @@ public class CreateUserCommand {
         var user = User.create(username, password);
 
         // persistence
-        userPersistence.save(user);
+        userPersistence.register(user);
 
         return user;
     }

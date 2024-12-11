@@ -41,4 +41,12 @@ public class UserPersistenceImpl implements UserPersistence {
     public void delete(UserId userId) {
         userRepository.deleteById(userId.id().toString());
     }
+
+    @Override
+    public void register(User user) {
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+            throw new IllegalArgumentException("User with the same username already exists");
+        }
+        userRepository.save(userMappingService.toUserDto(user));
+    }
 }
