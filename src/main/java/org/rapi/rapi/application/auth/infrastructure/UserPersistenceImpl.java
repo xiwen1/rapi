@@ -32,6 +32,12 @@ public class UserPersistenceImpl implements UserPersistence {
     }
 
     @Override
+    public User findByUsername(String username) {
+        return userMappingService.fromUserDto(
+            userRepository.findByUsername(username).orElseThrow());
+    }
+
+    @Override
     public void delete(UserId userId) {
         userRepository.deleteById(userId.id().toString());
     }
