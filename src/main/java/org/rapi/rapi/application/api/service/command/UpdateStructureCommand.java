@@ -52,5 +52,6 @@ public class UpdateStructureCommand {
                 .map(endpointPersistence::findRestfulById);
             group.regenerate(endpoints.toList()).forEach(endpointPersistence::saveRestful);
         });
+
     }
 }
