@@ -28,6 +28,7 @@ import org.rapi.rapi.application.api.service.command.CreateRestfulEndpointComman
 import org.rapi.rapi.application.api.service.command.CreateStructureCommand;
 import org.rapi.rapi.application.api.service.command.DeleteRestfulEndpointCommand;
 import org.rapi.rapi.application.api.service.command.DeleteStructureCommand;
+import org.rapi.rapi.application.api.service.command.DissolveCrudGroupCommand;
 import org.rapi.rapi.application.api.service.command.SetEndpointsForJwtGroupCommand;
 import org.rapi.rapi.application.api.service.command.SetStructureForCrudGroupCommand;
 import org.rapi.rapi.application.api.service.command.UpdateStructureCommand;
@@ -101,6 +102,8 @@ class ApiDomainTests {
     private CreateJwtGroupCommand createJwtGroupCommand;
     @Autowired
     private DeleteRestfulEndpointCommand deleteRestfulEndpointCommand;
+    @Autowired
+    private DissolveCrudGroupCommand dissolveCrudGroupCommand;
 
 
     private RestfulEndpoint createTestRestfulEndpoint(InventoryId inventoryId) {
@@ -259,5 +262,30 @@ class ApiDomainTests {
             .isInstanceOf(IllegalArgumentException.class);
     }
 
+    @Test
+    void testDissolveCrudGroup() {
+        var inventory = createInventoryCommand.createInventory();
+        var group = createCrudGroupCommand.createCrudGroup(inventory.getId());
+
+        var structure = createStructureCommand.createStructureInInventory(inventory.getId());
+        setStructureForCrudGroupCommand.setStructureForCrudGroup(group.getId(),
+            structure.getId(), inventory.getId());
+        dissolveCrudGroupCommand.dissolveCrudGroup(group.getId(), inventory.getId());
+    }
+
+    @Test
+    void testDeleteStructure_WhenActAsSourceInCrudGroup_WhenGeneratedEndpointsSetInJwtGroup() {
+        var inventory = createInventoryCommand.createInventory();
+        var group = createCrudGroupCommand.createCrudGroup(inventory.getId());
+        var structure = createStructureCommand.createStructureInInventory(inventory.getId());
+        var jwtGroup = createJwtGroupCommand.createJwtGroup(inventory.getId());
+        setStructureForCrudGroupCommand.setStructureForCrudGroup(group.getId(),
+            structure.getId(), inventory.getId());
+        var crudGroupPersist = context.getBean(GroupPersistenceImpl.class);
+        var newGroup = crudGroupPersist.findCrudById(group.getId());
+        var crudEndpoints = newGroup.getGeneratedEndpoints();
+        setEndpointsForJwtGroupCommand.setEndpointsForJwtGroup(crudEndpoints, jwtGroup.getId());
+        deleteStructureCommand.deleteStructure(inventory.getId(), structure.getId());
+    }
 
 }

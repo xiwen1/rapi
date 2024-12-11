@@ -16,6 +16,7 @@ public class DeleteStructureCommand {
     private final EndpointPersistence endpointPersistence;
     private final GroupPersistence groupPersistence;
 
+
     public DeleteStructureCommand(StructurePersistence structurePersistence,
         InventoryPersistence inventoryPersistence, EndpointPersistence endpointPersistence,
         GroupPersistence groupPersistence) {
@@ -45,7 +46,8 @@ public class DeleteStructureCommand {
         jwtEndpointsToDelete.forEach(endpointPersistence::deleteRestful);
         crudEndpointsToDelete.forEach(endpointPersistence::deleteRestful);
         crudGroups.forEach(groupPersistence::saveCrud);
-        inventoryPersistence.save(inventory);
+        jwtGroups.forEach(groupPersistence::saveJwt);
         structurePersistence.delete(structureId);
+        inventoryPersistence.save(inventory);
     }
 }
