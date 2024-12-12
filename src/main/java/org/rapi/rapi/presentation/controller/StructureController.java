@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -82,7 +83,7 @@ public class StructureController {
 
     @PostMapping("/")
     public CreateStructureResponse createStructure(@PathVariable("project_id") String projectId,
-        CreateStructureRequest request) {
+        @RequestBody CreateStructureRequest request) {
         var user = getUser();
         return new CreateStructureResponse(createStructureUseCase.createStructure(request.name(),
             new ProjectId(UUID.fromString(projectId)), user.getId()).id().toString());
@@ -99,7 +100,7 @@ public class StructureController {
 
     @PutMapping("/{structure_id}")
     public void updateStructure(@PathVariable("project_id") String projectId,
-        @PathVariable("structure_id") String structureId, UpdateStructureRequest request) {
+        @PathVariable("structure_id") String structureId, @RequestBody UpdateStructureRequest request) {
         var user = getUser();
         var schema = presentationSchemaConverter.fromSchemaDto(request.schemaDto());
         var structure = Structure.fromRaw(new StructureId(UUID.fromString(structureId)), schema,

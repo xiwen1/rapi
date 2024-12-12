@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -79,7 +80,7 @@ public class ProjectController {
     }
 
     @PostMapping("/")
-    public CreateProjectResponse createProject(CreateProjectReqeust request) {
+    public CreateProjectResponse createProject(@RequestBody CreateProjectRequest request) {
         var user = getUser();
         var projectId = createProjectUseCase.createProject(user.getId(), request.name());
         return new CreateProjectResponse(projectId.id().toString());
@@ -173,7 +174,7 @@ public class ProjectController {
         disbandProjectCommand.disbandProject(projectId);
     }
 
-    public record CreateProjectReqeust(String name) {
+    public record CreateProjectRequest(String name) {
 
     }
 

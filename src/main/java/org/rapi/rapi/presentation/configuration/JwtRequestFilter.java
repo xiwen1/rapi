@@ -1,4 +1,4 @@
-﻿package org.rapi.rapi.presentation.configuration;
+package org.rapi.rapi.presentation.configuration;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -50,6 +50,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                         user, null, null);
                     authToken.setDetails(
                         new WebAuthenticationDetailsSource().buildDetails(request));
+
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 } else {
                     sendErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED,

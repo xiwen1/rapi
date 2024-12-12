@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/profile")
-public class ProfileController {
+public class UserProfileController {
 
     private final GetUserProfileUseCase getUserProfileUseCase;
 
-    public ProfileController(GetUserProfileUseCase getUserProfileUseCase) {
+    public UserProfileController(GetUserProfileUseCase getUserProfileUseCase) {
         this.getUserProfileUseCase = getUserProfileUseCase;
     }
 

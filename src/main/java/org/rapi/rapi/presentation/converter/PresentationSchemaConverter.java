@@ -14,13 +14,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class PresentationSchemaConverter {
 
-    private final VavrMapConverter vavrMapConverter;
-    private final UuidConverter uuidConverter;
+    private final PresentationVavrMapConverter presentationVavrMapConverter;
+    private final PresentationUuidConverter presentationUuidConverter;
 
-    public PresentationSchemaConverter(VavrMapConverter vavrMapConverter,
-        UuidConverter uuidConverter) {
-        this.vavrMapConverter = vavrMapConverter;
-        this.uuidConverter = uuidConverter;
+    public PresentationSchemaConverter(PresentationVavrMapConverter presentationVavrMapConverter,
+        PresentationUuidConverter presentationUuidConverter) {
+        this.presentationVavrMapConverter = presentationVavrMapConverter;
+        this.presentationUuidConverter = presentationUuidConverter;
     }
 
     public SchemaDto toSchemaDto(Schema schema) {
@@ -39,14 +39,14 @@ public class PresentationSchemaConverter {
             case ObjectSchema objectSchema -> {
                 var schemaDto = new SchemaDto();
                 schemaDto.setType("object");
-                schemaDto.setFields(vavrMapConverter.toMap(
+                schemaDto.setFields(presentationVavrMapConverter.toMap(
                     objectSchema.fields().mapValues(this::toSchemaDto)));
                 return schemaDto;
             }
             case RefSchema refSchema -> {
                 var schemaDto = new SchemaDto();
                 schemaDto.setType("ref");
-                schemaDto.setRef(uuidConverter.toString(refSchema.reference().id()));
+                schemaDto.setRef(presentationUuidConverter.toString(refSchema.reference().id()));
                 return schemaDto;
             }
             case StringSchema stringSchema -> {
@@ -66,12 +66,12 @@ public class PresentationSchemaConverter {
                 return new ListSchema(fromSchemaDto(schemaDto.getItem()));
             }
             case "object" -> {
-                return new ObjectSchema(vavrMapConverter.fromMap(schemaDto.getFields())
+                return new ObjectSchema(presentationVavrMapConverter.fromMap(schemaDto.getFields())
                     .mapValues(this::fromSchemaDto));
             }
             case "ref" -> {
                 return new RefSchema(
-                    new StructureId(uuidConverter.fromString(schemaDto.getRef())));
+                    new StructureId(presentationUuidConverter.fromString(schemaDto.getRef())));
             }
             case "string" -> {
                 return new StringSchema();

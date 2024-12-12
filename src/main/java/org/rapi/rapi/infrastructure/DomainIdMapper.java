@@ -1,5 +1,6 @@
 package org.rapi.rapi.infrastructure;
 
+import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,26 +15,29 @@ public class DomainIdMapper {
     @Id
     private String id;
 
-    private Map<String, String> endpointToSubjectMap;
-    private Map<String, String> subjectToEndpointMap;
-    private Map<String, String> endpointToDiscussionMap;
-    private Map<String, String> discussionToEndpointMap;
 
-    private Map<String, String> projectToInventoryMap;
-    private Map<String, String> inventoryToProjectMap;
+    private Map<String, String> endpointToSubjectMap = new HashMap<>();
+    private Map<String, String> subjectToEndpointMap = new HashMap<>();
+    private Map<String, String> endpointToDiscussionMap = new HashMap<>();
+    private Map<String, String> discussionToEndpointMap = new HashMap<>();
 
-    private Map<String, String> userToAuthorMap;
-    private Map<String, String> authorToUserMap;
+    private Map<String, String> projectToInventoryMap = new HashMap<>();
+    private Map<String, String> inventoryToProjectMap = new HashMap<>();
 
-    private Map<String, String> userToCrewMap;
-    private Map<String, String> crewToUserMap;
+    private Map<String, String> userToAuthorMap = new HashMap<>();
+    private Map<String, String> authorToUserMap = new HashMap<>();
 
-    private Map<String, String> projectToCollectionMap;
-    private Map<String, String> collectionToProjectMap;
+    private Map<String, String> userToCrewMap = new HashMap<>();
+    private Map<String, String> crewToUserMap = new HashMap<>();
+
+    private Map<String, String> projectToCollectionMap = new HashMap<>();
+    private Map<String, String> collectionToProjectMap = new HashMap<>();
 
     public DomainIdMapper(String id) {
         this.id = id;
+
     }
 
-
+    public DomainIdMapper() {
+    }
 }

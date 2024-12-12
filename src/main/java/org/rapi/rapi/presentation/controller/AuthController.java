@@ -3,6 +3,7 @@ package org.rapi.rapi.presentation.controller;
 import org.rapi.rapi.usecase.LoginUseCase;
 import org.rapi.rapi.usecase.RegisterUseCase;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,13 +20,13 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public LoginResponse login(LoginRequest loginRequest) {
+    public LoginResponse login(@RequestBody LoginRequest loginRequest) {
         return new LoginResponse(
             loginUseCase.login(loginRequest.username(), loginRequest.password()));
     }
 
     @PostMapping("/register")
-    public void register(RegisterRequest registerRequest) {
+    public void register(@RequestBody RegisterRequest registerRequest) {
         registerUseCase.register(registerRequest.username(), registerRequest.password(),
             registerRequest.email());
     }
