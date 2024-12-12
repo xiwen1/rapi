@@ -9,6 +9,10 @@ public interface UserPersistence {
 
     User findById(UserId userId);
 
+    User findByUsername(String username);
+
     void delete(UserId userId);
+
+    void register(User user);
 
 }
