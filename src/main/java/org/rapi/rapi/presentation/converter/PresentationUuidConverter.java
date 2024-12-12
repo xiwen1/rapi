@@ -3,7 +3,7 @@ package org.rapi.rapi.presentation.converter;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UuidConverter {
+public class PresentationUuidConverter {
 
     public String toString(java.util.UUID uuid) {
         return uuid.toString();

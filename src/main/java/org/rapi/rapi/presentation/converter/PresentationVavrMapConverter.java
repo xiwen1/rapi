@@ -3,7 +3,7 @@ package org.rapi.rapi.presentation.converter;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VavrMapConverter {
+public class PresentationVavrMapConverter {
 
     public <K, V> java.util.Map<K, V> toMap(io.vavr.collection.Map<K, V> vavrMap) {
         return vavrMap.toJavaMap();
