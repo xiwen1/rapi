@@ -72,7 +72,7 @@ public class StructureController {
             presentationSchemaConverter.toSchemaDto(structure.getSchema()));
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public List<GetStructureListResponseItem> getStructureList(
         @PathVariable("project_id") String projectId) {
         var project = getProjectByIdQuery.getProjectById(new ProjectId(UUID.fromString(projectId)));
@@ -82,7 +82,7 @@ public class StructureController {
             s.getId().id().toString(), s.getName())).toJavaList();
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public CreateStructureResponse createStructure(@PathVariable("project_id") String projectId,
         @RequestBody CreateStructureRequest request) {
         var user = getUser();
@@ -104,7 +104,7 @@ public class StructureController {
         @PathVariable("structure_id") String structureId,
         @RequestBody UpdateStructureRequest request) {
         var user = getUser();
-        var schema = presentationSchemaConverter.fromSchemaDto(request.schemaDto());
+        var schema = presentationSchemaConverter.fromSchemaDto(request.schema());
         var structure = Structure.fromRaw(new StructureId(UUID.fromString(structureId)), schema,
             request.name());
         updateStructureUseCase.updateStructure(new ProjectId(UUID.fromString(projectId)),
@@ -127,7 +127,7 @@ public class StructureController {
 
     }
 
-    public record UpdateStructureRequest(String id, String name, SchemaDto schemaDto) {
+    public record UpdateStructureRequest(String id, String name, SchemaDto schema) {
 
     }
 

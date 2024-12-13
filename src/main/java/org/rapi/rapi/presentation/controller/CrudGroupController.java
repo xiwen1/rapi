@@ -4,7 +4,6 @@ import org.rapi.rapi.application.AuthorizeUserAccessInProjectService;
 import org.rapi.rapi.application.api.group.GroupId;
 import org.rapi.rapi.application.api.infrastructure.mapping.UuidConverter;
 import org.rapi.rapi.application.api.service.GroupPersistence;
-import org.rapi.rapi.application.api.service.query.GetCrudGroupListQuery;
 import org.rapi.rapi.application.api.service.query.GetStructureByIdQuery;
 import org.rapi.rapi.application.api.structure.StructureId;
 import org.rapi.rapi.application.project.project.ProjectId;
@@ -30,7 +29,6 @@ public class CrudGroupController {
     private final UuidConverter uuidConverter;
     private final AuthorizeUserAccessInProjectService authorizeUserAccessInProjectService;
     private final CreateCrudGroupUseCase createCrudGroupUseCase;
-    private final GetCrudGroupListQuery getCrudGroupListQuery;
     private final GroupPersistence groupPersistence;
     private final GetStructureByIdQuery getStructureByIdQuery;
     private final SetStructureForCrudGroupUseCase setStructureForCrudGroupUseCase;
@@ -39,7 +37,7 @@ public class CrudGroupController {
     public CrudGroupController(GetCurrentUserService getCurrentUserService,
         UuidConverter uuidConverter,
         AuthorizeUserAccessInProjectService authorizeUserAccessInProjectService,
-        CreateCrudGroupUseCase createCrudGroupUseCase, GetCrudGroupListQuery getCrudGroupListQuery,
+        CreateCrudGroupUseCase createCrudGroupUseCase,
         GroupPersistence groupPersistence, GetStructureByIdQuery getStructureByIdQuery,
         SetStructureForCrudGroupUseCase setStructureForCrudGroupUseCase,
         DissolveCrudGroupUseCase dissolveCrudGroupUseCase) {
@@ -47,16 +45,16 @@ public class CrudGroupController {
         this.uuidConverter = uuidConverter;
         this.authorizeUserAccessInProjectService = authorizeUserAccessInProjectService;
         this.createCrudGroupUseCase = createCrudGroupUseCase;
-        this.getCrudGroupListQuery = getCrudGroupListQuery;
         this.groupPersistence = groupPersistence;
         this.getStructureByIdQuery = getStructureByIdQuery;
         this.setStructureForCrudGroupUseCase = setStructureForCrudGroupUseCase;
         this.dissolveCrudGroupUseCase = dissolveCrudGroupUseCase;
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<CreateCrudGroupResponse> createCrudGroup(
-        @PathVariable String projectIdString, @RequestBody CreateCrudGroupRequest request) {
+        @PathVariable("project_id") String projectIdString,
+        @RequestBody CreateCrudGroupRequest request) {
         var user = getCurrentUserService.getUser();
         var projectId = new ProjectId(uuidConverter.fromString(projectIdString));
         if (!authorizeUserAccessInProjectService.authorizeUserAccessInProject(user.getId(),
@@ -64,9 +62,9 @@ public class CrudGroupController {
             return ResponseEntity.status(403).build();
         }
         var strutureId = new StructureId(uuidConverter.fromString(request.sourceStructure));
-        createCrudGroupUseCase.createCrudGroup(strutureId, projectId);
+        var groupId = createCrudGroupUseCase.createCrudGroup(strutureId, projectId);
         return ResponseEntity.ok(
-            new CreateCrudGroupResponse(uuidConverter.toString(strutureId.id())));
+            new CreateCrudGroupResponse(uuidConverter.toString(groupId.id())));
     }
 
     @GetMapping("/{group_id}")

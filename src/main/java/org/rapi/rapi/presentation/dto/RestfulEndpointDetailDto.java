@@ -1,5 +1,6 @@
 package org.rapi.rapi.presentation.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.List;
 import lombok.Data;
 
@@ -48,17 +49,11 @@ public class RestfulEndpointDetailDto {
     }
 
     @Data
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class RoutePath {
 
-        private Constant constant;
+        private String constant;
         private NamedSchema namedSchema;
-
-
-        @Data
-        public static class Constant {
-
-            private String constant;
-        }
 
         @Data
         public static class NamedSchema {

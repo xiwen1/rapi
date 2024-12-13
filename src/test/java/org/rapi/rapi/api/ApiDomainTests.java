@@ -36,11 +36,17 @@ import org.rapi.rapi.application.api.structure.Structure;
 import org.rapi.rapi.application.api.structure.schema.ObjectSchema;
 import org.rapi.rapi.application.api.structure.schema.StringSchema;
 import org.rapi.rapi.application.auth.infrastructure.repository.UserRepository;
+import org.rapi.rapi.application.discussion.infrastructure.repository.AuthorRepository;
+import org.rapi.rapi.application.discussion.infrastructure.repository.DiscussionRepository;
 import org.rapi.rapi.application.project.crew.CrewId;
 import org.rapi.rapi.application.project.infrastructure.ProjectPersistenceImpl;
+import org.rapi.rapi.application.project.infrastructure.repository.CrewRepository;
+import org.rapi.rapi.application.project.infrastructure.repository.ProjectRepository;
 import org.rapi.rapi.application.project.project.Project;
 import org.rapi.rapi.application.project.project.participant.Admin;
 import org.rapi.rapi.application.project.project.participant.Member;
+import org.rapi.rapi.application.state.infrastructure.repository.CollectionRepository;
+import org.rapi.rapi.infrastructure.DomainIdMapperRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -107,6 +113,18 @@ class ApiDomainTests {
     private DissolveCrudGroupCommand dissolveCrudGroupCommand;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private DiscussionRepository discussionRepository;
+    @Autowired
+    private CollectionRepository collectionRepository;
+    @Autowired
+    private ProjectRepository projectRepository;
+    @Autowired
+    private DomainIdMapperRepository domainIdMapperRepository;
+    @Autowired
+    private CrewRepository crewRepository;
+    @Autowired
+    private AuthorRepository authorRepository;
 
 
     private RestfulEndpoint createTestRestfulEndpoint(InventoryId inventoryId) {
@@ -129,6 +147,29 @@ class ApiDomainTests {
         crudGroupRepository.deleteAll();
         jwtGroupRepository.deleteAll();
         userRepository.deleteAll();
+        discussionRepository.deleteAll();
+        collectionRepository.deleteAll();
+        projectRepository.deleteAll();
+        domainIdMapperRepository.deleteAll();
+        crewRepository.deleteAll();
+        authorRepository.deleteAll();
+    }
+
+    @Test
+    void deleteAll() {
+
+        inventoryRepository.deleteAll();
+        structureRepository.deleteAll();
+        restfulEndpointRepository.deleteAll();
+        crudGroupRepository.deleteAll();
+        jwtGroupRepository.deleteAll();
+        userRepository.deleteAll();
+        discussionRepository.deleteAll();
+        collectionRepository.deleteAll();
+        projectRepository.deleteAll();
+        domainIdMapperRepository.deleteAll();
+        crewRepository.deleteAll();
+        authorRepository.deleteAll();
 
     }
 
@@ -213,7 +254,6 @@ class ApiDomainTests {
             structure.getId(), inventory.getId());
         deleteStructureCommand.deleteStructure(inventory.getId(), structure.getId());
     }
-
 
 
     @Test
