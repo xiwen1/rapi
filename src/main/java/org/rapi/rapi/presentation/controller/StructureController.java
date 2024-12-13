@@ -67,7 +67,8 @@ public class StructureController {
         var structure = getStructureDetailUseCase.getStructureDetail(
             new ProjectId(UUID.fromString(projectId)),
             new StructureId(UUID.fromString(structureId)));
-        return new GetStructureDetailResponse(structure.getId().toString(), structure.getName(),
+        return new GetStructureDetailResponse(structure.getId().id().toString(),
+            structure.getName(),
             presentationSchemaConverter.toSchemaDto(structure.getSchema()));
     }
 
@@ -78,7 +79,7 @@ public class StructureController {
         var inventoryId = domainIdMappingService.getInventoryId(project.getId());
         var structureList = getStructureListQuery.getStructureList(inventoryId);
         return structureList.map(s -> new GetStructureListResponseItem(
-            s.getId().toString(), s.getName())).toJavaList();
+            s.getId().id().toString(), s.getName())).toJavaList();
     }
 
     @PostMapping("/")
@@ -100,7 +101,8 @@ public class StructureController {
 
     @PutMapping("/{structure_id}")
     public void updateStructure(@PathVariable("project_id") String projectId,
-        @PathVariable("structure_id") String structureId, @RequestBody UpdateStructureRequest request) {
+        @PathVariable("structure_id") String structureId,
+        @RequestBody UpdateStructureRequest request) {
         var user = getUser();
         var schema = presentationSchemaConverter.fromSchemaDto(request.schemaDto());
         var structure = Structure.fromRaw(new StructureId(UUID.fromString(structureId)), schema,

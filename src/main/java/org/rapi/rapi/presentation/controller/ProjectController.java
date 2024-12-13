@@ -18,8 +18,10 @@ import org.rapi.rapi.application.project.project.participant.Member;
 import org.rapi.rapi.application.project.service.command.DisbandProjectCommand;
 import org.rapi.rapi.application.project.service.query.GetProjectByIdQuery;
 import org.rapi.rapi.application.state.service.query.GetCollectionByIdQuery;
+import org.rapi.rapi.presentation.GetCurrentUserService;
 import org.rapi.rapi.usecase.CreateProjectUseCase;
 import org.rapi.rapi.usecase.GetProjectListUseCase;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,6 +49,7 @@ public class ProjectController {
     private final GetRestfulEndpointByIdQuery getRestfulEndpointByIdQuery;
     private final GetUserByIdQuery getUserByIdQuery;
     private final DisbandProjectCommand disbandProjectCommand;
+    private final GetCurrentUserService getCurrentUserService;
 
     public ProjectController(CreateProjectUseCase createProjectUseCase,
         GetProjectListUseCase getProjectListUseCase,
@@ -58,7 +61,8 @@ public class ProjectController {
         GetJwtGroupListQuery getJwtGroupListQuery, GetProjectByIdQuery getProjectByIdQuery,
         GetCollectionByIdQuery getCollectionByIdQuery,
         GetRestfulEndpointByIdQuery getRestfulEndpointByIdQuery,
-        GetUserByIdQuery getUserByIdQuery, DisbandProjectCommand disbandProjectCommand) {
+        GetUserByIdQuery getUserByIdQuery, DisbandProjectCommand disbandProjectCommand,
+        GetCurrentUserService getCurrentUserService) {
         this.createProjectUseCase = createProjectUseCase;
         this.getProjectListUseCase = getProjectListUseCase;
         this.authorizeUserAccessInProjectService = authorizeUserAccessInProjectService;
@@ -73,24 +77,26 @@ public class ProjectController {
         this.getRestfulEndpointByIdQuery = getRestfulEndpointByIdQuery;
         this.getUserByIdQuery = getUserByIdQuery;
         this.disbandProjectCommand = disbandProjectCommand;
+        this.getCurrentUserService = getCurrentUserService;
     }
 
     private static User getUser() {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    @PostMapping("/")
-    public CreateProjectResponse createProject(@RequestBody CreateProjectRequest request) {
-        var user = getUser();
+    @PostMapping("")
+    public ResponseEntity<CreateProjectResponse> createProject(
+        @RequestBody CreateProjectRequest request) {
+        var user = getCurrentUserService.getUser();
         var projectId = createProjectUseCase.createProject(user.getId(), request.name());
-        return new CreateProjectResponse(projectId.id().toString());
+        return ResponseEntity.ok(new CreateProjectResponse(projectId.id().toString()));
     }
 
-    @GetMapping("/")
-    public List<GetProjectListResponseItem> getProjectList() {
-        var user = getUser();
+    @GetMapping("")
+    public ResponseEntity<List<GetProjectListResponseItem>> getProjectList() {
+        var user = getCurrentUserService.getUser();
         var projectList = getProjectListUseCase.getProjectList(user.getId());
-        return projectList.map(project -> {
+        return ResponseEntity.ok(projectList.map(project -> {
             var role = switch (project._3()) {
                 case Admin ignored -> "Admin";
                 case Member ignored -> "Member";
@@ -98,17 +104,17 @@ public class ProjectController {
             };
             return new GetProjectListResponseItem(project._1().id().toString(), project._2(), role,
                 project._4(), project._5(), project._6());
-        }).toJavaList();
+        }).toJavaList());
     }
 
     @GetMapping("/{id}")
-    public GetProjectOverviewResponse getProjectOverview(
+    public ResponseEntity<GetProjectOverviewResponse> getProjectOverview(
         @PathVariable("id") String projectIdString) {
-        var user = getUser();
+        var user = getCurrentUserService.getUser();
         var projectId = new ProjectId(UUID.fromString(projectIdString));
-        if (authorizeUserAccessInProjectService.authorizeUserAccessInProject(user.getId(),
+        if (!authorizeUserAccessInProjectService.authorizeUserAccessInProject(user.getId(),
             projectId)) {
-            throw new IllegalArgumentException("User is not a member of the project");
+            return ResponseEntity.status(403).build();
         }
         var inventoryId = domainIdMappingService.getInventoryId(projectId);
         var collectionId = domainIdMappingService.getCollectionId(projectId);
@@ -148,30 +154,32 @@ public class ProjectController {
             s.getId().id().toString(), s.getName(), collection.getDefaultState().equals(s.getId())
         )).toJavaList();
 
-        return new GetProjectOverviewResponse(
+        return ResponseEntity.ok(new GetProjectOverviewResponse(
             restfulEndpoints.map(
-                e -> new GetProjectOverviewResponse.RestfulEndpoint(e.getId().toString(),
+                e -> new GetProjectOverviewResponse.RestfulEndpoint(e.getId().id().toString(),
                     e.getTitle(), e.getMethod().toString())).toJavaList(),
             grpcEndpoints.map(e -> new GetProjectOverviewResponse.GrpcEndpoint(
-                e.getId().toString(), e.getTitle(), e.getService())).toJavaList(),
+                e.getId().id().toString(), e.getTitle(), e.getService())).toJavaList(),
             structures.map(
-                    s -> new GetProjectOverviewResponse.Structure(s.getId().toString(), s.getName()))
+                    s -> new GetProjectOverviewResponse.Structure(s.getId().id().toString(),
+                        s.getName()))
                 .toJavaList(),
             returnCrudGroups.appendAll(returnJwtGroups).toJavaList(),
             returnCrews, returnStates
-        );
+        ));
 
     }
 
     @DeleteMapping("/{id}")
-    public void DisbandProject(@PathVariable("id") String projectIdString) {
+    public ResponseEntity<Void> DisbandProject(@PathVariable("id") String projectIdString) {
         var user = getUser();
         var projectId = new ProjectId(UUID.fromString(projectIdString));
-        if (authorizeUserAccessInProjectService.authorizeOwnerInProject(user.getId(),
+        if (!authorizeUserAccessInProjectService.authorizeOwnerInProject(user.getId(),
             projectId)) {
             throw new IllegalArgumentException("User is not a owner of the project");
         }
         disbandProjectCommand.disbandProject(projectId);
+        return ResponseEntity.ok().build();
     }
 
     public record CreateProjectRequest(String name) {

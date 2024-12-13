@@ -35,6 +35,7 @@ import org.rapi.rapi.application.api.service.command.UpdateStructureCommand;
 import org.rapi.rapi.application.api.structure.Structure;
 import org.rapi.rapi.application.api.structure.schema.ObjectSchema;
 import org.rapi.rapi.application.api.structure.schema.StringSchema;
+import org.rapi.rapi.application.auth.infrastructure.repository.UserRepository;
 import org.rapi.rapi.application.project.crew.CrewId;
 import org.rapi.rapi.application.project.infrastructure.ProjectPersistenceImpl;
 import org.rapi.rapi.application.project.project.Project;
@@ -104,6 +105,8 @@ class ApiDomainTests {
     private DeleteRestfulEndpointCommand deleteRestfulEndpointCommand;
     @Autowired
     private DissolveCrudGroupCommand dissolveCrudGroupCommand;
+    @Autowired
+    private UserRepository userRepository;
 
 
     private RestfulEndpoint createTestRestfulEndpoint(InventoryId inventoryId) {
@@ -125,6 +128,7 @@ class ApiDomainTests {
         restfulEndpointRepository.deleteAll();
         crudGroupRepository.deleteAll();
         jwtGroupRepository.deleteAll();
+        userRepository.deleteAll();
 
     }
 

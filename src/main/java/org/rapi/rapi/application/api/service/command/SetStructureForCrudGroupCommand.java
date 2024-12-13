@@ -1,5 +1,7 @@
 package org.rapi.rapi.application.api.service.command;
 
+import io.vavr.collection.List;
+import org.rapi.rapi.application.api.endpoint.EndpointId;
 import org.rapi.rapi.application.api.group.GroupId;
 import org.rapi.rapi.application.api.inventory.InventoryId;
 import org.rapi.rapi.application.api.service.EndpointPersistence;
@@ -26,7 +28,7 @@ public class SetStructureForCrudGroupCommand {
         this.inventoryPersistence = inventoryPersistence;
     }
 
-    public void setStructureForCrudGroup(GroupId groupId, StructureId structureId,
+    public List<EndpointId> setStructureForCrudGroup(GroupId groupId, StructureId structureId,
         InventoryId inventoryId) {
         // data preparing
         var structure = structurePersistence.findById(structureId);
@@ -53,5 +55,6 @@ public class SetStructureForCrudGroupCommand {
         crudGroup.set(structure).toList().forEach(endpointPersistence::saveRestful);
         groupPersistence.saveCrud(crudGroup);
         jwtGroups.forEach(groupPersistence::saveJwt);
+        return crudGroup.getGeneratedEndpoints();
     }
 }

@@ -17,7 +17,7 @@ public class UserProfileController {
         this.getUserProfileUseCase = getUserProfileUseCase;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public GetProfileResponse getProfile() {
         var authToken = SecurityContextHolder.getContext().getAuthentication();
         var user = (User) authToken.getPrincipal();
