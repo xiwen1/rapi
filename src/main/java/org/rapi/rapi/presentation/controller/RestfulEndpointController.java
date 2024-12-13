@@ -16,9 +16,11 @@ import org.rapi.rapi.presentation.GetCurrentUserService;
 import org.rapi.rapi.presentation.converter.RestfulEndpointDetailConverter;
 import org.rapi.rapi.presentation.dto.RestfulEndpointDetailDto;
 import org.rapi.rapi.usecase.CreateRestfulEndpointUseCase;
+import org.rapi.rapi.usecase.DeleteRestfulEndpointUseCase;
 import org.rapi.rapi.usecase.UpdateRestfulEndpointUseCase;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,6 +43,7 @@ public class RestfulEndpointController {
     private final GetCollectionByIdQuery getCollectionByIdQuery;
     private final UpdateRestfulEndpointUseCase updateRestfulEndpointUseCase;
     private final UuidConverter uuidConverter;
+    private final DeleteRestfulEndpointUseCase deleteRestfulEndpointUseCase;
 
     public RestfulEndpointController(
         AuthorizeUserAccessInProjectService authorizeUserAccessInProjectService,
@@ -51,7 +54,8 @@ public class RestfulEndpointController {
         GetRestfulEndpointByIdQuery getRestfulEndpointByIdQuery,
         RestfulEndpointDetailConverter restfulEndpointDetailConverter,
         GetCollectionByIdQuery getCollectionByIdQuery,
-        UpdateRestfulEndpointUseCase updateRestfulEndpointUseCase, UuidConverter uuidConverter) {
+        UpdateRestfulEndpointUseCase updateRestfulEndpointUseCase, UuidConverter uuidConverter,
+        DeleteRestfulEndpointUseCase deleteRestfulEndpointUseCase) {
         this.authorizeUserAccessInProjectService = authorizeUserAccessInProjectService;
         this.getRestfulEndpointListQuery = getRestfulEndpointListQuery;
         this.domainIdMappingService = domainIdMappingService;
@@ -62,6 +66,7 @@ public class RestfulEndpointController {
         this.getCollectionByIdQuery = getCollectionByIdQuery;
         this.updateRestfulEndpointUseCase = updateRestfulEndpointUseCase;
         this.uuidConverter = uuidConverter;
+        this.deleteRestfulEndpointUseCase = deleteRestfulEndpointUseCase;
     }
 
     @GetMapping("")
@@ -137,6 +142,21 @@ public class RestfulEndpointController {
         updateRestfulEndpointUseCase.updateRestfulEndpoint(
             restfulEndpointDetailConverter.fromRestfulEndpointDto(request), stateId, projectId);
         return ResponseEntity.ok(new UpdateRestfulEndpointResponse(endpointId.id().toString()));
+    }
+
+    @DeleteMapping("/{endpoint_id}")
+    public ResponseEntity<Void> deleteRestfulEndpoint(
+        @PathVariable("project_id") String projectIdString,
+        @PathVariable("endpoint_id") String endpointIdString) {
+        var user = getCurrentUserService.getUser();
+        var projectId = new ProjectId(UUID.fromString(projectIdString));
+        if (!authorizeUserAccessInProjectService.authorizeUserAccessInProject(user.getId(),
+            projectId)) {
+            return ResponseEntity.status(403).build();
+        }
+        var endpointId = new EndpointId(UUID.fromString(endpointIdString));
+        deleteRestfulEndpointUseCase.deleteRestfulEndpoint(endpointId, projectId);
+        return ResponseEntity.ok().build();
     }
 
 

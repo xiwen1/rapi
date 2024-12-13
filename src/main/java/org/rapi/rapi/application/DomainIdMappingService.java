@@ -50,4 +50,19 @@ public interface DomainIdMappingService {
 
     void saveMapping(UserId userId, CrewId crewId);
 
+    void deleteMapping(EndpointId endpointId);
+
+    void deleteMapping(ProjectId projectId);
+
+    void deleteMapping(UserId userId);
+
+    void deleteMapping(DiscussionId discussionId);
+
+    void deleteMapping(SubjectId subjectId);
+
+    void deleteMapping(InventoryId inventoryId);
+
+    void deleteMapping(CollectionId collectionId);
+
+
 }

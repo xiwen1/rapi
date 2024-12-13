@@ -1,5 +1,7 @@
 package org.rapi.rapi.application.api.service.command;
 
+import io.vavr.collection.List;
+import org.rapi.rapi.application.api.endpoint.EndpointId;
 import org.rapi.rapi.application.api.inventory.InventoryId;
 import org.rapi.rapi.application.api.service.EndpointPersistence;
 import org.rapi.rapi.application.api.service.GroupPersistence;
@@ -26,7 +28,7 @@ public class DeleteStructureCommand {
         this.groupPersistence = groupPersistence;
     }
 
-    public void deleteStructure(InventoryId inventoryId, StructureId structureId) {
+    public List<EndpointId> deleteStructure(InventoryId inventoryId, StructureId structureId) {
         // data preparing
         var inventory = inventoryPersistence.findById(inventoryId);
         var crudGroups = inventory.getCrudGroups().map(groupPersistence::findCrudById);
@@ -49,5 +51,6 @@ public class DeleteStructureCommand {
         jwtGroups.forEach(groupPersistence::saveJwt);
         structurePersistence.delete(structureId);
         inventoryPersistence.save(inventory);
+        return jwtEndpointsToDelete.appendAll(crudEndpointsToDelete);
     }
 }
