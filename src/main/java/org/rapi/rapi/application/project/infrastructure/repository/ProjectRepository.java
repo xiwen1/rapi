@@ -9,4 +9,7 @@ public interface ProjectRepository extends MongoRepository<ProjectDto, String> {
 
     @Query("{ 'participants.crewId': ?0 }")
     List<ProjectDto> findByCrewIdInParticipants(String crewId);
+
+    @Query("{ 'invitedCrews': ?0 }")
+    List<ProjectDto> findByCrewIdInInvitations(String crewId);
 }

@@ -43,4 +43,10 @@ public class ProjectPersistenceImpl implements ProjectPersistence {
         var allProjects = projectRepository.findByCrewIdInParticipants(crewId.id().toString());
         return List.ofAll(allProjects).map(projectMappingService::fromProjectDto);
     }
+
+    @Override
+    public List<Project> findAllByInvitation(CrewId crewId) {
+        var allProjects = projectRepository.findByCrewIdInInvitations(crewId.id().toString());
+        return List.ofAll(allProjects).map(projectMappingService::fromProjectDto);
+    }
 }
