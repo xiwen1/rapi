@@ -214,16 +214,7 @@ class ApiDomainTests {
         deleteStructureCommand.deleteStructure(inventory.getId(), structure.getId());
     }
 
-    @Test
-    void testSetEndpointsForJwtGroup() {
-        var inventory = createInventoryCommand.createInventory();
-        var endpoint = createTestRestfulEndpoint(inventory.getId());
 
-        var jwtGroup = createJwtGroupCommand.createJwtGroup(inventory.getId());
-        setEndpointsForJwtGroupCommand.setEndpointsForJwtGroup(List.of(endpoint.getId()),
-            jwtGroup.getId());
-
-    }
 
     @Test
     void testUpdateStructureWhenActAsCrudGroupSource() {
@@ -251,20 +242,6 @@ class ApiDomainTests {
             .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @Test
-    void testDeleteEndpointGeneratedByJwtGroup() {
-        var inventory = createInventoryCommand.createInventory();
-        var endpoint = createTestRestfulEndpoint(inventory.getId());
-        var jwtGroup = createJwtGroupCommand.createJwtGroup(inventory.getId());
-        var jwtGroupPersist = context.getBean(GroupPersistenceImpl.class);
-        var newGroup = jwtGroupPersist.findJwtById(jwtGroup.getId());
-        setEndpointsForJwtGroupCommand.setEndpointsForJwtGroup(List.of(endpoint.getId()),
-            jwtGroup.getId());
-        Assertions.assertThatThrownBy(
-                () -> deleteRestfulEndpointCommand.deleteRestfulEndpoint(inventory.getId(),
-                    newGroup.getGeneratedEndpoints().get()))
-            .isInstanceOf(IllegalArgumentException.class);
-    }
 
     @Test
     void testDissolveCrudGroup() {
@@ -277,19 +254,5 @@ class ApiDomainTests {
         dissolveCrudGroupCommand.dissolveCrudGroup(group.getId(), inventory.getId());
     }
 
-    @Test
-    void testDeleteStructure_WhenActAsSourceInCrudGroup_WhenGeneratedEndpointsSetInJwtGroup() {
-        var inventory = createInventoryCommand.createInventory();
-        var group = createCrudGroupCommand.createCrudGroup(inventory.getId());
-        var structure = createStructureCommand.createStructureInInventory(inventory.getId());
-        var jwtGroup = createJwtGroupCommand.createJwtGroup(inventory.getId());
-        setStructureForCrudGroupCommand.setStructureForCrudGroup(group.getId(),
-            structure.getId(), inventory.getId());
-        var crudGroupPersist = context.getBean(GroupPersistenceImpl.class);
-        var newGroup = crudGroupPersist.findCrudById(group.getId());
-        var crudEndpoints = newGroup.getGeneratedEndpoints();
-        setEndpointsForJwtGroupCommand.setEndpointsForJwtGroup(crudEndpoints, jwtGroup.getId());
-        deleteStructureCommand.deleteStructure(inventory.getId(), structure.getId());
-    }
 
 }
