@@ -93,7 +93,7 @@ public class RestfulEndpointController {
         var user = getCurrentUserService.getUser();
         var projectId = new ProjectId(UUID.fromString(projectIdString));
         var endpointId = createRestfulEndpointUseCase.createRestfulEndpoint(
-            request.name(), request.description(), HttpMethod.valueOf(request.method()), projectId,
+            request.name(), request.description(), HttpMethod.valueOf(request.httpMethod()), projectId,
             user.getId());
 
         return ResponseEntity.ok(new CreateRestfulEndpointResponse(endpointId.id().toString()));
@@ -116,13 +116,13 @@ public class RestfulEndpointController {
         var collectionId = domainIdMappingService.getCollectionId(projectId);
         var subjectId = domainIdMappingService.getSubjectId(endpointId);
         var collection = getCollectionByIdQuery.getCollectionById(collectionId);
-        var subject_option = collection.getSubjects().find(s -> s.getId().equals(subjectId));
-        if (subject_option.isEmpty()) {
+        var subjectOption = collection.getSubjects().find(s -> s.getId().equals(subjectId));
+        if (subjectOption.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         var endpoint = getRestfulEndpointByIdQuery.getRestfulEndpointById(endpointId);
         return ResponseEntity.ok(restfulEndpointDetailConverter.toRestfulEndpointDetail(endpoint,
-            subject_option.get().getCurrentState()));
+            subjectOption.get().getCurrentState()));
 
     }
 
@@ -164,7 +164,7 @@ public class RestfulEndpointController {
 
     }
 
-    public record CreateRestfulEndpointRequest(String name, String description, String method) {
+    public record CreateRestfulEndpointRequest(String name, String description, String httpMethod) {
 
     }
 

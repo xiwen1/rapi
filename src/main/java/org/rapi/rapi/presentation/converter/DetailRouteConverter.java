@@ -26,12 +26,10 @@ public class DetailRouteConverter {
                     return ret;
                 }
                 case SchemaFragment schemaFragment -> {
-                    var namedSchema = new RoutePath.NamedSchema();
-                    namedSchema.setName(schemaFragment.name());
-                    namedSchema.setSchema(
-                        presentationSchemaConverter.toSchemaDto(schemaFragment.schema()));
                     var ret = new RoutePath();
-                    ret.setNamedSchema(namedSchema);
+                    ret.setName(schemaFragment.name());
+                    ret.setSchema(
+                        presentationSchemaConverter.toSchemaDto(schemaFragment.schema()));
                     return ret;
                 }
                 default -> throw new IllegalArgumentException("Invalid fragment type");
@@ -45,8 +43,8 @@ public class DetailRouteConverter {
             if (r.getConstant() != null) {
                 return new ConstantFragment(r.getConstant());
             } else {
-                return new SchemaFragment(r.getNamedSchema().getName(),
-                    presentationSchemaConverter.fromSchemaDto(r.getNamedSchema().getSchema()));
+                return new SchemaFragment(r.getName(),
+                    presentationSchemaConverter.fromSchemaDto(r.getSchema()));
             }
         }));
     }

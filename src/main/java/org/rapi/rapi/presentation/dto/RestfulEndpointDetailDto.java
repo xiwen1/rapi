@@ -5,6 +5,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class RestfulEndpointDetailDto {
 
     private String id;
@@ -53,13 +54,7 @@ public class RestfulEndpointDetailDto {
     public static class RoutePath {
 
         private String constant;
-        private NamedSchema namedSchema;
-
-        @Data
-        public static class NamedSchema {
-
-            private String name;
-            private SchemaDto schema;
-        }
+        private String name;
+        private SchemaDto schema;
     }
 }

@@ -1,6 +1,8 @@
 package org.rapi.rapi.presentation.converter;
 
 
+import java.util.List;
+import java.util.Map;
 import org.rapi.rapi.application.api.structure.StructureId;
 import org.rapi.rapi.application.api.structure.schema.ListSchema;
 import org.rapi.rapi.application.api.structure.schema.NumberSchema;
@@ -9,6 +11,7 @@ import org.rapi.rapi.application.api.structure.schema.RefSchema;
 import org.rapi.rapi.application.api.structure.schema.Schema;
 import org.rapi.rapi.application.api.structure.schema.StringSchema;
 import org.rapi.rapi.presentation.dto.SchemaDto;
+import org.rapi.rapi.presentation.dto.SchemaDto.KeyValuePair;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,6 +24,21 @@ public class PresentationSchemaConverter {
         PresentationUuidConverter presentationUuidConverter) {
         this.presentationVavrMapConverter = presentationVavrMapConverter;
         this.presentationUuidConverter = presentationUuidConverter;
+    }
+
+    public List<KeyValuePair> toKeyValuePairList(Map<String, SchemaDto> map) {
+
+        return map.entrySet().stream().map(entry -> {
+            var keyValuePair = new KeyValuePair();
+            keyValuePair.setKey(entry.getKey());
+            keyValuePair.setValue(entry.getValue());
+            return keyValuePair;
+        }).toList();
+    }
+
+    public Map<String, SchemaDto> fromKeyValuePairList(List<KeyValuePair> list) {
+        return list.stream().collect(
+            java.util.stream.Collectors.toMap(SchemaDto.KeyValuePair::getKey, SchemaDto.KeyValuePair::getValue));
     }
 
     public SchemaDto toSchemaDto(Schema schema) {
@@ -39,8 +57,8 @@ public class PresentationSchemaConverter {
             case ObjectSchema objectSchema -> {
                 var schemaDto = new SchemaDto();
                 schemaDto.setType("object");
-                schemaDto.setFields(presentationVavrMapConverter.toMap(
-                    objectSchema.fields().mapValues(this::toSchemaDto)));
+                schemaDto.setFields(toKeyValuePairList(presentationVavrMapConverter.toMap(
+                    objectSchema.fields().mapValues(this::toSchemaDto))));
                 return schemaDto;
             }
             case RefSchema refSchema -> {
@@ -66,7 +84,7 @@ public class PresentationSchemaConverter {
                 return new ListSchema(fromSchemaDto(schemaDto.getItem()));
             }
             case "object" -> {
-                return new ObjectSchema(presentationVavrMapConverter.fromMap(schemaDto.getFields())
+                return new ObjectSchema(presentationVavrMapConverter.fromMap(fromKeyValuePairList(schemaDto.getFields()))
                     .mapValues(this::fromSchemaDto));
             }
             case "ref" -> {
