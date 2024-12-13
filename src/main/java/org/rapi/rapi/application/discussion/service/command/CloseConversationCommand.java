@@ -16,14 +16,16 @@ public class CloseConversationCommand {
     }
 
     public void closeConversation(DiscussionId discussionId, ConversationId conversationId,
-        AuthorId authorId)
-        throws IllegalAccessException {
+        AuthorId authorId) {
         // prepare
         var discussion = discussionPersistence.findById(discussionId);
 
         // operate
-        discussion.closeConversation(conversationId, authorId);
-
+        try {
+            discussion.closeConversation(conversationId, authorId);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to close conversation", e);
+        }
         // persist
         discussionPersistence.save(discussion);
     }

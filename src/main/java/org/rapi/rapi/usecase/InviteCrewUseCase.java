@@ -14,7 +14,8 @@ public class InviteCrewUseCase {
     private final InviteParticipantCommand inviteParticipantCommand;
 
     public InviteCrewUseCase(GetCrewByEmailQuery getCrewByEmailQuery,
-        GetProjectByIdQuery getProjectByIdQuery, InviteParticipantCommand inviteParticipantCommand) {
+        GetProjectByIdQuery getProjectByIdQuery,
+        InviteParticipantCommand inviteParticipantCommand) {
         this.getCrewByEmailQuery = getCrewByEmailQuery;
         this.getProjectByIdQuery = getProjectByIdQuery;
         this.inviteParticipantCommand = inviteParticipantCommand;

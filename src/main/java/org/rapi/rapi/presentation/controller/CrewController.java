@@ -79,7 +79,7 @@ public class CrewController {
         var projectId = new ProjectId(uuidConverter.fromString(projectIdString));
         var crewId = new CrewId(uuidConverter.fromString(crewIdString));
         var user = getCurrentUserService.getUser();
-        if(!authorizeUserAccessInProjectService.authorizeOwnerInProject(user.getId(), projectId)) {
+        if (!authorizeUserAccessInProjectService.authorizeOwnerInProject(user.getId(), projectId)) {
             return ResponseEntity.status(403).build();
         }
         switch (request.action()) {
