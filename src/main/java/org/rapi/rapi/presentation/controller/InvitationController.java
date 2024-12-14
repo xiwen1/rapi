@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/invitations")
+@RequestMapping("/api/invitations")
 public class InvitationController {
 
     private final GetCurrentUserService getCurrentUserService;
