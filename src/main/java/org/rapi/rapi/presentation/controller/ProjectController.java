@@ -98,8 +98,8 @@ public class ProjectController {
         var projectList = getProjectListUseCase.getProjectList(user.getId());
         return ResponseEntity.ok(projectList.map(project -> {
             var role = switch (project._3()) {
-                case Admin ignored -> "Admin";
-                case Member ignored -> "Member";
+                case Admin ignored -> "admin";
+                case Member ignored -> "member";
                 default -> throw new IllegalStateException("Unexpected value: " + project._3());
             };
             return new GetProjectListResponseItem(project._1().id().toString(), project._2(), role,
@@ -144,8 +144,8 @@ public class ProjectController {
             getUserByIdQuery.getUserById(domainIdMappingService.getUserId(c.getCrew()))
                 .getUsername(),
             switch (c) {
-                case Admin ignored -> "Admin";
-                case Member ignored -> "Member";
+                case Admin ignored -> "admin";
+                case Member ignored -> "member";
                 default -> throw new IllegalStateException("Unexpected value: " + c);
             }
         )).toJavaList();
@@ -192,7 +192,7 @@ public class ProjectController {
 
     public record GetProjectListResponseItem(String id, String title, String role,
                                              int endpointCount,
-                                             int StructureCount, int GroupCount) {
+                                             int structureCount, int groupCount) {
 
     }
 
