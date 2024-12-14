@@ -2,7 +2,6 @@ package org.rapi.rapi.presentation.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.List;
-import java.util.Map;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +18,7 @@ public class SchemaDto {
 
     @Data
     public static class KeyValuePair {
+
         private String key;
         private SchemaDto value;
     }

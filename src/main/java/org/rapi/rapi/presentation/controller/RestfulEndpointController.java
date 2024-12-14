@@ -93,7 +93,8 @@ public class RestfulEndpointController {
         var user = getCurrentUserService.getUser();
         var projectId = new ProjectId(UUID.fromString(projectIdString));
         var endpointId = createRestfulEndpointUseCase.createRestfulEndpoint(
-            request.name(), request.description(), HttpMethod.valueOf(request.httpMethod()), projectId,
+            request.name(), request.description(), HttpMethod.valueOf(request.httpMethod()),
+            projectId,
             user.getId());
 
         return ResponseEntity.ok(new CreateRestfulEndpointResponse(endpointId.id().toString()));

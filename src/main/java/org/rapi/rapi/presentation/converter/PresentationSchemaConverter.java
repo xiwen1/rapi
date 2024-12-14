@@ -38,7 +38,8 @@ public class PresentationSchemaConverter {
 
     public Map<String, SchemaDto> fromKeyValuePairList(List<KeyValuePair> list) {
         return list.stream().collect(
-            java.util.stream.Collectors.toMap(SchemaDto.KeyValuePair::getKey, SchemaDto.KeyValuePair::getValue));
+            java.util.stream.Collectors.toMap(SchemaDto.KeyValuePair::getKey,
+                SchemaDto.KeyValuePair::getValue));
     }
 
     public SchemaDto toSchemaDto(Schema schema) {
@@ -84,7 +85,8 @@ public class PresentationSchemaConverter {
                 return new ListSchema(fromSchemaDto(schemaDto.getItem()));
             }
             case "object" -> {
-                return new ObjectSchema(presentationVavrMapConverter.fromMap(fromKeyValuePairList(schemaDto.getFields()))
+                return new ObjectSchema(presentationVavrMapConverter.fromMap(
+                        fromKeyValuePairList(schemaDto.getFields()))
                     .mapValues(this::fromSchemaDto));
             }
             case "ref" -> {
