@@ -222,7 +222,7 @@ public class ProjectController {
 
         }
 
-        record Crew(String id, String name, String role) {
+        record Crew(String id, String username, String role) {
 
         }
 
