@@ -1,4 +1,4 @@
-﻿package org.rapi.rapi.presentation.configuration;
+package org.rapi.rapi.presentation.configuration;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

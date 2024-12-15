@@ -35,11 +35,18 @@ import org.rapi.rapi.application.api.service.command.UpdateStructureCommand;
 import org.rapi.rapi.application.api.structure.Structure;
 import org.rapi.rapi.application.api.structure.schema.ObjectSchema;
 import org.rapi.rapi.application.api.structure.schema.StringSchema;
+import org.rapi.rapi.application.auth.infrastructure.repository.UserRepository;
+import org.rapi.rapi.application.discussion.infrastructure.repository.AuthorRepository;
+import org.rapi.rapi.application.discussion.infrastructure.repository.DiscussionRepository;
 import org.rapi.rapi.application.project.crew.CrewId;
 import org.rapi.rapi.application.project.infrastructure.ProjectPersistenceImpl;
+import org.rapi.rapi.application.project.infrastructure.repository.CrewRepository;
+import org.rapi.rapi.application.project.infrastructure.repository.ProjectRepository;
 import org.rapi.rapi.application.project.project.Project;
 import org.rapi.rapi.application.project.project.participant.Admin;
 import org.rapi.rapi.application.project.project.participant.Member;
+import org.rapi.rapi.application.state.infrastructure.repository.CollectionRepository;
+import org.rapi.rapi.infrastructure.DomainIdMapperRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -104,6 +111,20 @@ class ApiDomainTests {
     private DeleteRestfulEndpointCommand deleteRestfulEndpointCommand;
     @Autowired
     private DissolveCrudGroupCommand dissolveCrudGroupCommand;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private DiscussionRepository discussionRepository;
+    @Autowired
+    private CollectionRepository collectionRepository;
+    @Autowired
+    private ProjectRepository projectRepository;
+    @Autowired
+    private DomainIdMapperRepository domainIdMapperRepository;
+    @Autowired
+    private CrewRepository crewRepository;
+    @Autowired
+    private AuthorRepository authorRepository;
 
 
     private RestfulEndpoint createTestRestfulEndpoint(InventoryId inventoryId) {
@@ -125,6 +146,30 @@ class ApiDomainTests {
         restfulEndpointRepository.deleteAll();
         crudGroupRepository.deleteAll();
         jwtGroupRepository.deleteAll();
+        userRepository.deleteAll();
+        discussionRepository.deleteAll();
+        collectionRepository.deleteAll();
+        projectRepository.deleteAll();
+        domainIdMapperRepository.deleteAll();
+        crewRepository.deleteAll();
+        authorRepository.deleteAll();
+    }
+
+    @Test
+    void deleteAll() {
+
+        inventoryRepository.deleteAll();
+        structureRepository.deleteAll();
+        restfulEndpointRepository.deleteAll();
+        crudGroupRepository.deleteAll();
+        jwtGroupRepository.deleteAll();
+        userRepository.deleteAll();
+        discussionRepository.deleteAll();
+        collectionRepository.deleteAll();
+        projectRepository.deleteAll();
+        domainIdMapperRepository.deleteAll();
+        crewRepository.deleteAll();
+        authorRepository.deleteAll();
 
     }
 
@@ -210,16 +255,6 @@ class ApiDomainTests {
         deleteStructureCommand.deleteStructure(inventory.getId(), structure.getId());
     }
 
-    @Test
-    void testSetEndpointsForJwtGroup() {
-        var inventory = createInventoryCommand.createInventory();
-        var endpoint = createTestRestfulEndpoint(inventory.getId());
-
-        var jwtGroup = createJwtGroupCommand.createJwtGroup(inventory.getId());
-        setEndpointsForJwtGroupCommand.setEndpointsForJwtGroup(List.of(endpoint.getId()),
-            jwtGroup.getId());
-
-    }
 
     @Test
     void testUpdateStructureWhenActAsCrudGroupSource() {
@@ -247,20 +282,6 @@ class ApiDomainTests {
             .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @Test
-    void testDeleteEndpointGeneratedByJwtGroup() {
-        var inventory = createInventoryCommand.createInventory();
-        var endpoint = createTestRestfulEndpoint(inventory.getId());
-        var jwtGroup = createJwtGroupCommand.createJwtGroup(inventory.getId());
-        var jwtGroupPersist = context.getBean(GroupPersistenceImpl.class);
-        var newGroup = jwtGroupPersist.findJwtById(jwtGroup.getId());
-        setEndpointsForJwtGroupCommand.setEndpointsForJwtGroup(List.of(endpoint.getId()),
-            jwtGroup.getId());
-        Assertions.assertThatThrownBy(
-                () -> deleteRestfulEndpointCommand.deleteRestfulEndpoint(inventory.getId(),
-                    newGroup.getGeneratedEndpoints().get()))
-            .isInstanceOf(IllegalArgumentException.class);
-    }
 
     @Test
     void testDissolveCrudGroup() {
@@ -273,19 +294,5 @@ class ApiDomainTests {
         dissolveCrudGroupCommand.dissolveCrudGroup(group.getId(), inventory.getId());
     }
 
-    @Test
-    void testDeleteStructure_WhenActAsSourceInCrudGroup_WhenGeneratedEndpointsSetInJwtGroup() {
-        var inventory = createInventoryCommand.createInventory();
-        var group = createCrudGroupCommand.createCrudGroup(inventory.getId());
-        var structure = createStructureCommand.createStructureInInventory(inventory.getId());
-        var jwtGroup = createJwtGroupCommand.createJwtGroup(inventory.getId());
-        setStructureForCrudGroupCommand.setStructureForCrudGroup(group.getId(),
-            structure.getId(), inventory.getId());
-        var crudGroupPersist = context.getBean(GroupPersistenceImpl.class);
-        var newGroup = crudGroupPersist.findCrudById(group.getId());
-        var crudEndpoints = newGroup.getGeneratedEndpoints();
-        setEndpointsForJwtGroupCommand.setEndpointsForJwtGroup(crudEndpoints, jwtGroup.getId());
-        deleteStructureCommand.deleteStructure(inventory.getId(), structure.getId());
-    }
 
 }

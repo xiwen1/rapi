@@ -14,4 +14,6 @@ public interface ProjectPersistence {
     void delete(ProjectId projectId);
 
     List<Project> findAllByCrewId(CrewId crewId);
+
+    List<Project> findAllByInvitation(CrewId crewId);
 }

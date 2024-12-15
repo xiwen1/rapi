@@ -1,4 +1,4 @@
-﻿package org.rapi.rapi.application.auth.service.query;
+package org.rapi.rapi.application.auth.service.query;
 
 import org.rapi.rapi.application.auth.service.UserPersistence;
 import org.rapi.rapi.application.auth.user.User;

@@ -40,10 +40,13 @@ public class ProjectPersistenceImpl implements ProjectPersistence {
 
     @Override
     public List<Project> findAllByCrewId(CrewId crewId) {
-        var allProjects = projectRepository.findAll();
-        return List.ofAll(allProjects).filter(
-                projectDto -> List.ofAll(projectDto.getParticipants()).exists(
-                    participantDto -> participantDto.getCrewId().equals(crewId.id().toString())))
-            .map(projectMappingService::fromProjectDto);
+        var allProjects = projectRepository.findByCrewIdInParticipants(crewId.id().toString());
+        return List.ofAll(allProjects).map(projectMappingService::fromProjectDto);
+    }
+
+    @Override
+    public List<Project> findAllByInvitation(CrewId crewId) {
+        var allProjects = projectRepository.findByCrewIdInInvitations(crewId.id().toString());
+        return List.ofAll(allProjects).map(projectMappingService::fromProjectDto);
     }
 }

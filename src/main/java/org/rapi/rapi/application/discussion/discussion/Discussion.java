@@ -28,15 +28,18 @@ public class Discussion implements Entity<DiscussionId> {
         return new Discussion(DiscussionId.create(), List.empty());
     }
 
-    public void startConversation(String conversationTitle, AuthorId starter) {
+    public ConversationId startConversation(String conversationTitle, AuthorId starter) {
         var conversation = Conversation.create(conversationTitle, starter);
         this.conversations = this.conversations.append(conversation);
+        return conversation.getId();
     }
 
-    public void postComment(ConversationId conversationId, String content, AuthorId authorId) {
+    public CommentId postComment(ConversationId conversationId, String content, AuthorId authorId) {
         var conversation = this.conversations.find(c -> c.getId().equals(conversationId))
             .getOrElseThrow(() -> new IllegalArgumentException("Conversation not found"));
-        conversation.postComment(Comment.create(content, authorId));
+        var comment = Comment.create(content, authorId);
+        conversation.postComment(comment);
+        return comment.getId();
     }
 
     public void closeConversation(ConversationId conversationId, AuthorId authorId)

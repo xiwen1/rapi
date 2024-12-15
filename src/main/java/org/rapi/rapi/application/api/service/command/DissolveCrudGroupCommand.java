@@ -36,6 +36,7 @@ public class DissolveCrudGroupCommand {
             .getOrElseThrow(() -> new IllegalStateException("Delete endpoint not found")));
         // operation
         var newEndpoints = group.dissolve(new CrudEndpoints(create, list, update, delete));
+        inventory.removeCrudGroup(groupId);
         newEndpoints.toList().forEach(endpoint -> inventory.addRestfulEndpoint(endpoint.getId()));
         // saving
         groupPersistence.deleteCrud(groupId);

@@ -11,7 +11,9 @@ import org.rapi.rapi.application.project.crew.CrewId;
 import org.rapi.rapi.application.project.project.ProjectId;
 import org.rapi.rapi.application.state.collection.CollectionId;
 import org.rapi.rapi.application.state.collection.SubjectId;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DomainIdMappingServiceImpl implements DomainIdMappingService {
 
     private final static String ID = "domain_id_mapper";
@@ -203,6 +205,108 @@ public class DomainIdMappingServiceImpl implements DomainIdMappingService {
         var mapper = getMapper();
         mapper.getUserToCrewMap().put(userId.id().toString(), crewId.id().toString());
         mapper.getCrewToUserMap().put(crewId.id().toString(), userId.id().toString());
+        saveMapper(mapper);
+    }
+
+    @Override
+    public void deleteMapping(EndpointId endpointId) {
+        var mapper = getMapper();
+        if (mapper.getEndpointToDiscussionMap().containsKey(endpointId.id().toString())) {
+            var discussionId = new DiscussionId(UUID.fromString(
+                mapper.getEndpointToDiscussionMap().get(endpointId.id().toString())));
+            mapper.getEndpointToDiscussionMap().remove(endpointId.id().toString());
+            mapper.getDiscussionToEndpointMap().remove(discussionId.id().toString());
+        }
+        if (mapper.getEndpointToSubjectMap().containsKey(endpointId.id().toString())) {
+            var subjectId = new SubjectId(UUID.fromString(
+                mapper.getEndpointToSubjectMap().get(endpointId.id().toString())));
+            mapper.getEndpointToSubjectMap().remove(endpointId.id().toString());
+            mapper.getSubjectToEndpointMap().remove(subjectId.id().toString());
+        }
+        saveMapper(mapper);
+    }
+
+    @Override
+    public void deleteMapping(ProjectId projectId) {
+        var mapper = getMapper();
+        if (mapper.getProjectToInventoryMap().containsKey(projectId.id().toString())) {
+            var inventoryId = new InventoryId(UUID.fromString(
+                mapper.getProjectToInventoryMap().get(projectId.id().toString())));
+            mapper.getProjectToInventoryMap().remove(projectId.id().toString());
+            mapper.getInventoryToProjectMap().remove(inventoryId.id().toString());
+        }
+        if (mapper.getProjectToCollectionMap().containsKey(projectId.id().toString())) {
+            var collectionId = new CollectionId(UUID.fromString(
+                mapper.getProjectToCollectionMap().get(projectId.id().toString())));
+            mapper.getProjectToCollectionMap().remove(projectId.id().toString());
+            mapper.getCollectionToProjectMap().remove(collectionId.id().toString());
+        }
+        saveMapper(mapper);
+    }
+
+    @Override
+    public void deleteMapping(UserId userId) {
+        var mapper = getMapper();
+        if (mapper.getUserToAuthorMap().containsKey(userId.id().toString())) {
+            var authorId = new AuthorId(UUID.fromString(
+                mapper.getUserToAuthorMap().get(userId.id().toString())));
+            mapper.getUserToAuthorMap().remove(userId.id().toString());
+            mapper.getAuthorToUserMap().remove(authorId.id().toString());
+        }
+        if (mapper.getUserToCrewMap().containsKey(userId.id().toString())) {
+            var crewId = new CrewId(UUID.fromString(
+                mapper.getUserToCrewMap().get(userId.id().toString())));
+            mapper.getUserToCrewMap().remove(userId.id().toString());
+            mapper.getCrewToUserMap().remove(crewId.id().toString());
+        }
+        saveMapper(mapper);
+    }
+
+    @Override
+    public void deleteMapping(DiscussionId discussionId) {
+        var mapper = getMapper();
+        if (mapper.getDiscussionToEndpointMap().containsKey(discussionId.id().toString())) {
+            var endpointId = new EndpointId(UUID.fromString(
+                mapper.getDiscussionToEndpointMap().get(discussionId.id().toString())));
+            mapper.getDiscussionToEndpointMap().remove(discussionId.id().toString());
+            mapper.getEndpointToDiscussionMap().remove(endpointId.id().toString());
+        }
+        saveMapper(mapper);
+    }
+
+    @Override
+    public void deleteMapping(SubjectId subjectId) {
+        var mapper = getMapper();
+        if (mapper.getSubjectToEndpointMap().containsKey(subjectId.id().toString())) {
+            var endpointId = new EndpointId(UUID.fromString(
+                mapper.getSubjectToEndpointMap().get(subjectId.id().toString())));
+            mapper.getSubjectToEndpointMap().remove(subjectId.id().toString());
+            mapper.getEndpointToSubjectMap().remove(endpointId.id().toString());
+        }
+        saveMapper(mapper);
+    }
+
+    @Override
+    public void deleteMapping(InventoryId inventoryId) {
+        var mapper = getMapper();
+        if (mapper.getInventoryToProjectMap().containsKey(inventoryId.id().toString())) {
+            var projectId = new ProjectId(UUID.fromString(
+                mapper.getInventoryToProjectMap().get(inventoryId.id().toString())));
+            mapper.getInventoryToProjectMap().remove(inventoryId.id().toString());
+            mapper.getProjectToInventoryMap().remove(projectId.id().toString());
+        }
+        saveMapper(mapper);
+    }
+
+    @Override
+    public void deleteMapping(CollectionId collectionId) {
+        var mapper = getMapper();
+        if (mapper.getCollectionToProjectMap().containsKey(collectionId.id().toString())) {
+            var projectId = new ProjectId(UUID.fromString(
+                mapper.getCollectionToProjectMap().get(collectionId.id().toString())));
+            mapper.getCollectionToProjectMap().remove(collectionId.id().toString());
+            mapper.getProjectToCollectionMap().remove(projectId.id().toString());
+        }
         saveMapper(mapper);
     }
 }

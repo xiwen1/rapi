@@ -64,7 +64,7 @@ public class ProjectMappingService {
 
     public CrewDto toCrewDto(Crew crew) {
         var dto = new CrewDto();
-        dto.setId(crew.getId().toString());
+        dto.setId(crew.getId().id().toString());
         dto.setEmail(crew.getEmail());
         return dto;
     }

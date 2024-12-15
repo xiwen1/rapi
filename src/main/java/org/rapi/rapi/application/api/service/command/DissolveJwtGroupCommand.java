@@ -38,6 +38,7 @@ public class DissolveJwtGroupCommand {
         var loginEndpoint = endpointPersistence.findRestfulById(loginEndpointId);
         var refreshEndpoint = endpointPersistence.findRestfulById(refreshEndpointId);
         var endpoints = group.dissolve(protectedEndpoints, loginEndpoint, refreshEndpoint);
+        inventory.removeJwtGroup(groupId);
         endpoints.toList().forEach(endpoint -> inventory.addRestfulEndpoint(endpoint.getId()));
 
         // saving
