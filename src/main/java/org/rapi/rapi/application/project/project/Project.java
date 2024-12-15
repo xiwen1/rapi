@@ -58,17 +58,20 @@ public class Project implements Entity<ProjectId> {
     }
 
     public void promoteMember(Member member) {
-        if (!this.participants.contains(member)) {
+        if (!this.participants.exists(p -> p.getCrew().equals(member.getCrew()))) {
             throw new IllegalArgumentException("Participant not in project");
         }
-        this.participants = this.participants.remove(member).append(new Admin(member.getCrew()));
+        this.participants = this.participants.removeFirst(p -> p.getCrew().equals(member.getCrew()))
+            .append(new Admin(member.getCrew()));
     }
 
     public void demoteAdmin(Admin admin) {
-        if (!this.participants.contains(admin) || this.owner.equals(admin)) {
+        if (!this.participants.exists(p -> p.getCrew().equals(admin.getCrew()))
+            || this.owner.equals(admin)) {
             throw new IllegalArgumentException("Participant not in project or is owner");
         }
-        this.participants = this.participants.remove(admin).append(new Member(admin.getCrew()));
+        this.participants = this.participants.removeFirst(p -> p.getCrew().equals(admin.getCrew()))
+            .append(new Member(admin.getCrew()));
     }
 
     public void removeMember(Member member) {

@@ -171,7 +171,7 @@ public class ProjectController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> DisbandProject(@PathVariable("id") String projectIdString) {
+    public ResponseEntity<Void> disbandProject(@PathVariable("id") String projectIdString) {
         var user = getUser();
         var projectId = new ProjectId(UUID.fromString(projectIdString));
         if (!authorizeUserAccessInProjectService.authorizeOwnerInProject(user.getId(),

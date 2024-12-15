@@ -24,9 +24,6 @@ public class Subject implements Entity<SubjectId> {
     }
 
     public void reassignState(StateId newState) {
-        if (newState.equals(this.currentState)) {
-            throw new IllegalArgumentException("Cannot reassign the same state");
-        }
         this.currentState = newState;
     }
 }
