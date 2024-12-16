@@ -109,12 +109,12 @@ public class StateController {
         }
         var collectionId = domainIdMappingService.getCollectionId(projectId);
         setDefaultStateCommand.setDefaultState(collectionId,
-            new StateId(uuidConverter.fromString(request.id)));
+            new StateId(uuidConverter.fromString(request.stateId)));
         return ResponseEntity.ok().build();
     }
 
 
-    public record ChangeDefaultStateRequest(String id) {
+    public record ChangeDefaultStateRequest(String stateId) {
 
     }
 

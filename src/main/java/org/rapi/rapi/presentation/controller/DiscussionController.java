@@ -86,6 +86,32 @@ public class DiscussionController {
             new CreateConversationResponse(uuidConverter.toString(conversationId.id())));
     }
 
+    @PostMapping("/conversation/{conversation_id}/state")
+    public ResponseEntity<Void> changeConversationState(
+        @PathVariable("endpoint_id") String endpointIdString,
+        @PathVariable("conversation_id") String conversationIdString,
+        @RequestBody ChangeConversationStateRequest request) {
+        var user = getCurrentUserService.getUser();
+        var authorId = domainIdMappingService.getAuthorId(user.getId());
+        var endpointId = new EndpointId(uuidConverter.fromString(endpointIdString));
+        var discussionId = domainIdMappingService.getDiscussionId(endpointId);
+        var conversationId = new ConversationId(uuidConverter.fromString(conversationIdString));
+        switch (request.action()) {
+            case "close" -> {
+                closeConversationCommand.closeConversation(discussionId, conversationId, authorId);
+            }
+            case "reopen" -> {
+                reopenConversationCommand.reopenConversation(discussionId, conversationId,
+                    authorId);
+            }
+            default -> {
+                return ResponseEntity.badRequest().build();
+            }
+
+        }
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/conversation/{conversation_id}")
     public ResponseEntity<ConversationDetailResponse> getConversationDetail(
         @PathVariable("endpoint_id") String endpointIdString,
@@ -124,31 +150,7 @@ public class DiscussionController {
         return ResponseEntity.ok(new PostCommentResponse(uuidConverter.toString(commentId.id())));
     }
 
-    @PatchMapping("/conversation/{conversation_id}/")
-    public ResponseEntity<Void> changeConversationState(
-        @PathVariable("endpoint_id") String endpointIdString,
-        @PathVariable("conversation_id") String conversationIdString,
-        @RequestBody ChangeConversationStateRequest request) {
-        var user = getCurrentUserService.getUser();
-        var authorId = domainIdMappingService.getAuthorId(user.getId());
-        var endpointId = new EndpointId(uuidConverter.fromString(endpointIdString));
-        var discussionId = domainIdMappingService.getDiscussionId(endpointId);
-        var conversationId = new ConversationId(uuidConverter.fromString(conversationIdString));
-        switch (request.action()) {
-            case "close" -> {
-                closeConversationCommand.closeConversation(discussionId, conversationId, authorId);
-            }
-            case "reopen" -> {
-                reopenConversationCommand.reopenConversation(discussionId, conversationId,
-                    authorId);
-            }
-            default -> {
-                return ResponseEntity.badRequest().build();
-            }
 
-        }
-        return ResponseEntity.ok().build();
-    }
 
 
     public record ChangeConversationStateRequest(String action) {

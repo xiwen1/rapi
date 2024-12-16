@@ -84,7 +84,8 @@ public class JwtGroupController {
     public ResponseEntity<Void> setSourceEndpoints(
         @PathVariable("project_id") String projectIdString,
         @PathVariable("group_id") String groupIdString,
-        @RequestBody List<String> sourceEndpoints) {
+        @RequestBody SetSourceEndpointsRequest sourceEndpoints) {
+        var endpoints = sourceEndpoints.sourceEndpoints();
         var user = getCurrentUserService.getUser();
         var projectId = new ProjectId(uuidConverter.fromString(projectIdString));
         if (!authorizeUserAccessInProjectService.authorizeUserAccessInProject(user.getId(),
@@ -93,7 +94,7 @@ public class JwtGroupController {
         }
         var groupId = new GroupId(uuidConverter.fromString(groupIdString));
         setEndpointsForJwtGroupUseCase.setEndpointsForJwtGroup(
-            io.vavr.collection.List.ofAll(sourceEndpoints)
+            io.vavr.collection.List.ofAll(endpoints)
                 .map(s -> new EndpointId(uuidConverter.fromString(s))),
             groupId, projectId
         );
@@ -129,6 +130,10 @@ public class JwtGroupController {
     }
 
     public record CreateJwtGroupResponse(String id) {
+
+    }
+
+    public record SetSourceEndpointsRequest(List<String> sourceEndpoints) {
 
     }
 }

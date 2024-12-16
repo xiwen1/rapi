@@ -259,7 +259,7 @@ public class CrudGroup extends Group {
     private String snakeCase(String name) {
         return List.ofAll(Arrays.stream(name.split("\\s+")))
             .map(String::toLowerCase)
-            .fold("", (acc, s) -> acc + "_" + s);
+            .mkString("_");
 
     }
 
